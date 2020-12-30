@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <div class="modal-title h4">Thông báo</div>
+</div>
+<div class="modal-body">
+    <span>Bạn có chắc chắn xóa <b>{{tieuDe}}</b> đã chọn không ?</span>
+</div>
+
+<div class="modal-footer">
+  <div>
+    <button type="button" class="btn btn-light btn-elevate mr-1" (click)="modal.dismiss(0)">
+      Hủy
+    </button>&nbsp;
+    <button type="button" class="btn btn-primary btn-elevate" (click)="modal.dismiss(1)">
+      Xác nhận
+    </button>
+  </div>
+</div>

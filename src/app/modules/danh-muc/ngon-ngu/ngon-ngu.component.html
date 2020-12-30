@@ -1,0 +1,105 @@
+<div class="card card-custom gutter-b  example-container mat-elevation-z8">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Quản lý {{tieuDe}}</h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-primary" (click)="chiTietNgonNgu(0)">Thêm mới</button>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <div class="table-responsive">
+      <div class="example-header overflow-hidden">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="w-100">
+              <input (keyup)="applyFilter($event.target.value)" placeholder="Tìm kiếm" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <ng-container *ngIf="selection.selected.length > 1">
+              <button type="button" class="btn btn-danger font-weight-bolder font-size-sm mr-1 float-right mr-11"
+                (click)="xoa_nhieu()">
+                <i class="fa fa-trash"></i> Xóa nhiều
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="listNgonNgu" matSort>
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="id_NgonNgu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.iD_NgonNgu}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="kyHieu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ký hiệu </th>
+          <td mat-cell *matCellDef="let element"> {{element.kyHieu}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tieuDe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tiêu đề </th>
+          <td mat-cell *matCellDef="let element"> {{element.tieuDe}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày thêm </th>
+          <td mat-cell *matCellDef="let element"> {{element.createDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Người thêm </th>
+          <td mat-cell *matCellDef="let element"> {{element.createBy}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modifyDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày thay đổi </th>
+          <td mat-cell *matCellDef="let element"> {{element.modifyDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modifyBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Người thay đổi </th>
+          <td mat-cell *matCellDef="let element"> {{element.modifyBy}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element" style="width:135px">
+            <a title="Cập nhật" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+              (click)="chiTietNgonNgu(element.iD_NgonNgu)">
+              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                class="svg-icon svg-icon-md svg-icon-primary">
+              </span>
+            </a>
+
+            <a title="Xóa" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="xoa_mot(element.iD_NgonNgu)">
+              <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                class="svg-icon svg-icon-md svg-icon-danger">
+              </span>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [length]="100" [pageSize]="15" [pageSizeOptions]="[15, 20, 30]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>

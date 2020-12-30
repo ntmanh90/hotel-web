@@ -1,0 +1,49 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="ngonNgu">
+        <ng-container *ngIf="ngonNgu.iD_NgonNgu">Sửa</ng-container>
+        <ng-container *ngIf="!ngonNgu.iD_NgonNgu">Thêm mới</ng-container>
+        {{tieuDe}}
+        <ng-container *ngIf="ngonNgu.iD_NgonNgu">'{{ngonNgu.tieuDe}}'</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="ngonNgu">
+      <form action="#" class="form form-label-right" [formGroup]="formData">
+        <div class="form-group row">
+          <label class="form-label">Ký hiệu</label>
+          <input type="text" class="form-control form-control-lg form-control-solid" name="kyHieu" placeholder="VD: vi"
+            [class.is-invalid]="isControlInvalid('kyHieu')" [class.is-valid]="isControlValid('kyHieu')"
+            formControlName="kyHieu" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'kyHieu')">Nhập ký hiệu ngôn ngữ</div>
+          <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'kyHieu')">Độ dài tối thiểu 2 ký tự</div>
+          <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'kyHieu')">Độ dài tối đa 50 ký tự</div>
+        </div>
+        <div class="form-group row">
+          <label class="form-label">Tên ngôn ngữ</label>
+          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="tieuDe"
+            placeholder="VD: Tiếng việt" [class.is-invalid]="isControlInvalid('tieuDe')"
+            [class.is-valid]="isControlValid('tieuDe')" formControlName="tieuDe" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'tieuDe')">Nhập tên ngôn ngữ</div>
+        </div>
+
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Hủy</button>
+    <ng-container *ngIf="ngonNgu">
+
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formData.invalid">Lưu
+        lại</button>
+    </ng-container>
+  </div>
+</div>

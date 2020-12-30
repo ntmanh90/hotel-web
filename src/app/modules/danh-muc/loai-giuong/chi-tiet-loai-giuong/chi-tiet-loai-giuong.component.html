@@ -1,0 +1,64 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="loaiGiuong">
+        <ng-container *ngIf="loaiGiuong.iD_LoaiGiuong">Sửa</ng-container>
+        <ng-container *ngIf="!loaiGiuong.iD_LoaiGiuong">Thêm mới</ng-container>
+        {{tieuDe}}
+        <ng-container *ngIf="loaiGiuong.iD_LoaiGiuong">'{{loaiGiuong.tieuDe}}'</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="loaiGiuong">
+      <form action="#" class="form form-label-right" [formGroup]="formData">
+        <div class="form-group row">
+          <label class="form-label">Tên loại giường</label>
+          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="tieuDe"
+            placeholder="Nhập tên loại giường" [class.is-invalid]="isControlInvalid('tieuDe')"
+            [class.is-valid]="isControlValid('tieuDe')" formControlName="tieuDe" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'tieuDe')">Nhập tên loại giường</div>
+        </div>
+        <div class="form-group row">
+          <label class="form-label mr-4">Trạng thái</label>
+          <mat-slide-toggle  formControlName="trangThai" name="trangThai" (change)="getTenTrangThai()"> {{tenTrangThai}}</mat-slide-toggle>
+        </div>
+
+      </form>
+        <div class="form-group row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ngôn ngữ</th>
+                <th scope="col">Nội dung hiển thị</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr *ngFor="let item of loaiGiuong.nN_ObjectRequests; let stt = index">
+                <td  scope="row">{{stt}}</td>
+                <td>{{item.iD_NgonNgu}}</td>
+                <td><input type="text" [(ngModel)]="item.noidungHienThi" class="form-control" > </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Hủy</button>
+    <ng-container *ngIf="loaiGiuong">
+
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formData.invalid">Lưu
+        lại</button>
+    </ng-container>
+  </div>
+</div>
