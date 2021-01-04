@@ -6,13 +6,12 @@ import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter } from '@ng-boot
 import { of, Subscription } from 'rxjs';
 import { catchError, first } from 'rxjs/operators';
 import { bgCSS } from 'src/app/modules/shares/_models/bgCss.model';
+import { SoNguoiToiDa } from '../../_module/so-nguoi-toi-da.model';
+import { SoNguoiToiDaService } from '../../_service/so-nguoi-toi-da.service';
 
-import { LoaiGiuong } from '../../_module/loai-giuong.model';
-import { LoaiGiuongService } from '../../_service/loai-giuong.service';
 
-
-const emptyLoaiGiuong: LoaiGiuong = {
-  iD_LoaiGiuong: undefined,
+const emptySoNguoiToiDa: SoNguoiToiDa = {
+  iD_SoNguoiToiDa: undefined,
   tieuDe: '',
   trangThai: true,
   createBy: '',
@@ -21,24 +20,27 @@ const emptyLoaiGiuong: LoaiGiuong = {
   modifyDate: undefined,
   nN_ObjectRequests: []
 };
+
 @Component({
-  selector: 'app-chi-tiet-loai-giuong',
-  templateUrl: './chi-tiet-loai-giuong.component.html',
-  styleUrls: ['./chi-tiet-loai-giuong.component.scss']
+  selector: 'app-chi-tiet-so-nguoi-toi-da',
+  templateUrl: './chi-tiet-so-nguoi-toi-da.component.html',
+  styleUrls: ['./chi-tiet-so-nguoi-toi-da.component.scss']
 })
-export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
+
+
+export class ChiTietSoNguoiToiDaComponent implements OnInit, OnDestroy {
 
   @Input() id: number;
-  tieuDe = 'loại giường'
+  tieuDe = 'số người tối đa'
   isLoading$;
-  loaiGiuong: LoaiGiuong;
+  soNguoiToiDa: SoNguoiToiDa;
   formData: FormGroup;
   tenTrangThai = 'Hoạt động';
   private subscriptions: Subscription[] = [];
   bgcss = new bgCSS();
 
   constructor(
-    private loaiGiuongService: LoaiGiuongService,
+    private soNguoiToiDaService: SoNguoiToiDaService,
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private _snackBar: MatSnackBar,
@@ -46,22 +48,22 @@ export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
 
   loadForm() {
     this.formData = this.fb.group({
-      tieuDe: [this.loaiGiuong.tieuDe, Validators.compose([Validators.required])],
-      trangThai: [this.loaiGiuong.trangThai],
+      tieuDe: [this.soNguoiToiDa.tieuDe, Validators.compose([Validators.required])],
+      trangThai: [this.soNguoiToiDa.trangThai],
     });
 
   }
 
   loadData() {
-    const sb = this.loaiGiuongService.get_ChiTiet_LoaiGiuong(this.id).pipe(
+    const sb = this.soNguoiToiDaService.get_ChiTiet_SoNguoiToiDa(this.id).pipe(
       first(),
       catchError((errorMessage) => {
         this.modal.dismiss(errorMessage);
-        return of(emptyLoaiGiuong);
+        return of(emptySoNguoiToiDa);
       })
-    ).subscribe((data: LoaiGiuong) => {
-      this.loaiGiuong = data;
-      console.log(this.loaiGiuong);
+    ).subscribe((data: SoNguoiToiDa) => {
+      this.soNguoiToiDa = data;
+      console.log(this.soNguoiToiDa);
       this.loadForm();
     });
     this.subscriptions.push(sb);
@@ -70,18 +72,18 @@ export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
 
   private prepareCustomer() {
     const formValue = this.formData.value;
-    this.loaiGiuong.tieuDe = formValue.tieuDe;
-    this.loaiGiuong.trangThai = formValue.trangThai;
+    this.soNguoiToiDa.tieuDe = formValue.tieuDe;
+    this.soNguoiToiDa.trangThai = formValue.trangThai;
   }
   resetObject() {
-    emptyLoaiGiuong.iD_LoaiGiuong = undefined;
-    emptyLoaiGiuong.tieuDe = '';
-    emptyLoaiGiuong.trangThai = true;
+    emptySoNguoiToiDa.iD_SoNguoiToiDa = undefined;
+    emptySoNguoiToiDa.tieuDe = '';
+    emptySoNguoiToiDa.trangThai = true;
   }
 
   save() {
     this.prepareCustomer();
-    if (this.loaiGiuong.iD_LoaiGiuong) {
+    if (this.soNguoiToiDa.iD_SoNguoiToiDa) {
       this.edit();
     } else {
       this.create();
@@ -89,12 +91,12 @@ export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
   }
 
   edit() {
-    const sbUpdate = this.loaiGiuongService.put_Sua_LoaiGiuong(this.loaiGiuong).subscribe((res: LoaiGiuong) => {
-      this.loaiGiuong = res;
-      if (this.loaiGiuong.iD_LoaiGiuong > 0) {
-        this.modal.dismiss(`Cập nhật ${this.tieuDe}: ${this.loaiGiuong.tieuDe}`);
+    const sbUpdate = this.soNguoiToiDaService.put_Sua_SoNguoiToiDa(this.soNguoiToiDa).subscribe((res: SoNguoiToiDa) => {
+      this.soNguoiToiDa = res;
+      if (this.soNguoiToiDa.iD_SoNguoiToiDa > 0) {
+        this.modal.dismiss(`Cập nhật ${this.tieuDe}: ${this.soNguoiToiDa.tieuDe}`);
         this.resetObject();
-        return of(this.loaiGiuong);
+        return of(this.soNguoiToiDa);
       }
     }
       , error => {
@@ -104,13 +106,13 @@ export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    const sbCreate = this.loaiGiuongService.post_Them_LoaiGiuong(this.loaiGiuong)
-      .subscribe((res: LoaiGiuong) => {
-        this.loaiGiuong = res;
-        if (this.loaiGiuong) {
-          this.modal.dismiss(`Thêm mới ${this.tieuDe}: ${this.loaiGiuong.tieuDe}`);
+    const sbCreate = this.soNguoiToiDaService.post_Them_SoNguoiToiDa(this.soNguoiToiDa)
+      .subscribe((res: SoNguoiToiDa) => {
+        this.soNguoiToiDa = res;
+        if (this.soNguoiToiDa) {
+          this.modal.dismiss(`Thêm mới ${this.tieuDe}: ${this.soNguoiToiDa.tieuDe}`);
           this.resetObject();
-          return of(this.loaiGiuong);
+          return of(this.soNguoiToiDa);
         }
       }, error => {
         this.openSnackBar(error, this.bgcss.Error);
@@ -120,7 +122,7 @@ export class ChiTietLoaiGiuongComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoading$ = this.loaiGiuongService.isLoading$;
+    this.isLoading$ = this.soNguoiToiDaService.isLoading$;
     this.loadData();
   }
 

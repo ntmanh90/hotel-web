@@ -13,7 +13,6 @@ export class AuthCallbackComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {
-    
     // check for error
     if (this.route.snapshot.queryParams.error) {
       this.error = true;

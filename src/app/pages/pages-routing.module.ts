@@ -4,7 +4,8 @@ import { LayoutComponent } from './_layout/layout.component';
 
 const routes: Routes = [
   {
-
+    path: '',
+    component: LayoutComponent,
     children: [
       {
         path: 'danh-muc',
@@ -12,12 +13,15 @@ const routes: Routes = [
           import('../modules/danh-muc/danh-muc.module').then((m) => m.DanhMucModule),
       },
       {
+        path: 'noi-dung',
+        loadChildren: () =>
+          import('../modules/noi-dung/noi-dung.module').then((m) => m.NoiDungModule),
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
-      
-///////////////////////////////////////////
 
       {
         path: 'builder',

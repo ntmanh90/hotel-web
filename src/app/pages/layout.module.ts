@@ -46,6 +46,7 @@ import { HeaderMenuDynamicComponent } from './_layout/components/header/header-m
     NgbProgressbarModule,
     CoreModule,
     SubheaderModule,
+    
   ],
 })
 export class LayoutModule { }

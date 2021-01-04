@@ -10,32 +10,32 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {bgCSS} from '../../shares/_models/bgCss.model';
 import { Subscription } from 'rxjs';
 import { XacNhanXoaComponent } from '../../shares/xac-nhan-xoa/xac-nhan-xoa.component';
-
-import {LoaiGiuong} from '../_module/loai-giuong.model';
-import { LoaiGiuongService } from '../_service/loai-giuong.service';
-import { ChiTietLoaiGiuongComponent } from './chi-tiet-loai-giuong/chi-tiet-loai-giuong.component';
+import { TienIch } from '../_module/tien-ich.model';
+import { TienIchService } from '../_service/tien-ich.service';
+import { ChiTietTienIchComponent } from './chi-tiet-tien-ich/chi-tiet-tien-ich.component';
 
 @Component({
-  selector: 'app-loai-giuong',
-  templateUrl: './loai-giuong.component.html',
-  styleUrls: ['./loai-giuong.component.scss']
+  selector: 'app-tien-ich',
+  templateUrl: './tien-ich.component.html',
+  styleUrls: ['./tien-ich.component.scss']
 })
-export class LoaiGiuongComponent implements OnInit, OnDestroy {
+
+export class TienIchComponent implements OnInit, OnDestroy {
   
-  tieuDe = "loại giường";
+  tieuDe = "tiện ích";
   bgcss = new  bgCSS();
   private subscriptions: Subscription[] = [];
-  displayedColumns: string[] = ['select', 'iD_LoaiGiuong', 'tieuDe','trangThai', 'createDate', 'createBy', 'modifyDate', 'modifyBy', 'edit'];
+  displayedColumns: string[] = ['select', 'iD_TienIch', 'tieuDe','trangThai', 'createDate', 'createBy', 'modifyDate', 'modifyBy', 'edit'];
 
-  selection = new SelectionModel<LoaiGiuong>(true, []);
+  selection = new SelectionModel<TienIch>(true, []);
 error_xoa_nhieu = '';
-loaiGiuong: LoaiGiuong;
-listLoaiGiuong: any = [];
+tienIch: TienIch;
+listTienIch: any = [];
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.listLoaiGiuong.data.length;
+    const numRows = this.listTienIch.data.length;
     return numSelected === numRows;
   }
 
@@ -43,12 +43,12 @@ listLoaiGiuong: any = [];
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.listLoaiGiuong.data.forEach(row => this.selection.select(row));
+      this.listTienIch.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: LoaiGiuong): string {
-    if (this.listLoaiGiuong.data > 0) {
+  checkboxLabel(row?: TienIch): string {
+    if (this.listTienIch.data > 0) {
       if (!row) {
         return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
       }
@@ -60,7 +60,7 @@ listLoaiGiuong: any = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
-    private loaiGiuongService: LoaiGiuongService,
+    private tienIchService: TienIchService,
     private modalService: NgbModal,
     private _snackBar: MatSnackBar,
 
@@ -69,16 +69,16 @@ listLoaiGiuong: any = [];
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.listLoaiGiuong.filter = filterValue;
+    this.listTienIch.filter = filterValue;
   }
 
     // Get Products list
-    loadLoaiGiuong() {
-      var sb = this.loaiGiuongService.get_DanhSach().subscribe((data: {}) => {
-        this.listLoaiGiuong = new MatTableDataSource();
-        this.listLoaiGiuong.data = data;
-        this.listLoaiGiuong.paginator = this.paginator;
-        this.listLoaiGiuong.sort = this.sort;
+    loadTienIch() {
+      var sb = this.tienIchService.get_DanhSach().subscribe((data: {}) => {
+        this.listTienIch = new MatTableDataSource();
+        this.listTienIch.data = data;
+        this.listTienIch.paginator = this.paginator;
+        this.listTienIch.sort = this.sort;
       },
         error => {
           console.log(`Error load ${this.tieuDe} !!!' + ${error}`);
@@ -96,8 +96,8 @@ listLoaiGiuong: any = [];
     }
 
     //Hiển thị dialog
-  chiTietLoaiGiuong(id: number) {
-    const modalRef = this.modalService.open(ChiTietLoaiGiuongComponent, { size: 'lg' }); //lg, xl, sm
+  chiTietTienIch(id: number) {
+    const modalRef = this.modalService.open(ChiTietTienIchComponent, { size: 'lg' }); //lg, xl, sm
     modalRef.componentInstance.id = id;
     modalRef.result.then((data) => {
       // on close
@@ -105,13 +105,13 @@ listLoaiGiuong: any = [];
       // on dismiss
       if (reason) {
         this.openSnackBar(`${reason} thành công!`, this.bgcss.Success);
-        this.loadLoaiGiuong();
+        this.loadTienIch();
       }
     });
   }
     xoa_mot(id: number) {
-      var sb = this.loaiGiuongService.get_ChiTiet_LoaiGiuong(id).subscribe(
-        (res: LoaiGiuong) => {
+      var sb = this.tienIchService.get_ChiTiet_TienIch(id).subscribe(
+        (res: TienIch) => {
           if (res) {
             const modalRef = this.modalService.open(XacNhanXoaComponent, { size: '500' });
             modalRef.componentInstance.tieuDe = `${this.tieuDe} ${res.tieuDe}`;
@@ -120,15 +120,15 @@ listLoaiGiuong: any = [];
             }, (reason) => {
               // on dismiss
               if (reason == '1') {
-                var sb = this.loaiGiuongService.get_xoa(id).subscribe(
+                var sb = this.tienIchService.get_xoa(id).subscribe(
                   (x: any) => {
                     if (x.kq) {
                       this.openSnackBar(`Xóa ${this.tieuDe} ${res.tieuDe} thành công!`, this.bgcss.Success);
-                      this.loadLoaiGiuong();
+                      this.loadTienIch();
                     }
                   }
                 );
-                this.loadLoaiGiuong();
+                this.loadTienIch();
                 this.subscriptions.push(sb);
               }
             });
@@ -150,7 +150,7 @@ listLoaiGiuong: any = [];
         // on dismiss
         if (reason == '1') {
           this.selection.selected.forEach(item => {
-            var sb = this.loaiGiuongService.get_xoa(item.iD_LoaiGiuong).subscribe(
+            var sb = this.tienIchService.get_xoa(item.iD_TienIch).subscribe(
               (x: any) => {
                 if (!x.kq) {
                   this.error_xoa_nhieu += item.tieuDe + ",";
@@ -162,12 +162,12 @@ listLoaiGiuong: any = [];
           
           if (this.error_xoa_nhieu.length > 1) {
             this.openSnackBar(`Không thể xóa được ${this.tieuDe} ${this.error_xoa_nhieu}`, this.bgcss.Error);
-            this.loadLoaiGiuong();
+            this.loadTienIch();
           }
           else {
             this.openSnackBar(`xóa nhiều ${this.tieuDe} thành công!`, this.bgcss.Success);
-            this.selection =  new SelectionModel<LoaiGiuong>(true, []);
-            this.loadLoaiGiuong();
+            this.selection =  new SelectionModel<TienIch>(true, []);
+            this.loadTienIch();
           }
         }
       });
@@ -175,7 +175,7 @@ listLoaiGiuong: any = [];
 
   ngOnInit() {
     debugger
-    this.loadLoaiGiuong();
+    this.loadTienIch();
   }
   ngOnDestroy()
   {

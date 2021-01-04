@@ -11,13 +11,17 @@ errorVM: ErrorResponseVM = new ErrorResponseVM();
         }
 
         if (errorResponse.error.errors) {
-            let modelStateErrors: ErrorResponseVM[] = [];
+            // let modelStateErrors: ErrorResponseVM[] = [];
 
-            // for now just concatenate the error descriptions, alternative we could simply pass the entire error response upstream
-            for (const errorMsg of errorResponse.error.errors) {
-               modelStateErrors.push({error_key: errorMsg.key, error_message: errorMsg.error});
-            }
-            return throwError(modelStateErrors || 'Server error');
+            // // for now just concatenate the error descriptions, alternative we could simply pass the entire error response upstream
+            // for (const errorMsg of errorResponse.error.errors) {
+            //    modelStateErrors.push({error_key: errorMsg.key, error_message: errorMsg.error});
+            // }
+
+            let modelStateErrorString ='Server error';
+            console.log(errorResponse.error);
+            modelStateErrorString = errorResponse.error.errorMsg;
+            return throwError(modelStateErrorString || 'Server error');
         }
         return throwError('Server error');
     }

@@ -4,7 +4,7 @@
       <h3 class="card-label">Quản lý {{tieuDe}}</h3>
     </div>
     <div class="card-toolbar">
-      <button type="button" class="btn btn-primary" (click)="chiTietLoaiGiuong(0)">Thêm mới</button>
+      <button type="button" class="btn btn-primary" (click)="chiTietLoaiPhong(0)">Thêm mới</button>
     </div>
   </div>
   <div class="card-body">
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <table mat-table [dataSource]="listLoaiGiuong" matSort style="width: 100%">
+      <table mat-table [dataSource]="listLoaiPhong" matSort style="width: 100%;">
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
@@ -42,15 +42,31 @@
             </mat-checkbox>
           </td>
         </ng-container>
-        <ng-container matColumnDef="iD_LoaiGiuong">
+        <ng-container matColumnDef="iD_LoaiPhong">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.iD_LoaiGiuong}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.iD_LoaiPhong}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="tieuDe">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tiêu đề </th>
-          <td mat-cell *matCellDef="let element"> {{element.tieuDe}} </td>
+        <ng-container matColumnDef="maLoaiPhong">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Mã loại phòng </th>
+          <td mat-cell *matCellDef="let element"> {{element.maLoaiPhong}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="anhDaiDien">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Hình ảnh </th>
+          <td mat-cell *matCellDef="let element"> {{element.anhDaiDien}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tenLoaiPhong">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên loại phòng </th>
+          <td mat-cell *matCellDef="let element"> {{element.tenLoaiPhong}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="kichThuoc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Hình ảnh </th>
+          <td mat-cell *matCellDef="let element"> {{element.anhDaiDien}} </td>
+        </ng-container>
+
 
         <ng-container matColumnDef="trangThai">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái </th>
@@ -73,7 +89,7 @@
         </ng-container>
 
         <ng-container matColumnDef="modifyBy">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> NGười thay đổi </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Người thay đổi </th>
           <td mat-cell *matCellDef="let element"> {{element.modifyBy}} </td>
         </ng-container>
 
@@ -82,14 +98,14 @@
           <th mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let element" style="width:135px">
             <a title="Cập nhật" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-              (click)="chiTietLoaiGiuong(element.iD_LoaiGiuong)">
+              (click)="chiTietLoaiPhong(element.iD_LoaiPhong)">
               <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
                 class="svg-icon svg-icon-md svg-icon-primary">
               </span>
             </a>
 
-            <a title="Xóa" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="xoa_mot(element.iD_LoaiGiuong)">
-              <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+            <a title="Xóa" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="xoa_mot(element.iD_LoaiPhong)">
+              <span [inlineSVG]="'./assêt /media/svg/icons/General/Trash.svg'" cacheSVG="true"
                 class="svg-icon svg-icon-md svg-icon-danger">
               </span>
             </a>

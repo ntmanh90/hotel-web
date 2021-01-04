@@ -1,11 +1,11 @@
 <div class="modal-content">
   <div class="modal-header">
     <div class="modal-title h4" id="example-modal-sizes-title-lg">
-      <ng-container *ngIf="loaiGiuong">
-        <ng-container *ngIf="loaiGiuong.iD_LoaiGiuong">Sửa</ng-container>
-        <ng-container *ngIf="!loaiGiuong.iD_LoaiGiuong">Thêm mới</ng-container>
+      <ng-container *ngIf="tienIch">
+        <ng-container *ngIf="tienIch.iD_TienIch">Sửa</ng-container>
+        <ng-container *ngIf="!tienIch.iD_TienIch">Thêm mới</ng-container>
         {{tieuDe}}
-        <ng-container *ngIf="loaiGiuong.iD_LoaiGiuong">'{{loaiGiuong.tieuDe}}'</ng-container>
+        <ng-container *ngIf="tienIch.iD_TienIch">'{{tienIch.tieuDe}}'</ng-container>
       </ng-container>
     </div>
   </div>
@@ -16,7 +16,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="loaiGiuong">
+    <ng-container *ngIf="tienIch">
       <form action="#" class="form form-label-right" [formGroup]="formData">
         <div class="form-group row">
           <label class="form-label">Tên {{tieuDe}}</label>
@@ -42,7 +42,7 @@
             </thead>
             <tbody>
               
-              <tr *ngFor="let item of loaiGiuong.nN_ObjectRequests; let stt = index">
+              <tr *ngFor="let item of tienIch.nN_ObjectRequests; let stt = index">
                 <td  scope="row">{{stt}}</td>
                 <td>{{item.tieuDe}}</td>
                 <td><input type="text" [(ngModel)]="item.noidungHienThi" class="form-control" > </td>
@@ -55,7 +55,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Hủy</button>
-    <ng-container *ngIf="loaiGiuong">
+    <ng-container *ngIf="tienIch">
 
       <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formData.invalid">Lưu
         lại</button>

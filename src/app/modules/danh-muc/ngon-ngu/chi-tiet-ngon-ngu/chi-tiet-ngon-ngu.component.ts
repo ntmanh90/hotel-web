@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
 import { catchError, first } from 'rxjs/operators';
+import { bgCSS } from 'src/app/modules/shares/_models/bgCss.model';
 
 import { NgonNgu } from '../../_module/ngonngu.model';
 import { NgonNguService } from '../../_service/ngon-ngu.service';
@@ -30,11 +32,13 @@ export class ChiTietNgonNguComponent implements OnInit, OnDestroy {
   ngonNgu: NgonNgu;
   formData: FormGroup;
   private subscriptions: Subscription[] = [];
+  bgcss = new bgCSS();
 
   constructor(
     private ngonNguService: NgonNguService,
     private fb: FormBuilder,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -84,12 +88,16 @@ export class ChiTietNgonNguComponent implements OnInit, OnDestroy {
   edit() {
     const sbUpdate = this.ngonNguService.put_Sua_NgonNgu(this.ngonNgu).subscribe((res: NgonNgu) => {
       this.ngonNgu = res;
+
       if (this.ngonNgu.iD_NgonNgu > 0) {
         this.modal.dismiss(`Cập nhật ${this.tieuDe}: ${this.ngonNgu.tieuDe}`);
         this.resetObject();
         return of(this.ngonNgu);
       }
-    });
+    },
+      error => {
+        this.openSnackBar(error, this.bgcss.Error)
+      });
     this.subscriptions.push(sbUpdate);
   }
 
@@ -103,17 +111,7 @@ export class ChiTietNgonNguComponent implements OnInit, OnDestroy {
           return of(this.ngonNgu);
         }
       }, error => {
-        debugger
-        error.forEach(itemError => {
-          if (this.formData.controls[itemError.error_key] == itemError.error_key) {
-            console.log('key',itemError.key);
-            //this.formData.controls[item.key].setErrors({'required': true});
-            let control = this.formData.controls[itemError.key];
-            console.log('control', control);
-            control.dirty;
-            control.invalid;
-          }
-        });
+        this.openSnackBar(error, this.bgcss.Error)
       }
       );
 
@@ -130,6 +128,15 @@ export class ChiTietNgonNguComponent implements OnInit, OnDestroy {
     emptyNgonNgu.iD_NgonNgu = undefined;
     emptyNgonNgu.tieuDe = '';
     emptyNgonNgu.kyHieu = '';
+  }
+
+  openSnackBar(action, bgCss) {
+    this._snackBar.open(action, 'x', {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+    });
   }
   // helpers for View
   isControlValid(controlName: string): boolean {
