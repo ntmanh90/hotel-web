@@ -5,19 +5,20 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-import{HuongNhin} from '../../danh-muc/_module/huong-nhin.model';
-import{TienIch} from '../../danh-muc/_module/tien-ich.model';
-import{SoNguoiToiDa} from '../../danh-muc/_module/so-nguoi-toi-da.model';
-import{LoaiGiuong} from '../../danh-muc/_module/loai-giuong.model';
+
 
 import { BaseService } from '../../shares/_services/base.service';
-import { LoaiPhong_Object_Request } from '../_models/LoaiPhong- Object-Request.model';
+import { LoaiPhong_Object_Request } from '../_models/LoaiPhong-Object-Request.model';
+import { HuongNhin } from '../_models/huong-nhin.model';
+import { SoNguoiToiDa } from '../_models/so-nguoi-toi-da.model';
+import { LoaiGiuong } from '../_models/loai-giuong.model';
+import { TienIch } from '../_models/tien-ich.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class HuongNhinService extends BaseService {
+export class CommonService extends BaseService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
 
   cur_service = 'CommonService';
@@ -42,20 +43,13 @@ export class HuongNhinService extends BaseService {
     return this.http.get<HuongNhin[]>(`${this.API_URL}/huongnhin/danh-sach`, this.httpOptions)
       .pipe(
         map(data => {
+          debugger
           return data;
         }))
   }
 
   get_All_SoNguoiToiDa(): Observable<SoNguoiToiDa[]> {
     return this.http.get<SoNguoiToiDa[]>(`${this.API_URL}/songuoitoida/danh-sach`, this.httpOptions)
-      .pipe(
-        map(data => {
-          return data;
-        }))
-  }
-
-  get_LoaiGiuongTheo_ID_LoaiPhong(id_loaiphong): Observable<LoaiPhong_Object_Request[]> {
-    return this.http.get<LoaiPhong_Object_Request[]>(`${this.API_URL}/loaiphong/loai-giuong?id_loaiphong=${id_loaiphong}`, this.httpOptions)
       .pipe(
         map(data => {
           return data;
@@ -70,13 +64,6 @@ export class HuongNhinService extends BaseService {
         }))
   }
 
-  get_TienIchTheo_ID_LoaiPhong(id_loaiphong): Observable<LoaiPhong_Object_Request[]> {
-    return this.http.get<LoaiPhong_Object_Request[]>(`${this.API_URL}/loaiphong/tien-ich?id_loaiphong=${id_loaiphong}`, this.httpOptions)
-      .pipe(
-        map(data => {
-          return data;
-        }))
-  }
 
   get_All_TienIch(): Observable<TienIch[]> {
     return this.http.get<TienIch[]>(`${this.API_URL}/tienich/danh-sach`, this.httpOptions)

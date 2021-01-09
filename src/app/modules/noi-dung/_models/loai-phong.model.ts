@@ -1,4 +1,4 @@
-import { LoaiPhong_Object_Request } from "./LoaiPhong- Object-Request.model";
+import { LoaiPhong_Object_Request } from "./LoaiPhong-Object-Request.model";
 import { LoaiPhong_Gallery_Request } from "./loaiPhong-Gallery-Request.model";
 import { NN_ObjectRequest } from "./nn-object.model";
 

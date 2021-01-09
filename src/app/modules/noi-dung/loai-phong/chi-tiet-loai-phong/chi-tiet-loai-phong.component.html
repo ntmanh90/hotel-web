@@ -39,45 +39,78 @@
             [class.is-valid]="isControlValid('kichThuoc')" formControlName="kichThuoc" />
           <div class="invalid-feedback" *ngIf="controlHasError('required', 'kichThuoc')">Nhập kích thước phòng</div>
         </div>
-        <div class="form-group row">
-          <label class="form-label">Hướng nhìn</label>
-          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="kichThuoc"
-            placeholder="Nhập kích thước phòng" [class.is-invalid]="isControlInvalid('kichThuoc')"
-            [class.is-valid]="isControlValid('kichThuoc')" formControlName="kichThuoc" />
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'kichThuoc')">Nhập kích thước phòng</div>
-        </div>
-        <div class="form-group row">
-          <label class="form-label">Số người tối đa</label>
-          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="kichThuoc"
-            placeholder="Nhập kích thước phòng" [class.is-invalid]="isControlInvalid('kichThuoc')"
-            [class.is-valid]="isControlValid('kichThuoc')" formControlName="kichThuoc" />
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'kichThuoc')">Nhập kích thước phòng</div>
-        </div>
+
+
         <div class="form-group row">
           <label class="form-label mr-4">Trạng thái</label>
-          <mat-slide-toggle  formControlName="trangThai" name="trangThai" (change)="getTenTrangThai()"> {{tenTrangThai}}</mat-slide-toggle>
+          <mat-slide-toggle formControlName="trangThai" name="trangThai" (change)="getTenTrangThai()"> {{tenTrangThai}}
+          </mat-slide-toggle>
+        </div>
+        <div class="form-group row">
+          <label class="form-label mr-4">Hướng nhìn</label>
+          <select class="form-control form-control-lg form-control-solid" name="id_HuongNhin" formControlName="id_HuongNhin"
+          [class.is-invalid]="isControlInvalid('id_HuongNhin')"
+            [class.is-valid]="isControlValid('id_HuongNhin')">
+            <option value="">-- Lựa chọn --</option>
+            <option *ngFor="let item of huongNhins" value="{{item.iD_HuongNhin}}">{{item.tieuDe}}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'id_HuongNhin')">Chọn hướng nhìn</div>
         </div>
 
-      </form>
         <div class="form-group row">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Ngôn ngữ</th>
-                <th scope="col">Tên hiển hiển thị tương ứng</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-              <tr *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index">
-                <td  scope="row">{{stt}}</td>
-                <td>{{item.tieuDe}}</td>
-                <td><input type="text" [(ngModel)]="item.noidungHienThi" class="form-control" > </td>
-              </tr>
-            </tbody>
-          </table>
+          <label class="form-label mr-4">Số người tối đa</label>
+          <select class="form-control form-control-lg form-control-solid" name="id_SoNguoiToiDa" formControlName="id_SoNguoiToiDa"
+          [class.is-invalid]="isControlInvalid('id_SoNguoiToiDa')"
+            [class.is-valid]="isControlValid('id_SoNguoiToiDa')">
+            <option value="">-- Lựa chọn --</option>
+            <option *ngFor="let item of soNguoiToiDas" value="{{item.iD_SoNguoiToiDa}}">{{item.tieuDe}}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'id_SoNguoiToiDa')">Chọn số người tối đa</div>
         </div>
+
+
+
+      </form>
+      <div class="form-group row">
+        <h5>Tên phòng hiển thị theo ngôn ngữ</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ngôn ngữ</th>
+              <th scope="col">Tên hiển hiển thị tương ứng</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index">
+              <td scope="row">{{stt}}</td>
+              <td>{{item.tieuDe}}</td>
+              <td><input type="text" [(ngModel)]="item.noidungHienThi" class="form-control"> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-group row">
+        <h5>Loại phòng <button class="btn btn-bg-primary btn-elevate mr-2">Thêm</button></h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Loại giường</th>
+ 
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index">
+              <td scope="row">{{stt}}</td>
+              <td>{{item.tieuDe}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
     </ng-container>
   </div>
