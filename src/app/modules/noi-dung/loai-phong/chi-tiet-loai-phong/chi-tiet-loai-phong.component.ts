@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
 import { catchError, first } from 'rxjs/operators';
 import { bgCSS } from 'src/app/modules/shares/_models/bgCss.model';
@@ -14,6 +14,10 @@ import { CommonService } from '../../_services/common.service';
 import { HuongNhin } from '../../_models/huong-nhin.model';
 import { LoaiGiuong } from '../../_models/loai-giuong.model';
 import { SoNguoiToiDa } from '../../_models/so-nguoi-toi-da.model';
+import { DialogThemThongTinLoaiGuongComponent } from '../dialog-them-thong-tin-loai-guong/dialog-them-thong-tin-loai-guong.component';
+import { DialogThemTienIchComponent } from '../dialog-them-tien-ich/dialog-them-tien-ich.component';
+import { DialogThemTieuDeNgonNguComponent } from '../dialog-them-tieu-de-ngon-ngu/dialog-them-tieu-de-ngon-ngu.component';
+import { TienIchMask } from '../../_models/tien-ich-mask.model';
 import { TienIch } from '../../_models/tien-ich.model';
 
 const emptyLoaiPhong: LoaiPhong = {
@@ -57,13 +61,14 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   soNguoiToiDas = [];
   tienIchs = [];
   huongNhins : HuongNhin[];
-
+  listTienIchMask : TienIchMask [] = [];
   constructor(
     private loaiPhongService: LoaiPhongService,
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private commonservice: CommonService,
     private _snackBar: MatSnackBar,
+    private subModalService : NgbModal,
   ) { }
 
   loadForm() {
@@ -228,8 +233,22 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
 
   isControlTouched(controlName): boolean {
     const control = this.formData.controls[controlName];
-    debugger
     return control.dirty || control.touched;
   }
 
+  public openDialogThemThongTinLoaiGuong(event){
+      this.subModalService.open(DialogThemThongTinLoaiGuongComponent, {size:'sm'})
+  }
+  public OpenDialogThemTienIch(event){
+    const modalRef =  this.subModalService.open(DialogThemTienIchComponent,{size: "lg"});
+    modalRef.closed.subscribe(res => {
+      this.addTienIchInArray(res);
+    })
+  }
+  public OpenDialogThemTieuDeNgonNgu(event){
+    this.subModalService.open(DialogThemTieuDeNgonNguComponent,{size: "lg"})
+  }
+  private addTienIchInArray(res:TienIchMask[]){
+      this.listTienIchMask = res;
+  }
 }

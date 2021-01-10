@@ -35,7 +35,6 @@ export class AuthService extends BaseService {
   }
 
   async completeAuthentication() {
-    debugger
     this.user = await this.manager.signinRedirectCallback();
     this._authNavStatusSource.next(this.isAuthenticated());
   }

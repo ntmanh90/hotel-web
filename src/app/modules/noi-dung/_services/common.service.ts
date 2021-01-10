@@ -43,7 +43,6 @@ export class CommonService extends BaseService {
     return this.http.get<HuongNhin[]>(`${this.API_URL}/huongnhin/danh-sach`, this.httpOptions)
       .pipe(
         map(data => {
-          debugger
           return data;
         }))
   }

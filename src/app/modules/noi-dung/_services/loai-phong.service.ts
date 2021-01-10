@@ -4,12 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
-import{HuongNhin} from '../../danh-muc/_module/huong-nhin.model';
-import{TienIch} from '../../danh-muc/_module/tien-ich.model';
-import{SoNguoiToiDa} from '../../danh-muc/_module/so-nguoi-toi-da.model';
-import{LoaiGiuong} from '../../danh-muc/_module/loai-giuong.model';
-
 import { BaseService } from '../../shares/_services/base.service';
 import { LoaiPhongVM } from '../_models/loai-phong-vm.model';
 import { LoaiPhong } from '../_models/loai-phong.model';

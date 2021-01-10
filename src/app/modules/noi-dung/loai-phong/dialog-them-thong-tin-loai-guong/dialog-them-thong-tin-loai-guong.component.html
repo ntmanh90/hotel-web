@@ -1,0 +1,45 @@
+<form [formGroup]="formData" class="form form-label-right needs-validation">
+  <div class="row">
+    <div class="col md-12 ml-5 mb-5 mr-5 mt-5">
+      <div class="mb-3">
+        <label for="chonguong" class="form-label">Chọn gường: </label>
+        <select
+          class="form-select form-control"
+          id="chonguong"
+          [class.is-invalid]="isControlInvalid('chonguong')"
+          [class.is-valid]="isControlValid('chonguong')"
+          placeholder="Chọn gường"
+          formControlName="chonguong"
+        >
+          <option
+            *ngFor="let loaiGuong of listLoaiGiuong"
+            [ngValue]="loaiGuong.id"
+          >
+            {{ loaiGuong.name }}
+          </option>
+        </select>
+        <span
+          class="invalid-feedback"
+          *ngIf="controlHasError('required', 'chonguong')"
+        >
+          Chọn loại gường
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="soluong" class="form-label">Nhập số lượng : </label>
+        <input
+          type="number"
+          class="form-control"
+          id="soluong"
+          formControlName="soluong"
+          placeholder="Nhập số lượng"
+        />
+      </div>
+    </div>
+    <div class="col-md-12 text-center mb-5">
+      <button class="btn btn-primary" (click)="saveDataAndCloseDialog($event)">
+        Lưu thông tin
+      </button>
+    </div>
+  </div>
+</form>

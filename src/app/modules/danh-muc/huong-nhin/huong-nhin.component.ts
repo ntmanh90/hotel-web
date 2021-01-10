@@ -176,7 +176,6 @@ listHuongNhin: any = [];
     }
 
   ngOnInit() {
-    debugger
     this.loadHuongNhin();
   }
   ngOnDestroy()

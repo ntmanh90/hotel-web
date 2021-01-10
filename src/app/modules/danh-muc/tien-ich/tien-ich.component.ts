@@ -1,36 +1,44 @@
-import { OnDestroy, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {bgCSS} from '../../shares/_models/bgCss.model';
-import { Subscription } from 'rxjs';
-import { XacNhanXoaComponent } from '../../shares/xac-nhan-xoa/xac-nhan-xoa.component';
-import { TienIch } from '../_module/tien-ich.model';
-import { TienIchService } from '../_service/tien-ich.service';
-import { ChiTietTienIchComponent } from './chi-tiet-tien-ich/chi-tiet-tien-ich.component';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { SelectionModel } from "@angular/cdk/collections";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { bgCSS } from "../../shares/_models/bgCss.model";
+import { Subscription } from "rxjs";
+import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
+import { TienIch } from "../_module/tien-ich.model";
+import { TienIchService } from "../_service/tien-ich.service";
+import { ChiTietTienIchComponent } from "./chi-tiet-tien-ich/chi-tiet-tien-ich.component";
 
 @Component({
-  selector: 'app-tien-ich',
-  templateUrl: './tien-ich.component.html',
-  styleUrls: ['./tien-ich.component.scss']
+  selector: "app-tien-ich",
+  templateUrl: "./tien-ich.component.html",
+  styleUrls: ["./tien-ich.component.scss"],
 })
-
 export class TienIchComponent implements OnInit, OnDestroy {
-  
   tieuDe = "tiện ích";
-  bgcss = new  bgCSS();
+  bgcss = new bgCSS();
   private subscriptions: Subscription[] = [];
-  displayedColumns: string[] = ['select', 'iD_TienIch', 'tieuDe','trangThai', 'createDate', 'createBy', 'modifyDate', 'modifyBy', 'edit'];
+  displayedColumns: string[] = [
+    "select",
+    "iD_TienIch",
+    "tieuDe",
+    "trangThai",
+    "createDate",
+    "createBy",
+    "modifyDate",
+    "modifyBy",
+    "edit",
+  ];
 
   selection = new SelectionModel<TienIch>(true, []);
-error_xoa_nhieu = '';
-tienIch: TienIch;
-listTienIch: any = [];
+  error_xoa_nhieu = "";
+  tienIch: TienIch;
+  listTienIch: any = [];
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -41,18 +49,20 @@ listTienIch: any = [];
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.listTienIch.data.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.listTienIch.data.forEach((row) => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: TienIch): string {
     if (this.listTienIch.data > 0) {
       if (!row) {
-        return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+        return `${this.isAllSelected() ? "select" : "deselect"} all`;
       }
-      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.tieuDe}`;
+      return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
+        row.tieuDe
+      }`;
     }
   }
 
@@ -62,9 +72,8 @@ listTienIch: any = [];
   constructor(
     private tienIchService: TienIchService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar,
-
-  ) { }
+    private _snackBar: MatSnackBar
+  ) {}
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -72,115 +81,136 @@ listTienIch: any = [];
     this.listTienIch.filter = filterValue;
   }
 
-    // Get Products list
-    loadTienIch() {
-      var sb = this.tienIchService.get_DanhSach().subscribe((data: {}) => {
+  // Get Products list
+  loadTienIch() {
+    var sb = this.tienIchService.get_DanhSach().subscribe(
+      (data: {}) => {
         this.listTienIch = new MatTableDataSource();
         this.listTienIch.data = data;
         this.listTienIch.paginator = this.paginator;
         this.listTienIch.sort = this.sort;
       },
-        error => {
-          console.log(`Error load ${this.tieuDe} !!!' + ${error}`);
-        });
-        this.subscriptions.push(sb);
-    }
-
-    openSnackBar(action, bgCss) {
-      this._snackBar.open(action, 'x', {
-        duration: 2500,
-        panelClass: [bgCss],
-        horizontalPosition: 'right',
-        verticalPosition: 'bottom',
-      });
-    }
-
-    //Hiển thị dialog
-  chiTietTienIch(id: number) {
-    const modalRef = this.modalService.open(ChiTietTienIchComponent, { size: 'lg' }); //lg, xl, sm
-    modalRef.componentInstance.id = id;
-    modalRef.result.then((data) => {
-      // on close
-    }, (reason) => {
-      // on dismiss
-      if (reason) {
-        this.openSnackBar(`${reason} thành công!`, this.bgcss.Success);
-        this.loadTienIch();
+      (error) => {
+        console.log(`Error load ${this.tieuDe} !!!' + ${error}`);
       }
+    );
+    this.subscriptions.push(sb);
+  }
+
+  openSnackBar(action, bgCss) {
+    this._snackBar.open(action, "x", {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
     });
   }
-    xoa_mot(id: number) {
-      var sb = this.tienIchService.get_ChiTiet_TienIch(id).subscribe(
-        (res: TienIch) => {
-          if (res) {
-            const modalRef = this.modalService.open(XacNhanXoaComponent, { size: '500' });
-            modalRef.componentInstance.tieuDe = `${this.tieuDe} ${res.tieuDe}`;
-            modalRef.result.then((data) => {
+
+  //Hiển thị dialog
+  chiTietTienIch(id: number) {
+    const modalRef = this.modalService.open(ChiTietTienIchComponent, {
+      size: "lg",
+    }); //lg, xl, sm
+    modalRef.componentInstance.id = id;
+    modalRef.result.then(
+      (data) => {
+        // on close
+      },
+      (reason) => {
+        // on dismiss
+        if (reason) {
+          this.openSnackBar(`${reason} thành công!`, this.bgcss.Success);
+          this.loadTienIch();
+        }
+      }
+    );
+  }
+  xoa_mot(id: number) {
+    var sb = this.tienIchService
+      .get_ChiTiet_TienIch(id)
+      .subscribe((res: TienIch) => {
+        if (res) {
+          const modalRef = this.modalService.open(XacNhanXoaComponent, {
+            size: "500",
+          });
+          modalRef.componentInstance.tieuDe = `${this.tieuDe} ${res.tieuDe}`;
+          modalRef.result.then(
+            (data) => {
               // on close
-            }, (reason) => {
+            },
+            (reason) => {
               // on dismiss
-              if (reason == '1') {
-                var sb = this.tienIchService.get_xoa(id).subscribe(
-                  (x: any) => {
-                    if (x.kq) {
-                      this.openSnackBar(`Xóa ${this.tieuDe} ${res.tieuDe} thành công!`, this.bgcss.Success);
-                      this.loadTienIch();
-                    }
+              if (reason == "1") {
+                var sb = this.tienIchService.get_xoa(id).subscribe((x: any) => {
+                  if (x.kq) {
+                    this.openSnackBar(
+                      `Xóa ${this.tieuDe} ${res.tieuDe} thành công!`,
+                      this.bgcss.Success
+                    );
+                    this.loadTienIch();
                   }
-                );
+                });
                 this.loadTienIch();
                 this.subscriptions.push(sb);
               }
-            });
-          }
-          else {
-            this.openSnackBar(`${this.tieuDe} không tồn tại!`, this.bgcss.Warning);
-          }
+            }
+          );
+        } else {
+          this.openSnackBar(
+            `${this.tieuDe} không tồn tại!`,
+            this.bgcss.Warning
+          );
         }
-      );
-      this.subscriptions.push(sb);
-    }
-  
-    xoa_nhieu() {
-      const modalRef = this.modalService.open(XacNhanXoaComponent, { size: '500' });
-      modalRef.componentInstance.tieuDe = `${this.tieuDe}`;
-      modalRef.result.then((data) => {
+      });
+    this.subscriptions.push(sb);
+  }
+
+  xoa_nhieu() {
+    const modalRef = this.modalService.open(XacNhanXoaComponent, {
+      size: "500",
+    });
+    modalRef.componentInstance.tieuDe = `${this.tieuDe}`;
+    modalRef.result.then(
+      (data) => {
         // on close
-      }, (reason) => {
+      },
+      (reason) => {
         // on dismiss
-        if (reason == '1') {
-          this.selection.selected.forEach(item => {
-            var sb = this.tienIchService.get_xoa(item.iD_TienIch).subscribe(
-              (x: any) => {
+        if (reason == "1") {
+          this.selection.selected.forEach((item) => {
+            var sb = this.tienIchService
+              .get_xoa(item.iD_TienIch)
+              .subscribe((x: any) => {
                 if (!x.kq) {
                   this.error_xoa_nhieu += item.tieuDe + ",";
                 }
-              }
-            );
+              });
             this.subscriptions.push(sb);
           });
-          
+
           if (this.error_xoa_nhieu.length > 1) {
-            this.openSnackBar(`Không thể xóa được ${this.tieuDe} ${this.error_xoa_nhieu}`, this.bgcss.Error);
+            this.openSnackBar(
+              `Không thể xóa được ${this.tieuDe} ${this.error_xoa_nhieu}`,
+              this.bgcss.Error
+            );
             this.loadTienIch();
-          }
-          else {
-            this.openSnackBar(`xóa nhiều ${this.tieuDe} thành công!`, this.bgcss.Success);
-            this.selection =  new SelectionModel<TienIch>(true, []);
+          } else {
+            this.openSnackBar(
+              `xóa nhiều ${this.tieuDe} thành công!`,
+              this.bgcss.Success
+            );
+            this.selection = new SelectionModel<TienIch>(true, []);
             this.loadTienIch();
           }
         }
-      });
-    }
+      }
+    );
+  }
 
   ngOnInit() {
-    debugger
     this.loadTienIch();
   }
-  ngOnDestroy()
-  {
-    this.subscriptions.forEach(sb=>sb.unsubscribe());
+  ngOnDestroy() {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-  
-
 }

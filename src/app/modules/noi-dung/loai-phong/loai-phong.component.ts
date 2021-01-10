@@ -174,7 +174,6 @@ listLoaiPhong: any = [];
     }
 
   ngOnInit() {
-    debugger
     this.loadLoaiPhong();
   }
   ngOnDestroy()

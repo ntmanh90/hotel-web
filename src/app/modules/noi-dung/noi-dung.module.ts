@@ -11,6 +11,9 @@ import { NoiDungComponent } from './noi-dung.component';
 import { NoidungRoutingModule } from './noi-dung.routing.module';
 import { LoaiPhongComponent } from './loai-phong/loai-phong.component';
 import { ChiTietLoaiPhongComponent } from './loai-phong/chi-tiet-loai-phong/chi-tiet-loai-phong.component';
+import { DialogThemThongTinLoaiGuongComponent } from './loai-phong/dialog-them-thong-tin-loai-guong/dialog-them-thong-tin-loai-guong.component';
+import { DialogThemTienIchComponent } from './loai-phong/dialog-them-tien-ich/dialog-them-tien-ich.component';
+import { DialogThemTieuDeNgonNguComponent } from './loai-phong/dialog-them-tieu-de-ngon-ngu/dialog-them-tieu-de-ngon-ngu.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import { ChiTietLoaiPhongComponent } from './loai-phong/chi-tiet-loai-phong/chi-
   declarations: [
     NoiDungComponent,
     LoaiPhongComponent,
-    ChiTietLoaiPhongComponent
+    ChiTietLoaiPhongComponent,
+    DialogThemThongTinLoaiGuongComponent,
+    DialogThemTienIchComponent,
+    DialogThemTieuDeNgonNguComponent
   ]
 })
 export class NoiDungModule { }

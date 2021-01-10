@@ -175,7 +175,6 @@ listSoNguoiToiDa: any = [];
     }
 
   ngOnInit() {
-    debugger
     this.loadSoNguoiToiDa();
   }
   ngOnDestroy()

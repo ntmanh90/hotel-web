@@ -4,8 +4,10 @@
       <ng-container *ngIf="loaiPhong">
         <ng-container *ngIf="loaiPhong.iD_LoaiPhong">Sửa</ng-container>
         <ng-container *ngIf="!loaiPhong.iD_LoaiPhong">Thêm mới</ng-container>
-        {{tieuDe}}
-        <ng-container *ngIf="loaiPhong.iD_LoaiPhong">'{{loaiPhong.tenLoaiPhong}}'</ng-container>
+        {{ tieuDe }}
+        <ng-container *ngIf="loaiPhong.iD_LoaiPhong"
+          >'{{ loaiPhong.tenLoaiPhong }}'</ng-container
+        >
       </ng-container>
     </div>
   </div>
@@ -19,60 +21,244 @@
     <ng-container *ngIf="loaiPhong">
       <form action="#" class="form form-label-right" [formGroup]="formData">
         <div class="form-group row">
-          <label class="form-label">Tên {{tieuDe}}</label>
-          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="tenLoaiPhong"
-            placeholder="Nhập tên loại phòng" [class.is-invalid]="isControlInvalid('tenLoaiPhong')"
-            [class.is-valid]="isControlValid('tenLoaiPhong')" formControlName="tenLoaiPhong" />
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'tenLoaiPhong')">Nhập tên {{tieuDe}}</div>
+          <div class="col-md-12">
+            <label class="form-label">Tên {{ tieuDe }}</label>
+          </div>
+          <div class="col-md-12">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid is-invalid"
+              name="tenLoaiPhong"
+              placeholder="Nhập tên loại phòng"
+              [class.is-invalid]="isControlInvalid('tenLoaiPhong')"
+              [class.is-valid]="isControlValid('tenLoaiPhong')"
+              formControlName="tenLoaiPhong"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'tenLoaiPhong')"
+            >
+              Nhập tên {{ tieuDe }}
+            </div>
+          </div>
         </div>
         <div class="form-group row">
-          <label class="form-label">Ảnh đại diện</label>
-          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="anhDaiDien"
-            placeholder="Chọn ảnh đại diện" [class.is-invalid]="isControlInvalid('anhDaiDien')"
-            [class.is-valid]="isControlValid('anhDaiDien')" formControlName="anhDaiDien" />
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'anhDaiDien')">Chọn ảnh đại diện</div>
+          <div class="col-md-12">
+            <label class="form-label">Ảnh đại diện</label>
+          </div>
+          <div class="col-md-6">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid is-invalid"
+              name="anhDaiDien"
+              placeholder="Chọn ảnh đại diện"
+              [class.is-invalid]="isControlInvalid('anhDaiDien')"
+              [class.is-valid]="isControlValid('anhDaiDien')"
+              formControlName="anhDaiDien"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'anhDaiDien')"
+            >
+              Chọn ảnh đại diện
+            </div>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-primary">Chọn ảnh đại diện</button>
+          </div>
         </div>
         <div class="form-group row">
-          <label class="form-label">Kích thước phòng</label>
-          <input type="text" class="form-control form-control-lg form-control-solid  is-invalid" name="kichThuoc"
-            placeholder="Nhập kích thước phòng" [class.is-invalid]="isControlInvalid('kichThuoc')"
-            [class.is-valid]="isControlValid('kichThuoc')" formControlName="kichThuoc" />
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'kichThuoc')">Nhập kích thước phòng</div>
-        </div>
-
-
-        <div class="form-group row">
-          <label class="form-label mr-4">Trạng thái</label>
-          <mat-slide-toggle formControlName="trangThai" name="trangThai" (change)="getTenTrangThai()"> {{tenTrangThai}}
-          </mat-slide-toggle>
-        </div>
-        <div class="form-group row">
-          <label class="form-label mr-4">Hướng nhìn</label>
-          <select class="form-control form-control-lg form-control-solid" name="id_HuongNhin" formControlName="id_HuongNhin"
-          [class.is-invalid]="isControlInvalid('id_HuongNhin')"
-            [class.is-valid]="isControlValid('id_HuongNhin')">
-            <option value="">-- Lựa chọn --</option>
-            <option *ngFor="let item of huongNhins" value="{{item.iD_HuongNhin}}">{{item.tieuDe}}</option>
-          </select>
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'id_HuongNhin')">Chọn hướng nhìn</div>
+          <div class="col-md-12">
+            <label class="form-label">Kích thước phòng</label>
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid is-invalid"
+              name="kichThuoc"
+              placeholder="Nhập kích thước phòng"
+              [class.is-invalid]="isControlInvalid('kichThuoc')"
+              [class.is-valid]="isControlValid('kichThuoc')"
+              formControlName="kichThuoc"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'kichThuoc')"
+            >
+              Nhập kích thước phòng
+            </div>
+          </div>
         </div>
 
         <div class="form-group row">
-          <label class="form-label mr-4">Số người tối đa</label>
-          <select class="form-control form-control-lg form-control-solid" name="id_SoNguoiToiDa" formControlName="id_SoNguoiToiDa"
-          [class.is-invalid]="isControlInvalid('id_SoNguoiToiDa')"
-            [class.is-valid]="isControlValid('id_SoNguoiToiDa')">
-            <option value="">-- Lựa chọn --</option>
-            <option *ngFor="let item of soNguoiToiDas" value="{{item.iD_SoNguoiToiDa}}">{{item.tieuDe}}</option>
-          </select>
-          <div class="invalid-feedback" *ngIf="controlHasError('required', 'id_SoNguoiToiDa')">Chọn số người tối đa</div>
+          <div class="col-md-12">
+            <label class="form-label mr-4">Trạng thái</label>
+            <mat-slide-toggle
+              formControlName="trangThai"
+              name="trangThai"
+              (change)="getTenTrangThai()"
+            >
+              {{ tenTrangThai }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label class="form-label mr-4">Hướng nhìn</label>
+            <select
+              class="form-control form-control-lg form-control-solid"
+              name="id_HuongNhin"
+              formControlName="id_HuongNhin"
+              [class.is-invalid]="isControlInvalid('id_HuongNhin')"
+              [class.is-valid]="isControlValid('id_HuongNhin')"
+            >
+              <option value="">-- Lựa chọn --</option>
+              <option
+                *ngFor="let item of huongNhins"
+                value="{{ item.iD_HuongNhin }}"
+              >
+                {{ item.tieuDe }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'id_HuongNhin')"
+            >
+              Chọn hướng nhìn
+            </div>
+          </div>
         </div>
 
-
-
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label class="form-label mr-4">Số người tối đa</label>
+          </div>
+          <div class="col-md-6">
+            <select
+              class="form-control form-control-lg form-control-solid"
+              name="id_SoNguoiToiDa"
+              formControlName="id_SoNguoiToiDa"
+              [class.is-invalid]="isControlInvalid('id_SoNguoiToiDa')"
+              [class.is-valid]="isControlValid('id_SoNguoiToiDa')"
+            >
+              <option value="">-- Lựa chọn --</option>
+              <option
+                *ngFor="let item of soNguoiToiDas"
+                value="{{ item.iD_SoNguoiToiDa }}"
+              >
+                {{ item.tieuDe }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'id_SoNguoiToiDa')"
+            >
+              Chọn số người tối đa
+            </div>
+          </div>
+          <div class="col-md-6">
+            <select
+              class="form-control form-control-lg form-control-solid"
+              name="id_SoNguoiToiDa"
+              formControlName="id_SoNguoiToiDa"
+              [class.is-invalid]="isControlInvalid('id_SoNguoiToiDa')"
+              [class.is-valid]="isControlValid('id_SoNguoiToiDa')"
+            >
+              <option value="">-- Lựa chọn --</option>
+              <option
+                *ngFor="let item of soNguoiToiDas"
+                value="{{ item.iD_SoNguoiToiDa }}"
+              >
+                {{ item.tieuDe }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'id_SoNguoiToiDa')"
+            >
+              Chọn số người tối đa
+            </div>
+          </div>
+        </div>
       </form>
       <div class="form-group row">
-        <h5>Tên phòng hiển thị theo ngôn ngữ</h5>
+        <h5>
+          Thông tin loại gường
+          <button
+            class="btn btn-bg-primary btn-elevate mr-5"
+            (click)="openDialogThemThongTinLoaiGuong($event)"
+          >
+            Thêm
+          </button>
+        </h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Loại giường</th>
+              <th scope="col">Thông tin gường</th>
+              <th scope="col">#</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index"
+            >
+              <td scope="row">{{ stt }}</td>
+              <td>{{ item.tieuDe }}</td>
+              <td>{{ item.noidungguong }}</td>
+              <td><button class="btn btn-primary">Thêm</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-group row">
+        <h5>
+          Chọn tiện ích phòng
+          <button
+            class="btn btn-bg-primary btn-elevate mr-5"
+            (click)="OpenDialogThemTienIch($event)"
+          >
+            Thêm tiện ích
+          </button>
+        </h5>
+        <div class="col-md-12">
+          <div *ngFor="let tienIch of listTienIchMask">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="tienIch.id"
+              [attr.id]="'checkDataFor-' + tienIch.id"
+            />
+            <label
+              class="form-check-label"
+              [attr.for]="'checkDataFor-' + tienIch.id"
+            >
+              {{ tienIch.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <h5>
+          Hình ảnh phòng
+          <button class="btn btn-bg-primary btn-elevate mr-5">
+            Thêm hình ảnh
+          </button>
+        </h5>
+        <div class="col-md-12">
+          <img src="..." class="rounded float-start" alt="..." />
+          <img src="..." class="rounded float-end" alt="..." />
+        </div>
+      </div>
+      <div class="form-group row">
+        <h5>
+          Chuyển đổi nội dung cho tiêu đề
+          <button
+            class="btn btn-bg-primary btn-elevate mr-5"
+            (click)="OpenDialogThemTieuDeNgonNgu($event)"
+          >
+            Thêm
+          </button>
+        </h5>
         <table class="table">
           <thead>
             <tr>
@@ -82,44 +268,41 @@
             </tr>
           </thead>
           <tbody>
-
-            <tr *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index">
-              <td scope="row">{{stt}}</td>
-              <td>{{item.tieuDe}}</td>
-              <td><input type="text" [(ngModel)]="item.noidungHienThi" class="form-control"> </td>
+            <tr
+              *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index"
+            >
+              <td scope="row">{{ stt }}</td>
+              <td>{{ item.tieuDe }}</td>
+              <td>
+                <input
+                  type="text"
+                  [(ngModel)]="item.noidungHienThi"
+                  class="form-control"
+                />
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <div class="form-group row">
-        <h5>Loại phòng <button class="btn btn-bg-primary btn-elevate mr-2">Thêm</button></h5>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Loại giường</th>
- 
-            </tr>
-          </thead>
-          <tbody>
-
-            <tr *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index">
-              <td scope="row">{{stt}}</td>
-              <td>{{item.tieuDe}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Hủy</button>
+    <button
+      type="button"
+      class="btn btn-light btn-elevate mr-2"
+      (click)="modal.dismiss()"
+    >
+      Hủy
+    </button>
     <ng-container *ngIf="loaiPhong">
-
-      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="formData.invalid">Lưu
-        lại</button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-elevate"
+        (click)="save()"
+        [disabled]="formData.invalid"
+      >
+        Lưu lại
+      </button>
     </ng-container>
   </div>
 </div>
