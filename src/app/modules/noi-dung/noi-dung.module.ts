@@ -11,6 +11,7 @@ import { NoiDungComponent } from './noi-dung.component';
 import { NoidungRoutingModule } from './noi-dung.routing.module';
 import { LoaiPhongComponent } from './loai-phong/loai-phong.component';
 import { ChiTietLoaiPhongComponent } from './loai-phong/chi-tiet-loai-phong/chi-tiet-loai-phong.component';
+import { DichVuComponent } from './dich-vu/dich-vu.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ChiTietLoaiPhongComponent } from './loai-phong/chi-tiet-loai-phong/chi-
   declarations: [
     NoiDungComponent,
     LoaiPhongComponent,
-    ChiTietLoaiPhongComponent
+    ChiTietLoaiPhongComponent,
+    DichVuComponent
   ]
 })
 export class NoiDungModule { }
