@@ -44,6 +44,28 @@
         </div>
         <div class="form-group row">
           <div class="col-md-12">
+            <label class="form-label">Mã {{ tieuDe }}</label>
+          </div>
+          <div class="col-md-12">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid is-invalid"
+              name="maLoaiPhong"
+              placeholder="Nhập mã loại phòng"
+              [class.is-invalid]="isControlInvalid('maLoaiPhong')"
+              [class.is-valid]="isControlValid('maLoaiPhong')"
+              formControlName="maLoaiPhong"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'maLoaiPhong')"
+            >
+              Nhập mã {{ tieuDe }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12">
             <label class="form-label">Ảnh đại diện</label>
           </div>
           <div class="col-md-6">
@@ -193,19 +215,19 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Loại giường</th>
+              <th scope="col">Số lượng</th>
               <th scope="col">Thông tin gường</th>
-              <th scope="col">#</th>
+              <th scope="#">Xóa</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index"
+              *ngFor="let item of listLoaiGuongVaSoluong; let stt = index"
             >
               <td scope="row">{{ stt }}</td>
-              <td>{{ item.tieuDe }}</td>
-              <td>{{ item.noidungguong }}</td>
-              <td><button class="btn btn-primary">Thêm</button></td>
+              <td>{{ item.soLuong }}</td>
+              <td>{{ item.name }}</td>
+              <td><button class="btn btn-danger" (click)="deleteLoaiGuong(item.id)">Xóa</button></td>
             </tr>
           </tbody>
         </table>
@@ -237,7 +259,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <h5>
           Hình ảnh phòng
           <button class="btn btn-bg-primary btn-elevate mr-5">
@@ -248,16 +270,10 @@
           <img src="..." class="rounded float-start" alt="..." />
           <img src="..." class="rounded float-end" alt="..." />
         </div>
-      </div>
+      </div> -->
       <div class="form-group row">
         <h5>
           Chuyển đổi nội dung cho tiêu đề
-          <button
-            class="btn btn-bg-primary btn-elevate mr-5"
-            (click)="OpenDialogThemTieuDeNgonNgu($event)"
-          >
-            Thêm
-          </button>
         </h5>
         <table class="table">
           <thead>
@@ -269,14 +285,14 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of loaiPhong.nN_ObjectRequests; let stt = index"
+              *ngFor="let item of listNgonNguHienThi; let stt = index"
             >
               <td scope="row">{{ stt }}</td>
-              <td>{{ item.tieuDe }}</td>
+              <td>{{ item.tenNgonNgu }}</td>
               <td>
                 <input
                   type="text"
-                  [(ngModel)]="item.noidungHienThi"
+                  [(ngModel)]="item.tieude"
                   class="form-control"
                 />
               </td>

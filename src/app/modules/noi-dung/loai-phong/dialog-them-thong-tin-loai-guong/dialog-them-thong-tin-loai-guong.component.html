@@ -6,9 +6,10 @@
         <select
           class="form-select form-control"
           id="chonguong"
-          [class.is-invalid]="isControlInvalid('chonguong')"
-          [class.is-valid]="isControlValid('chonguong')"
+          [class.is-invalid]="validation.isControlInvalid('chonguong')"
+          [class.is-valid]="validation.isControlValid('chonguong')"
           placeholder="Chọn gường"
+          [(ngModel)]="modelLoaiGuong"
           formControlName="chonguong"
         >
           <option
@@ -20,7 +21,7 @@
         </select>
         <span
           class="invalid-feedback"
-          *ngIf="controlHasError('required', 'chonguong')"
+          *ngIf="validation.controlHasError('required', 'chonguong')"
         >
           Chọn loại gường
         </span>
@@ -32,8 +33,23 @@
           class="form-control"
           id="soluong"
           formControlName="soluong"
+          [(ngModel)]="modelSoluong"
           placeholder="Nhập số lượng"
+          [class.is-invalid]="validation.isControlInvalid('soluong') || validation.isControlInvalidNumberic('soluong', 100, 1)"
+          [class.is-valid]="validation.isControlValid('soluong') && validation.isControlValidNumberic('soluong', 100, 1)"
         />
+        <span
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'soluong')"
+        >
+          Nhập số lượng 
+        </span>
+        <span
+          class="invalid-feedback"
+          *ngIf="validation.controlHasErrorNumberic('required', 'soluong', 100, 1)"
+        >
+          Số lượng phải là số lớn hơn 0
+        </span>
       </div>
     </div>
     <div class="col-md-12 text-center mb-5">

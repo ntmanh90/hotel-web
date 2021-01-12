@@ -8,7 +8,9 @@ import {
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { LoaiGiuongService } from "src/app/modules/danh-muc/_service/loai-giuong.service";
+import { ValidationDataComponent } from "src/app/modules/shares/validation-module/validation-data.component";
 import { LoaiGuongSelectMask } from "../../_models/loai-guong-select-mask.model";
+import { LoaiGuongVaSoluong } from "../../_models/loai-guong-so-luong.model";
 
 @Component({
   selector: "app-dialog-them-thong-tin-loai-guong",
@@ -23,6 +25,7 @@ export class DialogThemThongTinLoaiGuongComponent
   public modelSoluong: number = 0;
   public modelLoaiGuong: number = -1;
   public formData: FormGroup;
+  public validation :  ValidationDataComponent = new ValidationDataComponent();
   constructor(
     private loaiGuongService: LoaiGiuongService,
     private modal: NgbActiveModal,
@@ -50,6 +53,7 @@ export class DialogThemThongTinLoaiGuongComponent
       ],
       soluong: [this.modelSoluong, Validators.compose([Validators.required])],
     });
+    this.validation.formData = this.formData;
   }
   private loadListGuongInService() {
     const sb = this.loaiGuongService.get_DanhSach().subscribe((results) => {
@@ -65,34 +69,21 @@ export class DialogThemThongTinLoaiGuongComponent
     this.subscriptions.push(sb);
   }
   public saveDataAndCloseDialog(event) {
-    event.stopPropagation();
-    this.modal.close({
-      loaiGuong: this.modelLoaiGuong,
-      soLuong: this.modelSoluong,
-    });
-  }
-  isControlValid(controlName: string): boolean {
-    const control = this.formData.controls[controlName];
-    let valid = control.valid;
-    if (controlName === "chonguong" && control.value === -1) {
-      valid = false;
+    if(this.modelLoaiGuong !== -1 && (this.modelSoluong >= 0 || this.modelSoluong <= 100)){
+      this.modal.close({
+        id: this.modelLoaiGuong,
+        name: this.getTenLoaiGuong(),
+        soLuong: this.modelSoluong,
+      } as LoaiGuongVaSoluong);
     }
-    return valid && (control.dirty || control.touched);
   }
-  isControlInvalid(controlName: string): boolean {
-    const control = this.formData.controls[controlName];
-    let invalid = control.invalid;
-    if (controlName === "chonguong" && control.value === -1) {
-      invalid = true;
+  private getTenLoaiGuong(): string {
+    for (let index = 0; index < this.listLoaiGiuong.length; index++) {
+      const element = this.listLoaiGiuong[index];
+      if(element.id === this.modelLoaiGuong){
+        return element.name
+      }
     }
-    return invalid && (control.dirty || control.touched);
-  }
-  controlHasError(validation, controlName): boolean {
-    const control = this.formData.controls[controlName];
-    let isInvalid = control.hasError(validation);
-    if (controlName === "chonguong" && control.value === -1) {
-      isInvalid = true;
-    }
-    return (control.dirty || control.touched) && isInvalid ;
+    return ""
   }
 }

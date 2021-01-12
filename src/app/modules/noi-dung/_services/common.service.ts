@@ -13,6 +13,7 @@ import { HuongNhin } from '../_models/huong-nhin.model';
 import { SoNguoiToiDa } from '../_models/so-nguoi-toi-da.model';
 import { LoaiGiuong } from '../_models/loai-giuong.model';
 import { TienIch } from '../_models/tien-ich.model';
+import { NgonNgu } from '../../danh-muc/_module/ngonngu.model';
 
 
 @Injectable({
@@ -72,7 +73,13 @@ export class CommonService extends BaseService {
         }))
   }
 
-
+  get_All_NgonNgu(): Observable<NgonNgu[]> {
+    return this.http.get<NgonNgu[]>(`${this.API_URL}/ngonngu/danh-sach`, this.httpOptions)
+      .pipe(
+        map(data => {
+          return data;
+        }))
+  }
   
   //show log lỗi service
   private log(message: string) {

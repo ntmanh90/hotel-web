@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { BaseService } from '../../shares/_services/base.service';
 import { LoaiPhongVM } from '../_models/loai-phong-vm.model';
 import { LoaiPhong } from '../_models/loai-phong.model';
+import { JSONTaoMoiPhong } from '../_models/json-tao-moi-phong.model';
 
 
 @Injectable({
@@ -42,8 +43,8 @@ export class LoaiPhongService extends BaseService {
         }))
   }
 
-  post_Them_LoaiPhong(loaiphong: LoaiPhong): Observable<LoaiPhong> {
-    return this.http.post<LoaiPhong>(`${this.API_URL}/them`, loaiphong, this.httpOptions)
+  post_Them_LoaiPhong(loaiphong: JSONTaoMoiPhong): Observable<JSONTaoMoiPhong> {
+    return this.http.post<JSONTaoMoiPhong>(`${this.API_URL}/them`, loaiphong, this.httpOptions)
       .pipe(catchError(this.handleErrorS));
   }
 
