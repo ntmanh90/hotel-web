@@ -1,18 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '../shares/_module/material-module';
-import { InlineSVGModule } from 'ng-inline-svg';
-import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MaterialModule } from "../shares/_module/material-module";
+import { InlineSVGModule } from "ng-inline-svg";
+import {
+  NgbDatepickerModule,
+  NgbModalModule,
+} from "@ng-bootstrap/ng-bootstrap";
 
-
-import { NoiDungComponent } from './noi-dung.component';
-import { NoidungRoutingModule } from './noi-dung.routing.module';
-import { LoaiPhongComponent } from './loai-phong/loai-phong.component';
-import { ChiTietLoaiPhongComponent } from './loai-phong/chi-tiet-loai-phong/chi-tiet-loai-phong.component';
-import { DichVuComponent } from './dich-vu/dich-vu.component';
-
+import { NoiDungComponent } from "./noi-dung.component";
+import { NoidungRoutingModule } from "./noi-dung.routing.module";
+import { LoaiPhongComponent } from "./loai-phong/loai-phong.component";
+import { ChiTietLoaiPhongComponent } from "./loai-phong/chi-tiet-loai-phong/chi-tiet-loai-phong.component";
+import { DichVuComponent } from "./dich-vu/dich-vu.component";
+import { TableModule } from "../shares/table/table.module";
+import { ChiTietDichVuComponent } from "./dich-vu/dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
 
 @NgModule({
   imports: [
@@ -24,13 +27,15 @@ import { DichVuComponent } from './dich-vu/dich-vu.component';
     NgbModalModule,
     InlineSVGModule,
     MaterialModule,
-    NoidungRoutingModule
+    NoidungRoutingModule,
+    TableModule,
   ],
   declarations: [
     NoiDungComponent,
     LoaiPhongComponent,
     ChiTietLoaiPhongComponent,
-    DichVuComponent
-  ]
+    DichVuComponent,
+    ChiTietDichVuComponent,
+  ],
 })
-export class NoiDungModule { }
+export class NoiDungModule {}

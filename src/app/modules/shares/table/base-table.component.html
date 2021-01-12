@@ -1,0 +1,97 @@
+<table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <ng-container *ngFor="let col of ListColumnDef" [matColumnDef]="col.field">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col.title }}</th>
+    <td mat-cell *matCellDef="let element">{{ element["col.field"] }}</td>
+  </ng-container>
+  <!-- 
+  <ng-container matColumnDef="maLoaiPhong">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Mã loại phòng</th>
+    <td mat-cell *matCellDef="let element">{{ element.maLoaiPhong }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="anhDaiDien">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Hình ảnh</th>
+    <td mat-cell *matCellDef="let element">{{ element.anhDaiDien }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="tenLoaiPhong">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tên loại phòng</th>
+    <td mat-cell *matCellDef="let element">{{ element.tenLoaiPhong }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="kichThuoc">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Hình ảnh</th>
+    <td mat-cell *matCellDef="let element">{{ element.anhDaiDien }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="trangThai">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Trạng thái</th>
+    <td mat-cell *matCellDef="let element">{{ element.trangThai }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="createDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày thêm</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.createDate | date: "dd/MM/yyyy" }}
+    </td>
+  </ng-container> -->
+
+  <!-- <ng-container matColumnDef="createBy">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Người thêm</th>
+    <td mat-cell *matCellDef="let element">{{ element.createBy }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="modifyDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ngày thay đổi</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.modifyDate | date: "dd/MM/yyyy" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="modifyBy">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Người thay đổi</th>
+    <td mat-cell *matCellDef="let element">{{ element.modifyBy }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" style="width: 135px">
+      <a
+        title="Cập nhật"
+        class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+      >
+        <span cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+        </span>
+      </a>
+
+      <a title="Xóa" class="btn btn-icon btn-light btn-hover-danger btn-sm">
+        <span cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+        </span>
+      </a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: DisplayedColumns"></tr>
+</table>
