@@ -70,7 +70,7 @@ export class DialogThemTienIchComponent implements OnInit, AfterViewInit {
   }
   onClickCheckbox(row?: TienIch){
     if(this.listAddTienIch.indexOf({id: row.iD_TienIch, name: row.tieuDe} as TienIchMask) === -1){
-      this.listAddTienIch.push({id: row.iD_TienIch, name: row.tieuDe});
+      this.listAddTienIch.push({id: row.iD_TienIch, name: row.tieuDe, check: true});
     }else{
       this.listAddTienIch.splice(this.listAddTienIch.indexOf({id: row.iD_TienIch, name: row.tieuDe} as TienIchMask), 1);
     }

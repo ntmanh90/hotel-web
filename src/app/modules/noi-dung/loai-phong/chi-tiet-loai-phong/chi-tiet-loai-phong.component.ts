@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  AfterViewInit,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import {
-  NgbActiveModal,
-  NgbDateAdapter,
-  NgbDateParserFormatter,
-  NgbModal,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { of, Subscription } from "rxjs";
 import { catchError, first } from "rxjs/operators";
 import { bgCSS } from "src/app/modules/shares/_models/bgCss.model";
@@ -37,8 +38,9 @@ const emptyLoaiPhong: LoaiPhong = {
   modifyBy: "",
   modifyDate: undefined,
   tenLoaiPhong: "",
-  id_HuongNhin: undefined,
-  id_SoNguoiToiDa: 0,
+  iD_HuongNhin: undefined,
+  id_SoNguoiToiDaNguoiLon: 0,
+  id_SoNguoiToiDaTreEm: 0,
   trangThai: true,
   nN_ObjectRequests: [],
   loaiPhong_Gallery_Requests: [],
@@ -74,7 +76,61 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
     private commonservice: CommonService,
     private _snackBar: MatSnackBar,
     private subModalService: NgbModal
-  ) {}
+  ) {
+    for (let index = 1; index < 11; index++) {
+      this.soNguoiToiDas.push({
+        id: index,
+        name: index + "",
+      });
+    }
+  }
+  loadDataFormObject(): void {
+    if (this.loaiPhong && this.loaiPhong.iD_LoaiPhong !== 0) {
+      // load data edit
+      this.listNgonNguHienThi = [];
+      for (
+        let index = 0;
+        index < this.loaiPhong.nN_LoaiPhongVMs.length;
+        index++
+      ) {
+        const element = this.loaiPhong.nN_LoaiPhongVMs[index];
+        this.listNgonNguHienThi.push({
+          idNgonNgu: element.iD_NgonNgu,
+          tenNgonNgu: element.tenNgonNgu,
+          tieude: element.tenLoaiPhongTheoNgonNgu,
+        });
+      }
+      this.listTienIchMask = [];
+      for (
+        let index = 0;
+        index < this.loaiPhong.loaiPhong_TienIchVMs.length;
+        index++
+      ) {
+        const element = this.loaiPhong.loaiPhong_TienIchVMs[index];
+        this.listTienIchMask.push({
+          id: element.iD_TienIch,
+          name: element.tenTienIch,
+          check: true,
+        });
+      }
+      this.listLoaiGuongVaSoluong = [];
+      for (
+        let index = 0;
+        index < this.loaiPhong.loaiPhong_LoaiGiuongVMs.length;
+        index++
+      ) {
+        const element = this.loaiPhong.loaiPhong_LoaiGiuongVMs[index];
+        this.listLoaiGuongVaSoluong.push({
+          id: element.iD_LoaiGiuong,
+          name: element.tenLoaiGiuong,
+          soLuong: 1,
+        });
+      }
+      this.loaiPhong.id_SoNguoiToiDaNguoiLon = this.loaiPhong.nguoiLon;
+      this.loaiPhong.id_SoNguoiToiDaTreEm = this.loaiPhong.treEm;
+    }
+    console.log(this.loaiPhong);
+  }
 
   loadForm() {
     this.formData = this.fb.group({
@@ -94,12 +150,16 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
         this.loaiPhong.kichThuoc,
         Validators.compose([Validators.required]),
       ],
-      id_HuongNhin: [
-        this.loaiPhong.id_HuongNhin,
+      iD_HuongNhin: [
+        this.loaiPhong.iD_HuongNhin,
         Validators.compose([Validators.required]),
       ],
-      id_SoNguoiToiDa: [
-        this.loaiPhong.id_SoNguoiToiDa,
+      id_SoNguoiToiDaNguoiLon: [
+        this.loaiPhong.id_SoNguoiToiDaNguoiLon,
+        Validators.compose([Validators.required]),
+      ],
+      id_SoNguoiToiDaTreEm: [
+        this.loaiPhong.id_SoNguoiToiDaTreEm,
         Validators.compose([Validators.required]),
       ],
       trangThai: [this.loaiPhong.trangThai],
@@ -135,13 +195,6 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
           });
         this.subscriptions.push(sbLG);
 
-        const sbSNTD = this.commonservice
-          .get_All_SoNguoiToiDa()
-          .subscribe((data: SoNguoiToiDa[]) => {
-            this.soNguoiToiDas = data;
-          });
-        this.subscriptions.push(sbSNTD);
-
         const sbTI = this.commonservice
           .get_All_TienIch()
           .subscribe((data: TienIch[]) => {
@@ -149,20 +202,20 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
           });
 
         this.subscriptions.push(sbTI);
-
-        const sbNN = this.commonservice
-          .get_All_NgonNgu()
-          .subscribe((data: NgonNgu[]) => {
-            data.forEach((ele) => {
-              this.listNgonNguHienThi.push({
-                idNgonNgu: ele.iD_NgonNgu,
-                tenNgonNgu: ele.tieuDe,
+        if (!this.loaiPhong.iD_LoaiPhong) {
+          const sbNN = this.commonservice
+            .get_All_NgonNgu()
+            .subscribe((data: NgonNgu[]) => {
+              data.forEach((ele) => {
+                this.listNgonNguHienThi.push({
+                  idNgonNgu: ele.iD_NgonNgu,
+                  tenNgonNgu: ele.tieuDe,
+                });
               });
             });
-          });
-
-        this.subscriptions.push(sbNN);
-
+          this.subscriptions.push(sbNN);
+        }
+        this.loadDataFormObject();
         this.loadForm();
       });
     this.subscriptions.push(sb);
@@ -174,8 +227,9 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
     this.loaiPhong.tenLoaiPhong = formValue.tenLoaiPhong;
     this.loaiPhong.anhDaiDien = formValue.anhDaiDien;
     this.loaiPhong.kichThuoc = formValue.kichThuoc;
-    this.loaiPhong.id_HuongNhin = formValue.id_HuongNhin;
-    this.loaiPhong.id_SoNguoiToiDa = formValue.id_SoNguoiToiDa;
+    this.loaiPhong.iD_HuongNhin = formValue.iD_HuongNhin;
+    this.loaiPhong.id_SoNguoiToiDaTreEm = formValue.id_SoNguoiToiDaTreEm;
+    this.loaiPhong.id_SoNguoiToiDaNguoiLon = formValue.id_SoNguoiToiDaNguoiLon;
     this.loaiPhong.trangThai = formValue.trangThai;
     this.loaiPhong.maLoaiPhong = formValue.maLoaiPhong;
   }
@@ -189,8 +243,9 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
       (emptyLoaiPhong.modifyBy = ""),
       (emptyLoaiPhong.modifyDate = undefined),
       (emptyLoaiPhong.tenLoaiPhong = ""),
-      (emptyLoaiPhong.id_HuongNhin = undefined),
-      (emptyLoaiPhong.id_SoNguoiToiDa = 0),
+      (emptyLoaiPhong.iD_HuongNhin = undefined),
+      (emptyLoaiPhong.id_SoNguoiToiDaNguoiLon = 0),
+      (emptyLoaiPhong.id_SoNguoiToiDaTreEm = 0),
       (emptyLoaiPhong.trangThai = true),
       (emptyLoaiPhong.nN_ObjectRequests = []),
       (emptyLoaiPhong.loaiPhong_Gallery_Requests = []),
@@ -208,12 +263,13 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   }
 
   edit() {
+    const param: JSONTaoMoiPhong = this.createJsonData();
     const sbUpdate = this.loaiPhongService
-      .put_Sua_LoaiPhong(this.loaiPhong)
+      .put_Sua_LoaiPhong(param)
       .subscribe(
-        (res: LoaiPhong) => {
-          this.loaiPhong = res;
-          if (this.loaiPhong.iD_LoaiPhong > 0) {
+        (res: JSONTaoMoiPhong) => {
+          // this.loaiPhong = res;
+          if (res.iD_LoaiPhong > 0) {
             this.modal.dismiss(
               `Cập nhật ${this.tieuDe}: ${this.loaiPhong.tenLoaiPhong}`
             );
@@ -230,9 +286,9 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   private createJsonData(): JSONTaoMoiPhong {
     let param = {
       iD_LoaiPhong: this.loaiPhong.iD_LoaiPhong,
-      iD_HuongNhin: Number(this.loaiPhong.id_HuongNhin),
-      nguoiLon: Number(this.loaiPhong.id_SoNguoiToiDa),
-      treEm: Number(this.loaiPhong.id_SoNguoiToiDa),
+      iD_HuongNhin: Number(this.loaiPhong.iD_HuongNhin),
+      nguoiLon: Number(this.loaiPhong.id_SoNguoiToiDaNguoiLon),
+      treEm: Number(this.loaiPhong.id_SoNguoiToiDaTreEm),
       maLoaiPhong: this.loaiPhong.maLoaiPhong,
       tenLoaiPhong: this.loaiPhong.tenLoaiPhong,
       anhDaiDien: this.loaiPhong.anhDaiDien,
@@ -241,11 +297,11 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
       nN_LoaiPhongRequests: [],
       loaiPhong_LoaiGiuong_Requests: [],
       loaiPhong_TienIch_Requests: [],
-      // loaiPhong_Gallery_Requests: [
-      //   {
-      //     url_Gallery: "abc abc",
-      //   },
-      // ],
+      loaiPhong_Gallery_Requests: [
+        {
+          url_Gallery: "abc abc",
+        },
+      ],
     };
     for (let index = 0; index < this.listNgonNguHienThi.length; index++) {
       const element = this.listNgonNguHienThi[index];
@@ -273,7 +329,6 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
     const param: JSONTaoMoiPhong = this.createJsonData();
     const sbCreate = this.loaiPhongService.post_Them_LoaiPhong(param).subscribe(
       (res: JSONTaoMoiPhong) => {
-        // this.loaiPhong = res;
         if (res) {
           this.modal.dismiss(
             `Thêm mới ${this.tieuDe}: ${this.loaiPhong.tenLoaiPhong}`
@@ -300,8 +355,11 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   }
 
   getTenTrangThai(): void {
-    if (this.formData.value.trangThai) this.tenTrangThai = "Hoạt động";
-    else this.tenTrangThai = "Khóa";
+    if (this.formData.value.trangThai) {
+      this.tenTrangThai = "Hoạt động";
+    } else {
+      this.tenTrangThai = "Khóa";
+    }
   }
 
   openSnackBar(action, bgCss) {
@@ -370,7 +428,7 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   }
   deleteLoaiGuong(id) {
     for (let index = 0; index < this.listLoaiGuongVaSoluong.length; index++) {
-      let element = this.listLoaiGuongVaSoluong[index];
+      const element = this.listLoaiGuongVaSoluong[index];
       if (element.id === id) {
         this.listLoaiGuongVaSoluong.splice(index, 1);
         break;

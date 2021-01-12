@@ -48,11 +48,11 @@ export class LoaiPhongService extends BaseService {
       .pipe(catchError(this.handleErrorS));
   }
 
-  put_Sua_LoaiPhong(loaiphong: LoaiPhong): Observable<LoaiPhong> {
+  put_Sua_LoaiPhong(loaiphong: JSONTaoMoiPhong): Observable<JSONTaoMoiPhong> {
     return this.http.put(`${this.API_URL}/sua`, loaiphong, this.httpOptions)
       .pipe(
-        tap((x: LoaiPhong) => this.log(`Sửa ${this._tieuDe} thành công id = ${loaiphong.iD_LoaiPhong}`)),
-        catchError(this.handleError<LoaiPhong>(`Sửa ${this._tieuDe} Error!`))
+        tap((x: JSONTaoMoiPhong) => this.log(`Sửa ${this._tieuDe} thành công id = ${loaiphong.iD_LoaiPhong}`)),
+        catchError(this.handleError<JSONTaoMoiPhong>(`Sửa ${this._tieuDe} Error!`))
       )
   }
 
