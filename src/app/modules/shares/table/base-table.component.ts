@@ -19,11 +19,14 @@ export class BaseTableComponent implements OnInit {
   @Input() public DisplayedColumns: string[] = [];
   @Output() _showDetailData: EventEmitter<any> = new EventEmitter();
   @Output() _deleteData: EventEmitter<any> = new EventEmitter();
+  @Output() _isSelectData: EventEmitter<any> = new EventEmitter();
+  @Output() _selectData: EventEmitter<any> = new EventEmitter();
   constructor() {}
   ngOnInit() {}
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: any): string {
     if (this.dataSource.data.length > 0) {
+      this.isMoreSelect();
       if (!row) {
         return `${this.isAllSelected() ? "select" : "deselect"} all`;
       }
@@ -39,7 +42,11 @@ export class BaseTableComponent implements OnInit {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-
+  isMoreSelect(){
+    const isMoreSelect = this.selection.selected.length > 1;
+    this._isSelectData.emit(isMoreSelect);
+    this._selectData.emit(this.selection.selected);
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected()

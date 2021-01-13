@@ -11,11 +11,12 @@ import { CreateEditDichVu } from "../_models/create-edit-dich-vu.model";
 @Injectable({
   providedIn: "root",
 })
-export class DichVuService extends BaseService {
-  private _isLoading$ = new BehaviorSubject<boolean>(false);
-  _tieuDe = "dịch vụ";
-  cur_service = "DichVuService";
-  API_URL = `${environment.apiUrl}/Dichvu`;
+export class BaseDataService extends BaseService {
+  protected _isLoading$ = new BehaviorSubject<boolean>(false);
+  protected _tieuDe = "dịch vụ";
+  protected cur_service = "DichVuService";
+  protected slat = "dichvu"
+  protected API_URL = `${environment.apiUrl}/${this.slat}`;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -39,11 +40,6 @@ export class DichVuService extends BaseService {
         })
       );
   }
-  post_Them_DichVu(dichVu: CreateEditDichVu): Observable<CreateEditDichVu> {
-    return this.http
-      .post<CreateEditDichVu>(`${this.API_URL}/them`, dichVu, this.httpOptions)
-      .pipe(catchError(this.handleErrorS));
-  }
   get_ChiTiet_DichVu(id: number): Observable<any> {
     return this.http
       .get(`${this.API_URL}/chi-tiet?id=${id}`, this.httpOptions)
@@ -51,21 +47,6 @@ export class DichVuService extends BaseService {
         tap((x: any) => {
           this.log(`Lấy ${this._tieuDe} ${id}, kq ${x}`);
         })
-      );
-  }
-
-  put_Sua_DichVu(dichVu: CreateEditDichVu): Observable<CreateEditDichVu> {
-    return this.http
-      .put(`${this.API_URL}/sua`, dichVu, this.httpOptions)
-      .pipe(
-        tap((x: CreateEditDichVu) =>
-          this.log(
-            `Sửa ${this._tieuDe} thành công id = ${dichVu.iD_DichVu}`
-          )
-        ),
-        catchError(
-          this.handleError<CreateEditDichVu>(`Sửa ${this._tieuDe} Error!`)
-        )
       );
   }
   get_xoa(id: number): Observable<any> {

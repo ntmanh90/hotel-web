@@ -22,7 +22,16 @@
   </ng-container>
   <ng-container *ngFor="let col of ListColumnDef" [matColumnDef]="col.field">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col.title }}</th>
-    <td mat-cell *matCellDef="let element">{{ element[col.field] }}</td>
+    <ng-container *ngIf="!col.type"
+      ><td mat-cell *matCellDef="let element">
+        {{ element[col.field] }}
+      </td>
+    </ng-container>
+    <ng-container *ngIf="col.type === 2"
+      ><td mat-cell *matCellDef="let element">
+        {{ element[col.field] ? "Hoạt Động" : "Khóa" }}
+      </td>
+    </ng-container>
   </ng-container>
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
@@ -36,7 +45,11 @@
         </span>
       </a>
 
-      <a title="Xóa" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="deleteData(element)">
+      <a
+        title="Xóa"
+        class="btn btn-icon btn-light btn-hover-danger btn-sm"
+        (click)="deleteData(element)"
+      >
         <span cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
         </span>
       </a>

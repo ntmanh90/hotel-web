@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
+import { bgCSS } from "../../shares/_models/bgCss.model";
 import { DichVuService } from "../_services/dich-vu.service";
 import { ChiTietDichVuComponent } from "./dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
 @Component({
@@ -16,79 +19,95 @@ export class DichVuComponent implements OnInit, OnDestroy {
   public ListColumnDef = [
     {
       id: 0,
+      field: "maDichVu",
+      title: "Mã Dịch Vụ",
+    },
+    {
+      id: 1,
       field: "tenDichvu",
       title: "Tên Dịch Vụ",
     },
-
     {
-      id: 1,
-      field: "giaTinhTheo",
+      id: 2,
+      field: "giaTinhTheoMask",
       title: "Giá Tính Theo",
     },
     {
-      id: 2,
-      field: "giaTheoDemLuuTru",
-      title: "Giá Dịch Vụ Theo Đêm lưu tú",
-    },
-    {
       id: 3,
-      field: "giaTheoDichVu",
-      title: "Giá Dịch Vụ",
+      field: "gia",
+      title: "Giá (VNĐ)",
     },
     {
       id: 4,
-      field: "giaTheoNguoiLon",
-      title: "Giá cho người lớn",
-    },
-    {
-      id: 4,
-      field: "giaTheoTreEm",
-      title: "Giá cho trẻ em",
-    },
-    {
-      id: 5,
       field: "trangThai",
       title: "Trạng Thái",
-    },
-    {
-      id: 6,
-      field: "type",
-      title: "Phân Loại",
+      type: 2,
     },
   ];
   public displayedColumns = [
     "select",
+    "maDichVu",
     "tenDichvu",
-    "giaTinhTheo",
-    "giaTheoDemLuuTru",
-    "giaTheoDichVu",
-    "giaTheoNguoiLon",
-    "giaTheoTreEm",
+    "giaTinhTheoMask",
+    "gia",
     "trangThai",
-    "type",
     "edit",
   ];
 
   private subscriptions: Subscription[] = [];
+  private listSelect = [];
+  private bgcss = new bgCSS();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  public isHiddenButtonDeleteAll: boolean = true;
   constructor(
     private dichVuService: DichVuService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _snackBar: MatSnackBar
   ) {}
   ngOnInit(): void {
     this.loadAllDataDichVu();
   }
   // Get Products list
-  private loadAllDataDichVu() {
+  private loadAllDataDichVu = () => {
     const sb = this.dichVuService.get_DanhSach().subscribe((data: {}) => {
       this.dataSourceDichVu = new MatTableDataSource();
       this.dataSourceDichVu.data = data;
       this.dataSourceDichVu.paginator = this.paginator;
       this.dataSourceDichVu.sort = this.sort;
       console.log(data);
+      this.selectPrice();
     });
     this.subscriptions.push(sb);
+  };
+  private selectPrice() {
+    for (let index = 0; index < this.dataSourceDichVu.data.length; index++) {
+      let element = this.dataSourceDichVu.data[index];
+      if (element.giaTinhTheo === 1) {
+        element.gia = element.giaTheoDichVu;
+        element.giaTinhTheoMask = "Dịch vụ";
+      }
+      if (element.giaTinhTheo === 3) {
+        element.gia = element.giaTheoDemLuuTru;
+        element.giaTinhTheoMask = "Số đêm lưu trú";
+      }
+      if (element.giaTinhTheo === 2) {
+        element.giaTinhTheoMask = "Người lớn, Trẻ em";
+        element.gia =
+          "Người lớn =  " +
+          element.giaTheoNguoiLon +
+          "Trẻ em =" +
+          element.giaTheoTreEm;
+      }
+    }
+  }
+  public isSelectData(event) {
+    this.isHiddenButtonDeleteAll = !event;
+  }
+  public applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSourceDichVu.filter = filterValue;
   }
   public openDialogChiTietDichVu(event) {
     const modalRef = this.modalService.open(ChiTietDichVuComponent, {
@@ -100,7 +119,7 @@ export class DichVuComponent implements OnInit, OnDestroy {
         iD_DichVu: event,
         tenDichvu: undefined,
         anhDaiDien: undefined,
-        giaTinhTheo: undefined,
+        giaTinhTheo: 1,
         giaTheoDichVu: undefined,
         giaTheoDemLuuTru: undefined,
         giaTheoNguoiLon: undefined,
@@ -110,6 +129,70 @@ export class DichVuComponent implements OnInit, OnDestroy {
       };
     }
     modalRef.componentInstance.data = data;
+    modalRef.closed.subscribe(this.loadAllDataDichVu);
+  }
+  public deleteData(row) {
+    this.deleteOne(row.iD_DichVu);
+  }
+  public deleteAllData(event) {
+    console.log(this.listSelect);
+    for (let index = 0; index < this.listSelect.length; index++) {
+      const element = this.listSelect[index];
+      if(index+1 === this.listSelect.length){
+        this.callDeleteRow(element.iD_DichVu, element.tenDichvu);
+      }else{
+        this.callDeleteRow(element.iD_DichVu, element.tenDichvu, true);
+      }
+    }
+  }
+  public addDataSelect(listSelect) {
+    this.listSelect = listSelect;
+  }
+  private deleteOne(id: number) {
+    var sb = this.dichVuService.get_ChiTiet_DichVu(id).subscribe((res: any) => {
+      if (res) {
+        const modalRef = this.modalService.open(XacNhanXoaComponent, {
+          size: "500",
+        });
+        modalRef.componentInstance.tieuDe = ` ${res.tenDichvu} `;
+        modalRef.result.then(
+          (data) => {
+            // on close
+          },
+          (reason) => {
+            // on dismiss
+            if (reason == "1") {
+              this.callDeleteRow(id, res.tenDichvu);
+            }
+          }
+        );
+      } else {
+        this.openSnackBar(`Dịch vụ không tồn tại!`, this.bgcss.Warning);
+      }
+    });
+    this.subscriptions.push(sb);
+  }
+  callDeleteRow(id, tenDichvu, isDeleteMore = false) {
+    var sb = this.dichVuService.get_xoa(id).subscribe((x: any) => {
+      if (x.kq) {
+        this.openSnackBar(`Xóa ${tenDichvu} thành công!`, this.bgcss.Success);
+        this.loadAllDataDichVu();
+      }
+    });
+    if(!isDeleteMore){
+      this.loadAllDataDichVu();
+      this.isHiddenButtonDeleteAll = true;
+    }
+    
+    this.subscriptions.push(sb);
+  }
+  openSnackBar(action, bgCss) {
+    this._snackBar.open(action, "x", {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
+    });
   }
   ngOnDestroy() {
     this.subscriptions.forEach((sb) => sb.unsubscribe());

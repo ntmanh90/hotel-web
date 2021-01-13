@@ -1,13 +1,18 @@
 <app-template-index
   [titleCard]="'Quản lý Dịch Vụ'"
-  [isHiddenButtonDeleteAll]="true"
+  [isHiddenButtonDeleteAll]="isHiddenButtonDeleteAll"
   (_openDialogChiTiet)="openDialogChiTietDichVu(-1)"
+  (_onChangeInputTimKiem)="applyFilter($event)"
+  (_deleteAllData)="deleteAllData($event)"
 >
   <app-base-table
     [dataSource]="dataSourceDichVu"
     [DisplayedColumns]="displayedColumns"
     [ListColumnDef]="ListColumnDef"
     (_showDetailData)="openDialogChiTietDichVu($event)"
+    (_isSelectData)="isSelectData($event)"
+    (_selectData)="addDataSelect($event)"
+    (_deleteData)="deleteData($event)"
   ></app-base-table>
   <mat-paginator
     [length]="100"

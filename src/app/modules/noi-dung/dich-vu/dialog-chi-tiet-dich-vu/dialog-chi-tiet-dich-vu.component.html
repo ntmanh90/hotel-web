@@ -45,7 +45,8 @@
         type="radio"
         name="giaTinhTheo"
         formControlName="giaTinhTheo"
-        value="1"
+        (click)="onChangeData(1)"
+        [value]="1"
       />
       <label class="form-check-label">dịch vụ</label>
     </div>
@@ -55,7 +56,8 @@
         type="radio"
         name="giaTinhTheo"
         formControlName="giaTinhTheo"
-        value="2"
+        (click)="onChangeData(2)"
+        [value]="2"
       />
       <label class="form-check-label">số người</label>
     </div>
@@ -65,7 +67,8 @@
         type="radio"
         name="giaTinhTheo"
         formControlName="giaTinhTheo"
-        value="3"
+        (click)="onChangeData(3)"
+        [value]="3"
       />
       <label class="form-check-label">số đêm lưu trú</label>
     </div>
@@ -74,7 +77,7 @@
         >Giá <span class="text-danger">(*)</span></label
       >
       <div class="col-sm-10">
-        <div class="row">
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 1">
           <div class="col-md-10">
             <input
               type="number"
@@ -86,7 +89,7 @@
           </div>
           <div class="col-md-2">VNĐ</div>
         </div>
-        <div class="row">
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 3">
           <div class="col-md-10">
             <input
               type="number"
@@ -99,7 +102,7 @@
           <div class="col-md-2">VNĐ</div>
         </div>
 
-        <div class="row">
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 2">
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-10">
@@ -126,7 +129,7 @@
                   placeholder="Giá dịch vụ cho 1 trẻ em"
                 />
               </div>
-              <div class="col-md-2">VNĐ</div>
+              <div class="col-md-2" >VNĐ</div>
             </div>
           </div>
         </div>

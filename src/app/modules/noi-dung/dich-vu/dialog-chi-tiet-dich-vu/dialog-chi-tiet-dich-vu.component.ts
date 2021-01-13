@@ -69,6 +69,7 @@ export class ChiTietDichVuComponent implements OnInit {
     }
   }
   private loadDetailData(id) {
+    this.loadFormData();
     this.dichVuService.get_ChiTiet_DichVu(id).subscribe((res) => {
       console.log(res);
       this._detailDichVu = {
@@ -80,17 +81,18 @@ export class ChiTietDichVuComponent implements OnInit {
         giaTheoTreEm: res.giaTheoTreEm,
         giaTinhTheo: res.giaTinhTheo,
         iD_DichVu: res.iD_DichVu,
-        nN_DichVuRequests: [
-          {
-            iD_NgonNgu : res.iD_NgonNgu,
-            tenNgonNgu: res.tenNgonNgu,
-            tenTheoNgonNgu: res.tenTheoNgonNgu,
-            noiDungTheoNgonNgu: res.noiDungTheoNgonNgu
-          }
-        ],
-        trangThai: res.trangThai
+        nN_DichVuRequests: [],
+        trangThai: res.trangThai,
       };
-      this.loadFormData();
+      for (let index = 0; index < res.nN_DichVuVMs.length; index++) {
+        const element = res.nN_DichVuVMs[index];
+        this._detailDichVu.nN_DichVuRequests.push({
+          iD_NgonNgu: element.iD_NgonNgu,
+          tenNgonNgu: element.tenNgonNgu,
+          tenTheoNgonNgu: element.tenTheoNgonNgu,
+          noiDungTheoNgonNgu: element.noiDungTheoNgonNgu,
+        });
+      }
       this.loadAllNgonNgu();
     });
   }
@@ -142,18 +144,32 @@ export class ChiTietDichVuComponent implements OnInit {
           });
         }
         this.dataSourceLanguage.data = this.listDichVuNgonNguRequest;
+        if (this._detailDichVu.iD_DichVu !== -1) {
+          //update data in list ngon ngu
+          console.log(this.listDichVuNgonNguRequest);
+          console.log(this._detailDichVu.nN_DichVuRequests);
+          for (
+            let index = 0;
+            index < this.listDichVuNgonNguRequest.length;
+            index++
+          ) {
+            let element = this.listDichVuNgonNguRequest[index];
+            for (
+              let indexJ = 0;
+              indexJ < this._detailDichVu.nN_DichVuRequests.length;
+              indexJ++
+            ) {
+              const elementJ = this._detailDichVu.nN_DichVuRequests[indexJ];
+              if (element.iD_NgonNgu === elementJ.iD_NgonNgu) {
+                element.noiDungTheoNgonNgu = elementJ.noiDungTheoNgonNgu;
+                element.tenTheoNgonNgu = elementJ.tenTheoNgonNgu;
+                break;
+              }
+            }
+          }
+        }
       });
     this.subscriptions.push(sb);
-    if (this._detailDichVu.iD_DichVu !== 0) {
-      //update data in list ngon ngu
-      for (
-        let index = 0;
-        index < this.listDichVuNgonNguRequest.length;
-        index++
-      ) {
-        const element = this.listDichVuNgonNguRequest[index];
-      }
-    }
   }
   public UpdateData(res: { value: any; row: any; field: string }) {
     for (let index = 0; index < this.listDichVuNgonNguRequest.length; index++) {
@@ -174,23 +190,27 @@ export class ChiTietDichVuComponent implements OnInit {
     this._detailDichVu.tenDichvu = formValue.tenDichvu;
     this._detailDichVu.anhDaiDien = formValue.anhDaiDien;
     this._detailDichVu.giaTinhTheo = Number(formValue.giaTinhTheo);
-    this._detailDichVu.giaTheoTreEm = formValue.giaTheoTreEm;
-    this._detailDichVu.giaTheoNguoiLon = formValue.giaTheoNguoiLon;
-    this._detailDichVu.giaTheoDichVu = formValue.giaTheoDichVu;
-    this._detailDichVu.giaTheoDemLuuTru = formValue.giaTheoDemLuuTru;
+    this._detailDichVu.giaTheoTreEm =
+      this._detailDichVu.giaTinhTheo === 2 ? formValue.giaTheoTreEm : 0;
+    this._detailDichVu.giaTheoNguoiLon =
+      this._detailDichVu.giaTinhTheo === 2 ? formValue.giaTheoNguoiLon : 0;
+    this._detailDichVu.giaTheoDichVu =
+      this._detailDichVu.giaTinhTheo === 1 ? formValue.giaTheoDichVu : 0;
+    this._detailDichVu.giaTheoDemLuuTru =
+      this._detailDichVu.giaTinhTheo === 3 ? formValue.giaTheoDemLuuTru : 0;
     this._detailDichVu.trangThai = formValue.trangThai;
     this._detailDichVu.nN_DichVuRequests = this.listDichVuNgonNguRequest;
   }
   public closeDialogSaveData(event) {
     this.prepareCustomer();
-    if (this._detailDichVu.iD_DichVu === 0) {
+    if (this._detailDichVu.iD_DichVu === -1) {
       //create
       const sbCreate = this.dichVuService
         .post_Them_DichVu(this._detailDichVu)
         .subscribe(
           (res: CreateEditDichVu) => {
             if (res) {
-              this.modal.dismiss(`Thêm mới ${res.tenDichvu}: ${res.tenDichvu}`);
+              this.modal.close(`Thêm mới ${res.tenDichvu}: ${res.tenDichvu}`);
               return of(res);
             }
           },
@@ -199,9 +219,22 @@ export class ChiTietDichVuComponent implements OnInit {
           }
         );
       this.subscriptions.push(sbCreate);
-      console.log(this._detailDichVu);
     } else {
       //update
+      const sbUpdate = this.dichVuService
+        .put_Sua_DichVu(this._detailDichVu)
+        .subscribe(
+          (res: CreateEditDichVu) => {
+            if (res) {
+              this.modal.close(`Sửa ${res.tenDichvu}: ${res.tenDichvu}`);
+              return of(res);
+            }
+          },
+          (error) => {
+            this.openSnackBar(error, this.bgcss.Error);
+          }
+        );
+      this.subscriptions.push(sbUpdate);
     }
   }
   openSnackBar(action, bgCss) {
@@ -211,5 +244,8 @@ export class ChiTietDichVuComponent implements OnInit {
       horizontalPosition: "right",
       verticalPosition: "bottom",
     });
+  }
+  public onChangeData(value) {
+    this._detailDichVu.giaTinhTheo = value;
   }
 }
