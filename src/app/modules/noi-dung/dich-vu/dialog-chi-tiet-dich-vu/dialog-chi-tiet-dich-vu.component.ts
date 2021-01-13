@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class ChiTietDichVuComponent implements OnInit {
   public formData;
+  public titleDialog = "Thêm mới dịch vụ"
   constructor() {}
-
   ngOnInit() {}
 }

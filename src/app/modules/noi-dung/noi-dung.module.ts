@@ -16,6 +16,7 @@ import { ChiTietLoaiPhongComponent } from "./loai-phong/chi-tiet-loai-phong/chi-
 import { DichVuComponent } from "./dich-vu/dich-vu.component";
 import { TableModule } from "../shares/table/table.module";
 import { ChiTietDichVuComponent } from "./dich-vu/dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
+import { TemplateModule } from "../shares/template/template.module";
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { ChiTietDichVuComponent } from "./dich-vu/dialog-chi-tiet-dich-vu/dialog
     MaterialModule,
     NoidungRoutingModule,
     TableModule,
+    TemplateModule
   ],
   declarations: [
     NoiDungComponent,

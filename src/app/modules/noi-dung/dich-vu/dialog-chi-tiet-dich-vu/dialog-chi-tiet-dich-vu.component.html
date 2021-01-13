@@ -1,22 +1,3 @@
-<div class="modal-content">
-  <div _ngcontent-ret-c397="" class="modal-header">
-    <div id="example-modal-sizes-title-lg" class="modal-title h4">
-      Thêm mới dịch vụ
-    </div>
-  </div>
-  <div class="overlay overlay-block cursor-default modal-body">
-    <form action="#" class="form form-label-right" [formGroup]="formData">
-        
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light btn-elevate mr-2">Hủy</button
-    ><button
-      type="submit"
-      class="btn btn-primary btn-elevate ng-star-inserted"
-      disabled=""
-    >
-      Lưu lại
-    </button>
-  </div>
-</div>
+<app-template-dialog [titleDialog]="titleDialog" [isDisabledSaveButton]="true">
+  <form action="#" class="form form-label-right" [formGroup]="formData"></form>
+</app-template-dialog>

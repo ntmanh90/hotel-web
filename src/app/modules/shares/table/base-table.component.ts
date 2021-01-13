@@ -1,15 +1,15 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { Component, Input, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 export interface ColumnDef {
   id?: number;
   field: string;
   title?: string;
 }
 @Component({
-  selector: "app-base-table",
-  templateUrl: "./base-table.component.html",
-  styleUrls: ["./base-table.component.scss"],
+  selector: 'app-base-table',
+  templateUrl: './base-table.component.html',
+  styleUrls: ['./base-table.component.scss'],
 })
 export class BaseTableComponent implements OnInit {
   @Input() public dataSource = new MatTableDataSource();
@@ -22,10 +22,10 @@ export class BaseTableComponent implements OnInit {
   checkboxLabel(row?: any): string {
     if (this.dataSource.data.length > 0) {
       if (!row) {
-        return `${this.isAllSelected() ? "select" : "deselect"} all`;
+        return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
       }
       return `${
-        this.selection.isSelected(row) ? "deselect" : "select"
+        this.selection.isSelected(row) ? 'deselect' : 'select'
       } row ${row}`;
     }
   }

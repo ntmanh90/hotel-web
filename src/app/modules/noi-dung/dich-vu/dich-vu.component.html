@@ -1,43 +1,18 @@
-<div class="card card-custom gutter-b example-container mat-elevation-z8">
-  <div class="card-header">
-    <div class="card-title">
-      <h3 class="card-label">Quản lý Dịch Vụ</h3>
-    </div>
-    <div class="card-toolbar">
-      <button type="button" class="btn btn-primary" (click)="openDialogChiTietDichVu($event)">Thêm mới</button>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <div class="example-header overflow-hidden">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="w-100">
-              <input placeholder="Tìm kiếm" class="form-control" />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <button
-              type="button"
-              class="btn btn-danger font-weight-bolder font-size-sm mr-1 float-right mr-11"
-            >
-              <i class="fa fa-trash"></i> Xóa nhiều
-            </button>
-          </div>
-        </div>
-      </div>
-      <app-base-table
-        [dataSource]="dataSourceDichVu"
-        [DisplayedColumns]="displayedColumns"
-        [ListColumnDef]="ListColumnDef"
-      ></app-base-table>
-      <mat-paginator
-        [length]="100"
-        [pageSize]="15"
-        [pageSizeOptions]="[15, 20, 30]"
-        showFirstLastButtons
-      >
-      </mat-paginator>
-    </div>
-  </div>
-</div>
+<app-template-index
+  [titleCard]="'Quản lý Dịch Vụ'"
+  [isHiddenButtonDeleteAll]="true"
+  (_openDialogChiTiet)="openDialogChiTietDichVu($event)"
+>
+  <app-base-table
+    [dataSource]="dataSourceDichVu"
+    [DisplayedColumns]="displayedColumns"
+    [ListColumnDef]="ListColumnDef"
+  ></app-base-table>
+  <mat-paginator
+    [length]="100"
+    [pageSize]="15"
+    [pageSizeOptions]="[15, 20, 30]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</app-template-index>
