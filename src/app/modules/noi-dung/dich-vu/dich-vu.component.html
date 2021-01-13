@@ -1,12 +1,13 @@
 <app-template-index
   [titleCard]="'Quản lý Dịch Vụ'"
   [isHiddenButtonDeleteAll]="true"
-  (_openDialogChiTiet)="openDialogChiTietDichVu($event)"
+  (_openDialogChiTiet)="openDialogChiTietDichVu(-1)"
 >
   <app-base-table
     [dataSource]="dataSourceDichVu"
     [DisplayedColumns]="displayedColumns"
     [ListColumnDef]="ListColumnDef"
+    (_showDetailData)="openDialogChiTietDichVu($event)"
   ></app-base-table>
   <mat-paginator
     [length]="100"

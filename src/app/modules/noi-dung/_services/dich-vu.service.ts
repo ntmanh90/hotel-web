@@ -5,7 +5,8 @@ import { BehaviorSubject, Observable, of } from "rxjs";
 import { environment } from "src/environments/environment";
 
 import { BaseService } from "../../shares/_services/base.service";
-import { map } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
+import { CreateEditDichVu } from "../_models/create-edit-dich-vu.model";
 
 @Injectable({
   providedIn: "root",
@@ -35,6 +36,20 @@ export class DichVuService extends BaseService {
       .pipe(
         map((data) => {
           return data;
+        })
+      );
+  }
+  post_Them_DichVu(dichVu: CreateEditDichVu): Observable<CreateEditDichVu> {
+    return this.http
+      .post<CreateEditDichVu>(`${this.API_URL}/them`, dichVu, this.httpOptions)
+      .pipe(catchError(this.handleErrorS));
+  }
+  get_ChiTiet_DichVu(id: number): Observable<any> {
+    return this.http
+      .get(`${this.API_URL}/chi-tiet?id=${id}`, this.httpOptions)
+      .pipe(
+        tap((x: any) => {
+          this.log(`Lấy ${this._tieuDe} ${id}, kq ${x}`);
         })
       );
   }

@@ -1,66 +1,74 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
-import { DichVuService } from '../_services/dich-vu.service';
-import { ChiTietDichVuComponent } from './dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component';
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
+import { DichVuService } from "../_services/dich-vu.service";
+import { ChiTietDichVuComponent } from "./dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
 @Component({
-  selector: 'app-dich-vu',
-  templateUrl: './dich-vu.component.html',
-  styleUrls: ['./dich-vu.component.scss'],
+  selector: "app-dich-vu",
+  templateUrl: "./dich-vu.component.html",
+  styleUrls: ["./dich-vu.component.scss"],
 })
 export class DichVuComponent implements OnInit, OnDestroy {
   public dataSourceDichVu: any = new MatTableDataSource();
   public ListColumnDef = [
     {
       id: 0,
-      field: 'index',
-      title: 'Số thứ tự',
+      field: "tenDichvu",
+      title: "Tên Dịch Vụ",
     },
+
     {
       id: 1,
-      field: 'name',
-      title: 'Tên Dịch Vụ',
+      field: "giaTinhTheo",
+      title: "Giá Tính Theo",
     },
     {
       id: 2,
-      field: 'price',
-      title: 'Giá Tính Theo',
+      field: "giaTheoDemLuuTru",
+      title: "Giá Dịch Vụ Theo Đêm lưu tú",
     },
     {
       id: 3,
-      field: 'priceDichVu',
-      title: 'Giá Dịch Vụ',
+      field: "giaTheoDichVu",
+      title: "Giá Dịch Vụ",
     },
     {
       id: 4,
-      field: 'gender',
-      title: 'Giới Tính',
+      field: "giaTheoNguoiLon",
+      title: "Giá cho người lớn",
+    },
+    {
+      id: 4,
+      field: "giaTheoTreEm",
+      title: "Giá cho trẻ em",
     },
     {
       id: 5,
-      field: 'status',
-      title: 'Trạng Thái',
+      field: "trangThai",
+      title: "Trạng Thái",
     },
     {
       id: 6,
-      field: 'type',
-      title: 'Phân Loại',
+      field: "type",
+      title: "Phân Loại",
     },
   ];
   public displayedColumns = [
-    'select',
-    'index',
-    'name',
-    'price',
-    'priceDichVu',
-    'gender',
-    'status',
-    'type',
-    'edit',
+    "select",
+    "tenDichvu",
+    "giaTinhTheo",
+    "giaTheoDemLuuTru",
+    "giaTheoDichVu",
+    "giaTheoNguoiLon",
+    "giaTheoTreEm",
+    "trangThai",
+    "type",
+    "edit",
   ];
+
   private subscriptions: Subscription[] = [];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -84,8 +92,24 @@ export class DichVuComponent implements OnInit, OnDestroy {
   }
   public openDialogChiTietDichVu(event) {
     const modalRef = this.modalService.open(ChiTietDichVuComponent, {
-      size: 'lg',
+      size: "lg",
     });
+    let data = event;
+    if (!isNaN(event)) {
+      data = {
+        iD_DichVu: event,
+        tenDichvu: undefined,
+        anhDaiDien: undefined,
+        giaTinhTheo: undefined,
+        giaTheoDichVu: undefined,
+        giaTheoDemLuuTru: undefined,
+        giaTheoNguoiLon: undefined,
+        giaTheoTreEm: undefined,
+        trangThai: undefined,
+        nN_DichVuRequests: [],
+      };
+    }
+    modalRef.componentInstance.data = data;
   }
   ngOnDestroy() {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
