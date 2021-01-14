@@ -1,0 +1,212 @@
+<app-template-dialog
+  [titleDialog]="titleDialog"
+  [isDisabledSaveButton]="false"
+  (_closeDialogNotSaveData)="closeDialogNotSaveData($event)"
+  (_closeDialogSaveData)="closeDialogSaveData($event)"
+>
+  <form action="#" class="form form-label-right" [formGroup]="formData">
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Tên dịch vụ <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="staticEmail"
+          formControlName="tenDichvu"
+          [class.is-invalid]="validation.isControlInvalid('tenDichvu')"
+          [class.is-valid]="validation.isControlValid('tenDichvu')"
+          name="tenDichvu"
+          placeholder="Nhập tên dịch vụ"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'tenDichvu')"
+        >
+          Nhập tên dịch vụ
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label"
+        >Hình ảnh <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="anhDaiDien"
+          [class.is-invalid]="validation.isControlInvalid('anhDaiDien')"
+          [class.is-valid]="validation.isControlValid('anhDaiDien')"
+          name="anhDaiDien"
+          placeholder="Chọn hình ảnh"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'anhDaiDien')"
+        >
+          Chọn ảnh đại diện
+        </div>
+      </div>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="inlineRadio1"
+        >Giá được tính theo</label
+      >
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="giaTinhTheo"
+        formControlName="giaTinhTheo"
+        (click)="onChangeData(1)"
+        [value]="1"
+      />
+      <label class="form-check-label">dịch vụ</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="giaTinhTheo"
+        formControlName="giaTinhTheo"
+        (click)="onChangeData(2)"
+        [value]="2"
+      />
+      <label class="form-check-label">số người</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="giaTinhTheo"
+        formControlName="giaTinhTheo"
+        (click)="onChangeData(3)"
+        [value]="3"
+      />
+      <label class="form-check-label">số đêm lưu trú</label>
+    </div>
+    <div class="mb-3 row">
+      <label class="col-sm-2 col-form-label"
+        >Giá <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 1">
+          <div class="col-md-10">
+            <input
+              type="number"
+              class="form-control mb-3"
+              name="giaTheoDichVu"
+              [class.is-invalid]="validation.isControlInvalid('giaTheoDichVu')"
+              [class.is-valid]="validation.isControlValid('giaTheoDichVu')"
+              formControlName="giaTheoDichVu"
+              placeholder="Nhập số tiền theo dịch vụ"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="validation.controlHasError('required', 'giaTheoDichVu')"
+            >
+              Nhập giá tiền và giá tiến phải là số dương
+            </div>
+          </div>
+          <div class="col-md-2">VNĐ</div>
+        </div>
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 3">
+          <div class="col-md-10">
+            <input
+              type="number"
+              class="form-control mb-3"
+              name="giaTheoDemLuuTru"
+              [class.is-invalid]="
+                validation.isControlInvalid('giaTheoDemLuuTru')
+              "
+              [class.is-valid]="validation.isControlValid('giaTheoDemLuuTru')"
+              formControlName="giaTheoDemLuuTru"
+              placeholder="Nhập số tiền ứng với 1 đêm lưu trú"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="validation.controlHasError('required', 'giaTheoDemLuuTru')"
+            >
+              Nhập giá tiền và giá tiến phải là số dương
+            </div>
+          </div>
+          <div class="col-md-2">VNĐ</div>
+        </div>
+
+        <div class="row" [hidden]="_detailDichVu.giaTinhTheo !== 2">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-10">
+                <input
+                  type="number"
+                  class="form-control mb-3"
+                  name="giaTheoNguoiLon"
+                  [class.is-invalid]="
+                    validation.isControlInvalid('giaTheoNguoiLon')
+                  "
+                  [class.is-valid]="
+                    validation.isControlValid('giaTheoNguoiLon')
+                  "
+                  formControlName="giaTheoNguoiLon"
+                  placeholder="Giá dịch vụ cho 1 lớn"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    validation.controlHasError('required', 'giaTheoNguoiLon')
+                  "
+                >
+                  Nhập giá tiền và giá tiến phải là số dương
+                </div>
+              </div>
+              <div class="col-md-2">VNĐ</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-8">
+                <input
+                  type="number"
+                  class="form-control mb-3"
+                  name="giaTheoTreEm"
+                  [class.is-invalid]="
+                    validation.isControlInvalid('giaTheoTreEm')
+                  "
+                  [class.is-valid]="validation.isControlValid('giaTheoTreEm')"
+                  formControlName="giaTheoTreEm"
+                  placeholder="Giá dịch vụ cho 1 trẻ em"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="validation.controlHasError('required', 'giaTheoTreEm')"
+                >
+                  Nhập giá tiền và giá tiến phải là số dương
+                </div>
+              </div>
+              <div class="col-md-2">VNĐ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="trangThai" class="col-sm-2 col-form-label">Trạng thái</label>
+      <div class="col-sm-10">
+        <mat-slide-toggle formControlName="trangThai" name="trangThai">
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+  <h5>Nội dung hiển thị theo ngôn ngữ</h5>
+  <app-table-language
+    [dataSource]="dataSourceLanguage"
+    [DisplayedColumns]="displayedColumns"
+    [ListColumnDef]="ListColumnDef"
+    (_changeData)="UpdateData($event)"
+  >
+  </app-table-language>
+</app-template-dialog>

@@ -1,0 +1,23 @@
+
+<div class="modal-content">
+    <div _ngcontent-ret-c397="" class="modal-header">
+      <div id="example-modal-sizes-title-lg" class="modal-title h4">
+        {{titleDialog}}
+      </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body">
+        <ng-content></ng-content>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeDialogNotSaveData($event)">Hủy</button
+      ><button
+        type="submit"
+        class="btn btn-primary btn-elevate ng-star-inserted"
+        [disabled]="isDisabledSaveButton"
+        (click)="closeDialogSaveData($event)"
+      >
+        Lưu lại
+      </button>
+    </div>
+  </div>
+  

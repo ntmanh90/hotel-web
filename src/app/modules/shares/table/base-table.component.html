@@ -1,0 +1,61 @@
+<table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <ng-container *ngFor="let col of ListColumnDef" [matColumnDef]="col.field">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col.title }}</th>
+    <ng-container *ngIf="!col.type"
+      ><td mat-cell *matCellDef="let element">
+        {{ element[col.field] }}
+      </td>
+    </ng-container>
+    <ng-container *ngIf="col.type === 2"
+      ><td mat-cell *matCellDef="let element">
+        {{ element[col.field] ? "Hoạt Động" : "Khóa" }}
+      </td>
+    </ng-container>
+  </ng-container>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" style="width: 135px">
+      <a
+        title="Cập nhật"
+        class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+        (click)="showDetailData(element)"
+      >
+        <span cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+        </span>
+      </a>
+
+      <a
+        title="Xóa"
+        class="btn btn-icon btn-light btn-hover-danger btn-sm"
+        (click)="deleteData(element)"
+      >
+        <span cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+        </span>
+      </a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: DisplayedColumns"></tr>
+</table>
