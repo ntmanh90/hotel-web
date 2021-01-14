@@ -15,9 +15,17 @@
           class="form-control"
           id="staticEmail"
           formControlName="tenDichvu"
+          [class.is-invalid]="validation.isControlInvalid('tenDichvu')"
+          [class.is-valid]="validation.isControlValid('tenDichvu')"
           name="tenDichvu"
           placeholder="Nhập tên dịch vụ"
         />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'tenDichvu')"
+        >
+          Nhập tên dịch vụ
+        </div>
       </div>
     </div>
     <div class="mb-3 row">
@@ -29,9 +37,17 @@
           type="text"
           class="form-control"
           formControlName="anhDaiDien"
+          [class.is-invalid]="validation.isControlInvalid('anhDaiDien')"
+          [class.is-valid]="validation.isControlValid('anhDaiDien')"
           name="anhDaiDien"
           placeholder="Chọn hình ảnh"
         />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'anhDaiDien')"
+        >
+          Chọn ảnh đại diện
+        </div>
       </div>
     </div>
     <div class="form-check form-check-inline">
@@ -83,9 +99,17 @@
               type="number"
               class="form-control mb-3"
               name="giaTheoDichVu"
+              [class.is-invalid]="validation.isControlInvalid('giaTheoDichVu')"
+              [class.is-valid]="validation.isControlValid('giaTheoDichVu')"
               formControlName="giaTheoDichVu"
               placeholder="Nhập số tiền theo dịch vụ"
             />
+            <div
+              class="invalid-feedback"
+              *ngIf="validation.controlHasError('required', 'giaTheoDichVu')"
+            >
+              Nhập giá tiền và giá tiến phải là số dương
+            </div>
           </div>
           <div class="col-md-2">VNĐ</div>
         </div>
@@ -95,9 +119,19 @@
               type="number"
               class="form-control mb-3"
               name="giaTheoDemLuuTru"
+              [class.is-invalid]="
+                validation.isControlInvalid('giaTheoDemLuuTru')
+              "
+              [class.is-valid]="validation.isControlValid('giaTheoDemLuuTru')"
               formControlName="giaTheoDemLuuTru"
               placeholder="Nhập số tiền ứng với 1 đêm lưu trú"
             />
+            <div
+              class="invalid-feedback"
+              *ngIf="validation.controlHasError('required', 'giaTheoDemLuuTru')"
+            >
+              Nhập giá tiền và giá tiến phải là số dương
+            </div>
           </div>
           <div class="col-md-2">VNĐ</div>
         </div>
@@ -110,9 +144,23 @@
                   type="number"
                   class="form-control mb-3"
                   name="giaTheoNguoiLon"
+                  [class.is-invalid]="
+                    validation.isControlInvalid('giaTheoNguoiLon')
+                  "
+                  [class.is-valid]="
+                    validation.isControlValid('giaTheoNguoiLon')
+                  "
                   formControlName="giaTheoNguoiLon"
                   placeholder="Giá dịch vụ cho 1 lớn"
                 />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    validation.controlHasError('required', 'giaTheoNguoiLon')
+                  "
+                >
+                  Nhập giá tiền và giá tiến phải là số dương
+                </div>
               </div>
               <div class="col-md-2">VNĐ</div>
             </div>
@@ -125,11 +173,21 @@
                   type="number"
                   class="form-control mb-3"
                   name="giaTheoTreEm"
+                  [class.is-invalid]="
+                    validation.isControlInvalid('giaTheoTreEm')
+                  "
+                  [class.is-valid]="validation.isControlValid('giaTheoTreEm')"
                   formControlName="giaTheoTreEm"
                   placeholder="Giá dịch vụ cho 1 trẻ em"
                 />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="validation.controlHasError('required', 'giaTheoTreEm')"
+                >
+                  Nhập giá tiền và giá tiến phải là số dương
+                </div>
               </div>
-              <div class="col-md-2" >VNĐ</div>
+              <div class="col-md-2">VNĐ</div>
             </div>
           </div>
         </div>

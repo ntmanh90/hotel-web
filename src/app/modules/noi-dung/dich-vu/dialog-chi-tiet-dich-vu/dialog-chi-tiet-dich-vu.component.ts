@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { of, Subscription } from "rxjs";
+import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
 import { bgCSS } from "src/app/modules/shares/_models/bgCss.model";
 import {
   CreateEditDichVu,
@@ -47,6 +48,7 @@ export class ChiTietDichVuComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public listDichVuNgonNguRequest: DichVuRequest[] = [];
   private bgcss = new bgCSS();
+  public validation : ValidationComponent
   constructor(
     public modal: NgbActiveModal,
     private fb: FormBuilder,
@@ -112,22 +114,23 @@ export class ChiTietDichVuComponent implements OnInit {
       ],
       giaTheoDichVu: [
         this._detailDichVu.giaTheoDichVu,
-        Validators.compose([Validators.required]),
+        Validators.compose([Validators.required, Validators.min(0)]),
       ],
       giaTheoDemLuuTru: [
         this._detailDichVu.giaTheoDemLuuTru,
-        Validators.compose([Validators.required]),
+        Validators.compose([Validators.required, Validators.min(0)]),
       ],
       giaTheoNguoiLon: [
         this._detailDichVu.giaTheoNguoiLon,
-        Validators.compose([Validators.required]),
+        Validators.compose([Validators.required, Validators.min(0)]),
       ],
       giaTheoTreEm: [
         this._detailDichVu.giaTheoTreEm,
-        Validators.compose([Validators.required]),
+        Validators.compose([Validators.required, Validators.min(0)]),
       ],
       trangThai: [this._detailDichVu.trangThai],
     });
+    this.validation = new ValidationComponent(this.formData);
   }
   private loadAllNgonNgu() {
     const sb = this.commonService

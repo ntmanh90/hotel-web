@@ -17,6 +17,7 @@ import { DichVuComponent } from "./dich-vu/dich-vu.component";
 import { TableModule } from "../shares/table/table.module";
 import { ChiTietDichVuComponent } from "./dich-vu/dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
 import { TemplateModule } from "../shares/template/template.module";
+import { ValidationModule } from "../shares/validation/validation.module";
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { TemplateModule } from "../shares/template/template.module";
     MaterialModule,
     NoidungRoutingModule,
     TableModule,
-    TemplateModule
+    TemplateModule,
+    ValidationModule,
   ],
   declarations: [
     NoiDungComponent,
