@@ -75,7 +75,6 @@ export class DichVuComponent implements OnInit, OnDestroy {
       this.dataSourceDichVu.data = data;
       this.dataSourceDichVu.paginator = this.paginator;
       this.dataSourceDichVu.sort = this.sort;
-      console.log(data);
       this.selectPrice();
     });
     this.subscriptions.push(sb);
@@ -135,7 +134,6 @@ export class DichVuComponent implements OnInit, OnDestroy {
     this.deleteOne(row.iD_DichVu);
   }
   public deleteAllData(event) {
-    console.log(this.listSelect);
     for (let index = 0; index < this.listSelect.length; index++) {
       const element = this.listSelect[index];
       if(index+1 === this.listSelect.length){

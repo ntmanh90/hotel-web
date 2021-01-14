@@ -73,7 +73,6 @@ export class ChiTietDichVuComponent implements OnInit {
   private loadDetailData(id) {
     this.loadFormData();
     this.dichVuService.get_ChiTiet_DichVu(id).subscribe((res) => {
-      console.log(res);
       this._detailDichVu = {
         tenDichvu: res.tenDichvu,
         anhDaiDien: res.anhDaiDien,
@@ -149,8 +148,6 @@ export class ChiTietDichVuComponent implements OnInit {
         this.dataSourceLanguage.data = this.listDichVuNgonNguRequest;
         if (this._detailDichVu.iD_DichVu !== -1) {
           //update data in list ngon ngu
-          console.log(this.listDichVuNgonNguRequest);
-          console.log(this._detailDichVu.nN_DichVuRequests);
           for (
             let index = 0;
             index < this.listDichVuNgonNguRequest.length;
