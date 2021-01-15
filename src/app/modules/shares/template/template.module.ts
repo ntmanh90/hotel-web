@@ -7,6 +7,7 @@ const CHILD = [TemplateIndexComponent, TemplateDialogComponent];
 @NgModule({
   imports: [CommonModule, MaterialModule],
   declarations: [...CHILD],
+  entryComponents:[...CHILD],
   exports: [...CHILD],
 })
 export class TemplateModule {}

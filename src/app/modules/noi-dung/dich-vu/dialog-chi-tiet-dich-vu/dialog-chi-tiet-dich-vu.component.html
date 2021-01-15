@@ -33,20 +33,29 @@
         >Hình ảnh <span class="text-danger">(*)</span></label
       >
       <div class="col-sm-10">
-        <input
-          type="text"
-          class="form-control"
-          formControlName="anhDaiDien"
-          [class.is-invalid]="validation.isControlInvalid('anhDaiDien')"
-          [class.is-valid]="validation.isControlValid('anhDaiDien')"
-          name="anhDaiDien"
-          placeholder="Chọn hình ảnh"
-        />
-        <div
-          class="invalid-feedback"
-          *ngIf="validation.controlHasError('required', 'anhDaiDien')"
-        >
-          Chọn ảnh đại diện
+        <div class="row">
+          <div class="col-md-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="anhDaiDien"
+              [class.is-invalid]="validation.isControlInvalid('anhDaiDien')"
+              [class.is-valid]="validation.isControlValid('anhDaiDien')"
+              name="anhDaiDien"
+              placeholder="Chọn hình ảnh"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="validation.controlHasError('required', 'anhDaiDien')"
+            >
+              Chọn ảnh đại diện
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" (click)="openDialogImage($event)">
+              Chọn ảnh
+            </button>
+          </div>
         </div>
       </div>
     </div>

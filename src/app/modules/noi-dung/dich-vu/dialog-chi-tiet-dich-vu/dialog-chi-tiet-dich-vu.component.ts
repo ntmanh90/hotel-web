@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { of, Subscription } from "rxjs";
+import { AvatarUploadFileComponent } from "src/app/modules/shares/upload-file/avatar-upload/avatar-upload.component";
 import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
 import { bgCSS } from "src/app/modules/shares/_models/bgCss.model";
 import {
@@ -48,13 +49,14 @@ export class ChiTietDichVuComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public listDichVuNgonNguRequest: DichVuRequest[] = [];
   private bgcss = new bgCSS();
-  public validation : ValidationComponent
+  public validation: ValidationComponent;
   constructor(
     public modal: NgbActiveModal,
     private fb: FormBuilder,
     private commonService: CommonService,
     private dichVuService: DichVuService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private modalService: NgbModal
   ) {}
   public set data(value: CreateEditDichVu) {
     this._detailDichVu = value;
@@ -247,5 +249,10 @@ export class ChiTietDichVuComponent implements OnInit {
   }
   public onChangeData(value) {
     this._detailDichVu.giaTinhTheo = value;
+  }
+  public openDialogImage(event) {
+    this.modalService.open(AvatarUploadFileComponent, {
+      size: "lg",
+    });
   }
 }

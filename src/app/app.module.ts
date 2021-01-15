@@ -22,6 +22,8 @@ import { SplashScreenModule } from './_metronic/partials/layout/splash-screen/sp
 import { AuthGuard } from './modules/auth/_services/auth.guard';
 import { AuthInterceptor } from './modules/shares/interceptors/auth.interceptor';
 import { AuthService } from './modules/auth';
+import { TemplateModule } from './modules/shares/template/template.module';
+import { UploadFileModule } from './modules/shares/upload-file/upload-file.module';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -53,7 +55,8 @@ export function getHighlightLanguages() {
     HttpClientModule,
     HighlightModule,
     ClipboardModule,
-
+    TemplateModule,
+    UploadFileModule,
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
