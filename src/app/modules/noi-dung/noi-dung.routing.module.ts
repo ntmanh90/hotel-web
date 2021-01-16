@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DichVuComponent } from './dich-vu/dich-vu.component';
+import { KhuyenMaiComponent } from './khuyen-mai/khuyen-mai.component';
 import { LoaiPhongComponent } from './loai-phong/loai-phong.component';
 
 
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'dichvu',
     component: DichVuComponent,
+  },
+  {
+    path: 'khuyenmai',
+    component: KhuyenMaiComponent,
   },
 ];
 

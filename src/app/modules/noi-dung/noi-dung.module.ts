@@ -18,6 +18,8 @@ import { TableModule } from "../shares/table/table.module";
 import { ChiTietDichVuComponent } from "./dich-vu/dialog-chi-tiet-dich-vu/dialog-chi-tiet-dich-vu.component";
 import { TemplateModule } from "../shares/template/template.module";
 import { ValidationModule } from "../shares/validation/validation.module";
+import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
+import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { ValidationModule } from "../shares/validation/validation.module";
     ChiTietLoaiPhongComponent,
     DichVuComponent,
     ChiTietDichVuComponent,
+    KhuyenMaiComponent,
+    DialogChiTietKhuyenMaiComponent
   ],
 })
 export class NoiDungModule {}

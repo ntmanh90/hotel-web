@@ -6,16 +6,15 @@ import { environment } from "src/environments/environment";
 
 import { BaseService } from "../../shares/_services/base.service";
 import { catchError, map, tap } from "rxjs/operators";
-import { CreateEditDichVu } from "../_models/create-edit-dich-vu.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class BaseDataService extends BaseService {
+export class KhuyenMaiService extends BaseService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
-  private _tieuDe = "";
-  private cur_service = "";
-  private slat = "";
+  private _tieuDe = "Khuyến Mãi Đặt Phòng";
+  private cur_service = "KhuyenMaiDatPhongService";
+  private slat = "KhuyenMaiDatPhong";
   private API_URL = `${environment.apiUrl}/${this.slat}`;
 
   protected httpOptions = {
