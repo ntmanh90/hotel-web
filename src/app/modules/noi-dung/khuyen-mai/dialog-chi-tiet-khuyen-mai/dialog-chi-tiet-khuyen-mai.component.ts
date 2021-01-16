@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs";
+import { of, Subscription } from "rxjs";
 import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
+import { bgCSS } from "src/app/modules/shares/_models/bgCss.model";
 import {
   CreateEditKhuyenMaiModel,
+  loaiPhong_KhuyenMaiDatPhongVMs,
   nN_KhuyenMaiDatPhongRequests,
 } from "../../_models/create-edit-khuyen-mai.model";
 import { CommonService } from "../../_services/common.service";
+import { KhuyenMaiService } from "../../_services/khuyen-mai.service";
 
 @Component({
   selector: "app-dialog-chi-tiet-khuyen-mai",
@@ -22,6 +26,7 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
   public validation: ValidationComponent;
   public _detailKhuyenMai: CreateEditKhuyenMaiModel;
   private subscriptions: Subscription[] = [];
+  public listDataNumberOfDate = [];
   public displayedColumns = [
     "index",
     "tenNgonNgu",
@@ -46,43 +51,37 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
   ];
   public dataSourceLanguage: any = new MatTableDataSource();
   public listNgonNguHienThi: nN_KhuyenMaiDatPhongRequests[] = [];
+  public listLoaiPhongKhuyenMai: loaiPhong_KhuyenMaiDatPhongVMs[] = [];
+  private bgcss = new bgCSS();
   constructor(
     private fb: FormBuilder,
     public modal: NgbActiveModal,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private khuyenMaiSevice: KhuyenMaiService,
+    private _snackBar: MatSnackBar
   ) {
-    this._detailKhuyenMai = {
-      iD_KhuyenMaiDatPhong: 0,
-      tenKhuyenMaiDatPhong: undefined,
-      soNgayLuuTruToiThieu: undefined,
-      soNgayDatTruoc: undefined,
-      giaCongThem: undefined,
-      phanTramGiamGia: undefined,
-      phanTramDatCoc: undefined,
-      baoGomAnSang: false,
-      duocPhepHuy: false,
-      duocPhepThayDoi: false,
-      ngayBatDau: new Date().toDateString(),
-      ngayKetThuc: new Date().toDateString(),
-      tatCaNgayTrongTuan: false,
-      thuHai: false,
-      thuBa: false,
-      thuTu: false,
-      thuNam: false,
-      thuSau: false,
-      thuBay: false,
-      chuNhat: false,
-      trangThai: true,
-      index: 0,
-      nN_KhuyenMaiDatPhongRequests: [],
-      loaiPhong_KhuyenMaiDatPhongVMs: [],
-    };
+    for (let index = 1; index <= 60; index++) {
+      this.listDataNumberOfDate.push(index);
+    }
   }
 
   ngOnInit() {
-    this.loadFormData();
-    this.loadAllDataLoaiPhong();
-    this.loadAllDataNgonNgu();
+  }
+  public set data(value: CreateEditKhuyenMaiModel) {
+    this._detailKhuyenMai = value;
+    if (value.iD_KhuyenMaiDatPhong === 0) {
+      //create
+      this.titleDialog = "Thêm mới dịch vụ";
+      this.loadFormData();
+      this.loadAllDataLoaiPhong();
+      this.loadAllDataNgonNgu();
+    } else {
+      this._detailKhuyenMai.index = 0;
+      //update
+      this.titleDialog = "Chỉnh sửa " + value.tenKhuyenMaiDatPhong + " dịch vụ";
+      //load Detail Data
+      this.loadDetailData(value.iD_KhuyenMaiDatPhong);
+    }
   }
   private loadFormData() {
     this.formData = this.fb.group({
@@ -92,11 +91,11 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
       ],
       soNgayLuuTruToiThieu: [
         this._detailKhuyenMai.soNgayLuuTruToiThieu,
-        Validators.compose([Validators.required, Validators.min(0)]),
+        Validators.compose([Validators.required, Validators.min(1)]),
       ],
       soNgayDatTruoc: [
         this._detailKhuyenMai.soNgayDatTruoc,
-        Validators.compose([Validators.required, Validators.min(0)]),
+        Validators.compose([Validators.required, Validators.min(1)]),
       ],
       giaCongThem: [
         this._detailKhuyenMai.giaCongThem,
@@ -104,11 +103,11 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
       ],
       phanTramGiamGia: [
         this._detailKhuyenMai.phanTramGiamGia,
-        Validators.compose([Validators.required, Validators.min(0)]),
+        Validators.compose([Validators.required, Validators.min(0), Validators.max(100)]),
       ],
       phanTramDatCoc: [
         this._detailKhuyenMai.phanTramDatCoc,
-        Validators.compose([Validators.required, Validators.min(0)]),
+        Validators.compose([Validators.required, Validators.min(0), Validators.max(100)]),
       ],
       baoGomAnSang: [this._detailKhuyenMai.baoGomAnSang],
       duocPhepHuy: [this._detailKhuyenMai.duocPhepHuy],
@@ -137,6 +136,16 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     });
     this.validation = new ValidationComponent(this.formData);
   }
+  private loadDetailData(id: number){
+    this.loadFormData();
+    const subDetailData = this.khuyenMaiSevice.get_ChiTiet_KhuyenMai(id).subscribe(res => {
+      console.log(res);
+      this._detailKhuyenMai = res;
+      this.loadAllDataLoaiPhong();
+      this.loadAllDataNgonNgu();
+    });
+    this.subscriptions.push(subDetailData);
+  }
   public closeDialogNotSaveData(event) {
     this.modal.close(event);
   }
@@ -159,6 +168,14 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
       .get_DanhSachLoaiPhong()
       .subscribe((res) => {
         console.log(res);
+        for (let index = 0; index < res.length; index++) {
+          const element = res[index];
+          this.listLoaiPhongKhuyenMai.push({
+            iD_LoaiPhong: element.iD_LoaiPhong,
+            daChon: false,
+            tenLoaiPhong: element.tenLoaiPhong,
+          });
+        }
       });
     this.subscriptions.push(subLoadAllLoaiPhong);
   }
@@ -166,7 +183,6 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     const subLoadAllDataNgonNgu = this.commonService
       .get_DanhSachNgonNgu()
       .subscribe((res) => {
-        console.log(res);
         for (let index = 0; index < res.length; index++) {
           const element = res[index];
           this.listNgonNguHienThi.push({
@@ -178,13 +194,59 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
           });
         }
         this.dataSourceLanguage.data = this.listNgonNguHienThi;
+        if (this._detailKhuyenMai.iD_KhuyenMaiDatPhong !== 0) {
+          //update data in list ngon ngu
+          for (
+            let index = 0;
+            index < this.listNgonNguHienThi.length;
+            index++
+          ) {
+            let element = this.listNgonNguHienThi[index];
+            for (
+              let indexJ = 0;
+              indexJ < this._detailKhuyenMai.nN_KhuyenMaiDatPhongVMs.length;
+              indexJ++
+            ) {
+              const elementJ = this._detailKhuyenMai.nN_KhuyenMaiDatPhongVMs[indexJ];
+              if (element.iD_NgonNgu === elementJ.iD_NgonNgu) {
+                element.dieuKhoan_DieuKien = elementJ.dieuKhoan_DieuKien;
+                element.tenTheoNgonNgu = elementJ.tenTheoNgonNgu;
+                break;
+              }
+            }
+          }
+        }
       });
     this.subscriptions.push(subLoadAllDataNgonNgu);
   }
   public closeDialogSaveData(event) {
     this.prepareCustomer();
-    if (this._detailKhuyenMai.iD_KhuyenMaiDatPhong === -1) {
+    if (this._detailKhuyenMai.iD_KhuyenMaiDatPhong === 0) {
+      const subCreateKhuyenMai = this.khuyenMaiSevice
+        .post_Them_KhuyenMaiLoaiPhong(this._detailKhuyenMai)
+        .subscribe(
+          (res: CreateEditKhuyenMaiModel) => {
+            if (res) {
+              this.modal.close(
+                `Thêm mới ${res.tenKhuyenMaiDatPhong}: ${res.tenKhuyenMaiDatPhong}`
+              );
+              return of(res);
+            }
+          },
+          (error) => {
+            this.openSnackBar(error, this.bgcss.Error);
+          }
+        );
+        this.subscriptions.push(subCreateKhuyenMai);
     }
+  }
+  openSnackBar(action, bgCss) {
+    this._snackBar.open(action, "x", {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
+    });
   }
   private prepareCustomer() {
     const formValue = this.formData.value;
@@ -211,5 +273,25 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     this._detailKhuyenMai.chuNhat = formValue.chuNhat;
     this._detailKhuyenMai.index = Number(formValue.index);
     this._detailKhuyenMai.trangThai = formValue.trangThai;
+    this._detailKhuyenMai.loaiPhong_KhuyenMaiDatPhongVMs = this.listLoaiPhongKhuyenMai;
+    this._detailKhuyenMai.nN_KhuyenMaiDatPhongRequests = this.listNgonNguHienThi;
   }
+  public onClickData = (value, row: loaiPhong_KhuyenMaiDatPhongVMs) => {
+    for (let index = 0; index < this.listLoaiPhongKhuyenMai.length; index++) {
+      let element = this.listLoaiPhongKhuyenMai[index];
+      if (element.iD_LoaiPhong === row.iD_LoaiPhong) {
+        element.daChon = Boolean(value);
+        break;
+      }
+    }
+  };
+  public UpdateData = (res: { value: any; row: any; field: string }) => {
+    for (let index = 0; index < this.listNgonNguHienThi.length; index++) {
+      let element: any = this.listNgonNguHienThi[index];
+      if (element.iD_NgonNgu === res.row.iD_NgonNgu) {
+        element[res.field] = res.value;
+        break;
+      }
+    }
+  };
 }

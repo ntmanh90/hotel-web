@@ -1,12 +1,18 @@
 <app-template-index
   [titleCard]="'Quản lý Khuyến Mãi'"
   [isHiddenButtonDeleteAll]="isHiddenButtonDeleteAll"
-  (_openDialogChiTiet)="openDialogChiTietKhuyenMai(-1)"
+  (_openDialogChiTiet)="openDialogChiTietKhuyenMai(0)"
+  (_onChangeInputTimKiem)="applyFilter($event)"
+  (_deleteAllData)="deleteAllData($event)"
 >
 <app-base-table
     [dataSource]="dataSourceKhuyenMai"
     [DisplayedColumns]="displayedColumns"
     [ListColumnDef]="ListColumnDef"
+    (_showDetailData)="openDialogChiTietKhuyenMai($event)"
+    (_isSelectData)="isSelectData($event)"
+    (_selectData)="addDataSelect($event)"
+    (_deleteData)="deleteData($event)"
   ></app-base-table>
   <mat-paginator
     [length]="100"

@@ -5,6 +5,8 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
+import { bgCSS } from "../../shares/_models/bgCss.model";
 import { KhuyenMaiService } from "../_services/khuyen-mai.service";
 import { DialogChiTietKhuyenMaiComponent } from "./dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
 
@@ -19,9 +21,9 @@ export class KhuyenMaiComponent implements OnInit {
     "select",
     "maKhuyenMaiDatPhong",
     "tenKhuyenMaiDatPhong",
-    "baoGomAnSang",
-    "duocPhepHuy",
-    "duocPhepThayDoi",
+    // "baoGomAnSang",
+    // "duocPhepHuy",
+    // "duocPhepThayDoi",
     "phanTramDatCoc",
     "phanTramGiamGia",
     "giaCongThem",
@@ -33,6 +35,8 @@ export class KhuyenMaiComponent implements OnInit {
     "edit",
   ];
   public dataSourceKhuyenMai: any = new MatTableDataSource();
+  private listSelect = [];
+  private bgcss = new bgCSS();
   constructor(
     private khuyenMaiService: KhuyenMaiService,
     private modalService: NgbModal,
@@ -99,7 +103,7 @@ export class KhuyenMaiComponent implements OnInit {
   ngOnInit() {
     this.loadAllDataKhuyenMai();
   }
-  private loadAllDataKhuyenMai() {
+  private loadAllDataKhuyenMai = () => {
     const sb = this.khuyenMaiService.get_DanhSach().subscribe((res) => {
       this.dataSourceKhuyenMai = new MatTableDataSource();
       this.dataSourceKhuyenMai.data = res;
@@ -107,10 +111,123 @@ export class KhuyenMaiComponent implements OnInit {
       this.dataSourceKhuyenMai.sort = this.sort;
     });
     this.subscriptions.push(sb);
-  }
-  public openDialogChiTietKhuyenMai(id: number) {
+  };
+  public openDialogChiTietKhuyenMai(event) {
     const modalRef = this.modalService.open(DialogChiTietKhuyenMaiComponent, {
       size: "lg",
     });
+    let data = event;
+    if (!isNaN(event)) {
+      data = {
+        iD_KhuyenMaiDatPhong: 0,
+        tenKhuyenMaiDatPhong: undefined,
+        soNgayLuuTruToiThieu: 0,
+        soNgayDatTruoc: 0,
+        giaCongThem: undefined,
+        phanTramGiamGia: undefined,
+        phanTramDatCoc: undefined,
+        baoGomAnSang: false,
+        duocPhepHuy: false,
+        duocPhepThayDoi: false,
+        ngayBatDau: new Date().toDateString(),
+        ngayKetThuc: new Date().toDateString(),
+        tatCaNgayTrongTuan: false,
+        thuHai: false,
+        thuBa: false,
+        thuTu: false,
+        thuNam: false,
+        thuSau: false,
+        thuBay: false,
+        chuNhat: false,
+        trangThai: true,
+        index: 0,
+        nN_KhuyenMaiDatPhongRequests: [],
+        loaiPhong_KhuyenMaiDatPhongVMs: [],
+      };
+    }
+    modalRef.componentInstance.data = data;
+    modalRef.closed.subscribe(this.loadAllDataKhuyenMai);
+  }
+  public isSelectData(event) {
+    this.isHiddenButtonDeleteAll = !event;
+  }
+  public applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSourceKhuyenMai.filter = filterValue;
+  }
+  public addDataSelect(listSelect) {
+    this.listSelect = listSelect;
+  }
+  public deleteData(row) {
+    this.deleteOne(row.iD_DichVu);
+  }
+  private deleteOne(id: number) {
+    var sb = this.khuyenMaiService
+      .get_ChiTiet_KhuyenMai(id)
+      .subscribe((res: any) => {
+        if (res) {
+          const modalRef = this.modalService.open(XacNhanXoaComponent, {
+            size: "500",
+          });
+          modalRef.componentInstance.tieuDe = ` ${res.tenKhuyenMaiDatPhong} `;
+          modalRef.result.then(
+            (data) => {
+              // on close
+            },
+            (reason) => {
+              // on dismiss
+              if (reason == "1") {
+                this.callDeleteRow(id, res.tenKhuyenMaiDatPhong);
+              }
+            }
+          );
+        } else {
+          this.openSnackBar(`Dịch vụ không tồn tại!`, this.bgcss.Warning);
+        }
+      });
+    this.subscriptions.push(sb);
+  }
+  openSnackBar(action, bgCss) {
+    this._snackBar.open(action, "x", {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
+    });
+  }
+  callDeleteRow(id, tenKhuyenMaiDatPhong, isDeleteMore = false) {
+    var sb = this.khuyenMaiService.get_xoa(id).subscribe((x: any) => {
+      if (x.kq) {
+        this.openSnackBar(
+          `Xóa ${tenKhuyenMaiDatPhong} thành công!`,
+          this.bgcss.Success
+        );
+        this.loadAllDataKhuyenMai();
+      }
+    });
+    if (!isDeleteMore) {
+      this.loadAllDataKhuyenMai();
+      this.isHiddenButtonDeleteAll = true;
+    }
+
+    this.subscriptions.push(sb);
+  }
+  public deleteAllData(event) {
+    for (let index = 0; index < this.listSelect.length; index++) {
+      const element = this.listSelect[index];
+      if (index + 1 === this.listSelect.length) {
+        this.callDeleteRow(
+          element.iD_KhuyenMaiDatPhong,
+          element.tenKhuyenMaiDatPhong
+        );
+      } else {
+        this.callDeleteRow(
+          element.iD_KhuyenMaiDatPhong,
+          element.tenKhuyenMaiDatPhong,
+          true
+        );
+      }
+    }
   }
 }

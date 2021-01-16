@@ -23,6 +23,8 @@ export interface CreateEditKhuyenMaiModel {
   index: number;
   nN_KhuyenMaiDatPhongRequests: nN_KhuyenMaiDatPhongRequests[];
   loaiPhong_KhuyenMaiDatPhongVMs: loaiPhong_KhuyenMaiDatPhongVMs[];
+  nN_KhuyenMaiDatPhongVMs: nN_KhuyenMaiDatPhongRequests[];
+  
 }
 export interface nN_KhuyenMaiDatPhongRequests {
   index?:number;
