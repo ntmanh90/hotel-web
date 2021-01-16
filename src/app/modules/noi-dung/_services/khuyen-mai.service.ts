@@ -6,16 +6,16 @@ import { environment } from "src/environments/environment";
 
 import { BaseService } from "../../shares/_services/base.service";
 import { catchError, map, tap } from "rxjs/operators";
-import { CreateEditDichVu } from "../_models/create-edit-dich-vu.model";
+import { CreateEditKhuyenMaiModel } from "../_models/create-edit-khuyen-mai.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class BaseDataService extends BaseService {
+export class KhuyenMaiService extends BaseService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
-  private _tieuDe = "";
-  private cur_service = "";
-  private slat = "";
+  private _tieuDe = "Khuyến Mãi Đặt Phòng";
+  private cur_service = "KhuyenMaiDatPhongService";
+  private slat = "KhuyenMaiDatPhong";
   private API_URL = `${environment.apiUrl}/${this.slat}`;
 
   protected httpOptions = {
@@ -26,7 +26,7 @@ export class BaseDataService extends BaseService {
 
   constructor(
     protected http: HttpClient,
-    protected logMessageService: LogMessageService,
+    protected logMessageService: LogMessageService
   ) {
     super();
   }
@@ -39,8 +39,8 @@ export class BaseDataService extends BaseService {
           return data;
         })
       );
-  }
-  public get_ChiTiet_DichVu(id: number): Observable<any> {
+  };
+  public get_ChiTiet_KhuyenMai(id: number): Observable<any> {
     return this.http
       .get(`${this.API_URL}/chi-tiet?id=${id}`, this.httpOptions)
       .pipe(
@@ -60,6 +60,17 @@ export class BaseDataService extends BaseService {
           this.handleError<any>(`Xóa ${this._tieuDe} thất bại id = ${id}`)
         )
       );
+  }
+  public post_Them_KhuyenMaiLoaiPhong(
+    khuyenMai: CreateEditKhuyenMaiModel
+  ): Observable<CreateEditKhuyenMaiModel> {
+    return this.http
+      .post<CreateEditKhuyenMaiModel>(
+        `${this.API_URL}/them`,
+        khuyenMai,
+        this.httpOptions
+      )
+      .pipe(catchError(this.handleErrorS));
   }
   /**
    * Handle Http operation that failed.

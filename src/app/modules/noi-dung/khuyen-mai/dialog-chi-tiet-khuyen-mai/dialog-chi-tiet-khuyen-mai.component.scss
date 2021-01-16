@@ -1,0 +1,4 @@
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 9999999999 !important; /* set value you need */
+}

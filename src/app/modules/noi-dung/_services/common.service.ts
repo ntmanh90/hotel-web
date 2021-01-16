@@ -12,6 +12,7 @@ import { SoNguoiToiDa } from "../_models/so-nguoi-toi-da.model";
 import { LoaiGiuong } from "../_models/loai-giuong.model";
 import { TienIch } from "../_models/tien-ich.model";
 import { NgonNgu } from "../../danh-muc/_module/ngonngu.model";
+import { LoaiPhongVM } from "../_models/loai-phong-vm.model";
 
 @Injectable({
   providedIn: "root",
@@ -96,7 +97,14 @@ export class CommonService extends BaseService {
         })
       );
   }
-
+  get_DanhSachLoaiPhong(): Observable<LoaiPhongVM[]> {
+    this.log(`${this.cur_service}: danh sách loại phòng`);
+    return this.http.get<LoaiPhongVM[]>(`${this.API_URL}/loaiphong/danh-sach`, this.httpOptions)
+      .pipe(
+        map(data => {
+          return data;
+        }))
+  }
   //show log lỗi service
   private log(message: string) {
     //this.logMessageService.add(`HuongNhinService: ${message}`);
