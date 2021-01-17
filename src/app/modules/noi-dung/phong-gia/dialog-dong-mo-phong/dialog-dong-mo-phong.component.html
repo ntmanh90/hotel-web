@@ -1,0 +1,63 @@
+<ng-container>
+    <div>
+        <div>
+            <h4>Đóng phòng</h4>
+        </div>
+        <div>
+            <form [formGroup]="options">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-card>
+                    <mat-card-content>
+                        <section class="example-section">
+                            <mat-radio-group [(ngModel)]="labelPosition">
+                              <mat-radio-button class="example-margin" value="after">Đóng phòng</mat-radio-button>
+                              <mat-radio-button class="example-margin" value="before">Mở phòng</mat-radio-button>
+                            </mat-radio-group>
+                          </section>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div>
+                <table class="table table-bordered phong-table">
+                    <tr class="table-primary">
+                        <td colspan="2">Chỗ ở</td>
+                    </tr>
+                    <tr>
+                        <td>Garden bungalow </td>
+                        <td><mat-checkbox class="example-margin"></mat-checkbox></td>
+                    </tr>
+                    <tr>
+                        <td>Garden bungalow </td>
+                        <td><mat-checkbox class="example-margin"></mat-checkbox></td>
+                    </tr>
+                    <tr>
+                        <td>Garden bungalow </td>
+                        <td><mat-checkbox class="example-margin"></mat-checkbox></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row justify-content-end mgr-r" style="margin: 0;">
+                <button mat-raised-button color="primary">Xác nhận</button>
+                <button mat-raised-button color="warn" (click)="onClose()">Hủy</button>
+            </div>
+
+            </form>
+ 
+        </div>
+
+    </div>
+</ng-container>
