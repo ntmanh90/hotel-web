@@ -1,6 +1,7 @@
 <div class="bgr-container">
     <ng-container>
         <div class="btn-search row justify-content-last">
+            <form [formGroup]="options">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="picker">
@@ -16,6 +17,7 @@
                 </mat-select>
             </mat-form-field>
             <button mat-flat-button color="primary">Tìm kiếm</button>
+        </form>
         </div>
     </ng-container>
     <ng-container >
@@ -40,8 +42,8 @@
             </div>
             <div class="col-md-6">
                 <div class="row justify-content-end btn-right">
-                    <button mat-flat-button color="warn" (click)="openDialogDatPhong()">Đóng phòng</button>
-                    <button mat-flat-button color="primary" (click)="openDialogDatPhong()">Mở phòng</button>
+                    <button mat-flat-button color="warn" (click)="openDialogDatPhong($event)">Đóng phòng</button>
+                    <button mat-flat-button color="primary" (click)="openDialogDatPhong($event)">Mở phòng</button>
                 </div>
                
             </div>
@@ -63,12 +65,12 @@
                         </tr>
                         <tr>
                             <td>Phòng để bàn 
-                                <button mat-flat-button color="primary" (click)="openDialog()">Chỉnh sửa</button>
+                                <button mat-flat-button color="primary" (click)="openDialog($event)">Chỉnh sửa</button>
                             </td>
                         </tr>
                         <tr>
                             <td>Giá cài đặt
-                                <button mat-flat-button color="primary" (click)="openDialog()">Chỉnh sửa</button>
+                                <button mat-flat-button color="primary" (click)="openDialog($event)">Chỉnh sửa</button>
                             </td>
                         </tr>
                         <tr>

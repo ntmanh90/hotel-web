@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -7,8 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./dialog-dong-mo-phong.component.scss']
 })
 export class DialogDongMoPhongComponent implements OnInit {
-
-  constructor(public dialog: MatDialog,) { }
+  labelPosition: 'on' | 'off' = 'off';
+  options: FormGroup;
+  constructor(public dialog: MatDialog, fb: FormBuilder) {
+    this.options = fb.group({
+    });
+   }
 
   ngOnInit(): void {
   }

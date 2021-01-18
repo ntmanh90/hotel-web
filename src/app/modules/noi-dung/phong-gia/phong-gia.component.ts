@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isForOfStatement } from 'typescript';
@@ -23,12 +23,15 @@ export class PhongGiaComponent implements OnInit {
     {value: '3', viewValue: '3 tháng'}
   ];
 
-
+  options: FormGroup;
   constructor(
     public dialog: MatDialog,
     private modalService: NgbModal,
- 
-  ) { }
+    fb: FormBuilder
+  ) {
+    this.options = fb.group({
+    });
+   }
 
   ngOnInit(): void {
   }
