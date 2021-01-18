@@ -1,36 +1,48 @@
-
 <div class="card card-custom gutter-b example-container mat-elevation-z8">
-    <div class="card-header">
-      <div class="card-title">
-        <h3 class="card-label">{{titleCard}}</h3>
-      </div>
-      <div class="card-toolbar">
-        <button type="button" class="btn btn-primary" (click)="openDialogChiTiet($event)"> <span class="material-icons"> border_color </span> Thêm mới</button>
-      </div>
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">{{ titleCard }}</h3>
     </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <div class="example-header overflow-hidden">
-          <div class="row">
-            <div class="col-md-9">
-              <div class="w-100">
-                <input placeholder="Tìm kiếm" class="form-control"(keyup)="onChangeInputTimKiem($event.target.value)" />
-              </div>
-            </div>
-            <div class="col-md-3">
-              <button
-                type="button"
-                [hidden]="isHiddenButtonDeleteAll"
-                class="btn btn-danger font-weight-bolder font-size-sm mr-1 float-right mr-11"
-                (click)="deleteAllData($event)"
-              >
-                <i class="fa fa-trash"></i> Xóa nhiều
-              </button>
-            </div>
-          </div>
-        </div>
-        <ng-content></ng-content>
-      </div>
+    <div class="card-toolbar">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="openDialogChiTiet($event)"
+      >
+        <span class="material-icons"> border_color </span> Thêm mới
+      </button>
     </div>
   </div>
-  
+  <div class="card-body">
+    <div class="table-responsive">
+      <div class="example-header overflow-hidden">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="w-100" *ngIf="!isShowModeSearch">
+              <input
+                placeholder="Tìm kiếm"
+                class="form-control"
+                (keyup)="onChangeInputTimKiem($event.target.value)"
+              />
+            </div>
+            <app-template-search-hoa-don
+            (_onChangeSearch)="onChangeSearch($event)"
+              *ngIf="isShowModeSearch"
+            ></app-template-search-hoa-don>
+          </div>
+          <div class="col-md-3">
+            <button
+              type="button"
+              [hidden]="isHiddenButtonDeleteAll"
+              class="btn btn-danger font-weight-bolder font-size-sm mr-1 float-right mr-11"
+              (click)="deleteAllData($event)"
+            >
+              <i class="fa fa-trash"></i> Xóa nhiều
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

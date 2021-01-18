@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-template-index',
-  templateUrl: './template-index.component.html',
-  styleUrls: ['./template-index.component.scss'],
+  selector: "app-template-index",
+  templateUrl: "./template-index.component.html",
+  styleUrls: ["./template-index.component.scss"],
 })
 export class TemplateIndexComponent implements OnInit {
   @Input()
@@ -14,8 +14,12 @@ export class TemplateIndexComponent implements OnInit {
   public _deleteAllData: EventEmitter<any> = new EventEmitter();
   @Output()
   public _onChangeInputTimKiem: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public _onChangeSearch: EventEmitter<any> = new EventEmitter();
   @Input()
   public isHiddenButtonDeleteAll = false;
+  @Input()
+  public isShowModeSearch: boolean = false;
   ngOnInit(): void {}
   constructor() {}
   openDialogChiTiet(event) {
@@ -26,5 +30,8 @@ export class TemplateIndexComponent implements OnInit {
   }
   onChangeInputTimKiem(event) {
     this._onChangeInputTimKiem.emit(event);
+  }
+  onChangeSearch(event) {
+    this._onChangeSearch.emit(event);
   }
 }

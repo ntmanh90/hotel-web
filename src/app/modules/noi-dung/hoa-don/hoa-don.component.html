@@ -1,0 +1,18 @@
+<app-template-index
+  [titleCard]="'Quản lý hóa đơn'"
+  [isHiddenButtonDeleteAll]="isHiddenButtonDeleteAll"
+  (_openDialogChiTiet)="openDialogAddAndUpdate(0)"
+  [isShowModeSearch]="true"
+  (_onChangeSearch)="onChangeSearch($event)"
+>
+  <app-base-table
+    [dataSource]="dataSourceHoaDon"
+    [DisplayedColumns]="displayedColumns"
+    [ListColumnDef]="ListColumnDef"
+    (_showDetailData)="openDialogAddAndUpdate($event)"
+    (_isSelectData)="isSelectData($event)"
+    (_selectData)="addDataSelect($event)"
+    (_deleteData)="deleteData($event)"
+    (_clickLinkField)="moveToDetailHoaDon($event)"
+  ></app-base-table>
+</app-template-index>
