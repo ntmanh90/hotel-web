@@ -1,0 +1,11 @@
+.cdk-overlay-container {
+    position: fixed !important;
+    z-index: 9999999999 !important; /* set value you need */
+  }
+  .form-control-edit .mat-form-field-flex{
+    background: #ffffff;
+    border: 1px solid #E4E6EF;
+  }
+  .form-control-edit{
+    width: 100%;
+  }

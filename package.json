@@ -30,6 +30,8 @@
     "angular-in-memory-web-api": "^0.11.0",
     "apexcharts": "^3.20.0",
     "bootstrap": "^4.5.0",
+    "ckeditor4": "^4.15.1",
+    "ckeditor4-angular": "^2.0.1",
     "clipboard": "^2.0.6",
     "highlight.js": "^9.17.1",
     "moment": "^2.27.0",

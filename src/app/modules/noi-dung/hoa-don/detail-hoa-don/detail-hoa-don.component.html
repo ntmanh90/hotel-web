@@ -1,0 +1,89 @@
+<app-template-detail-index [titleCard]="'Chi tiết hóa đơn'">
+  <table class="table table-bordered">
+    <thead>
+      <th colspan="2" class="table-primary">{{ titleHoaDon }}</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row" class="text-right">Code:</th>
+        <td>{{ _detailHoaDon?.maHoaDon }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Họ và tên:</th>
+        <td>{{ _detailHoaDon?.hoTen }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Email:</th>
+        <td>{{ _detailHoaDon?.email }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Ngày tạo:</th>
+        <td>{{ _detailHoaDon?.thoiGianDen }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Thời gian đến:</th>
+        <td>{{ _detailHoaDon?.thoiGianDen }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Deposit:</th>
+        <td>{{ _detailHoaDon?.soTienThanhToan }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Link:</th>
+        <td>{{ _detailHoaDon?.link }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Phản hồi:</th>
+        <td>
+          <span
+            [ngClass]="
+              _detailHoaDon?.daPhanHoi ? 'text-danger' : 'text-success'
+            "
+          >
+            {{
+              _detailHoaDon?.daPhanHoi ? "Đã phản hồi" : "Chưa phản hồi"
+            }}</span
+          >
+        </td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Trạng thái:</th>
+        <td>
+          <span
+            [ngClass]="
+              _detailHoaDon?.daThanhToan ? 'text-danger' : 'text-success'
+            "
+            >{{
+              _detailHoaDon?.daThanhToan ? "Đã thanh toán" : "Chưa thanh toán"
+            }}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Name of card:</th>
+        <td>{{ _detailHoaDon?.HoTenChuThe }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Credit card number</th>
+        <td>{{ _detailHoaDon?.SoThe }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Card security code:</th>
+        <td>{{ _detailHoaDon?.MaBaoMatCuaThe }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Expiry code:</th>
+        <td>{{ _detailHoaDon?.NgayHetHan }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-right">Cập nhập thanh toán:</th>
+        <td>
+          <button type="button" class="btn btn-success">
+            Thanh toán thành công
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="backToHoaDonList($event)" class="btn btn-primary text-center">Quay lại danh sách hóa đơn</button>
+</app-template-detail-index>

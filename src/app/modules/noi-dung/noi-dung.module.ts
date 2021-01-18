@@ -20,6 +20,10 @@ import { TemplateModule } from "../shares/template/template.module";
 import { ValidationModule } from "../shares/validation/validation.module";
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
+import { HoaDonComponent } from "./hoa-don/hoa-don.component";
+import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
+import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
+import { CKEditorModule } from "ckeditor4-angular";
 
 @NgModule({
   imports: [
@@ -35,6 +39,7 @@ import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-kh
     TableModule,
     TemplateModule,
     ValidationModule,
+    CKEditorModule
   ],
   declarations: [
     NoiDungComponent,
@@ -43,7 +48,10 @@ import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-kh
     DichVuComponent,
     ChiTietDichVuComponent,
     KhuyenMaiComponent,
-    DialogChiTietKhuyenMaiComponent
+    DialogChiTietKhuyenMaiComponent,
+    HoaDonComponent,
+    DialogCreateUpdateHoaDonComponent,
+    DetailHoaDonComponent
   ],
 })
 export class NoiDungModule {}
