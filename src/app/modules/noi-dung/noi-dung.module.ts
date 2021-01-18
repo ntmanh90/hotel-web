@@ -7,6 +7,7 @@ import { InlineSVGModule } from "ng-inline-svg";
 import {
   NgbDatepickerModule,
   NgbModalModule,
+  NgbModule
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { NoiDungComponent } from "./noi-dung.component";
@@ -20,10 +21,12 @@ import { TemplateModule } from "../shares/template/template.module";
 import { ValidationModule } from "../shares/validation/validation.module";
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
+import { DatDichVuComponent } from "./dat-dich-vu/dat-dich-vu.component";
 
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -43,7 +46,8 @@ import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-kh
     DichVuComponent,
     ChiTietDichVuComponent,
     KhuyenMaiComponent,
-    DialogChiTietKhuyenMaiComponent
+    DialogChiTietKhuyenMaiComponent,
+    DatDichVuComponent
   ],
 })
 export class NoiDungModule {}

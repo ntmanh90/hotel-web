@@ -1,0 +1,37 @@
+.example-form-field {
+    margin: 0 8px 16px 0;
+  }
+
+  .bgr-container{
+      background-color: #ffffff;
+      padding: 15px;
+  }
+  .server-list
+  .table {
+    table-layout:fixed;
+    td{
+        overflow: hidden;
+    }
+    td:nth-child(1) {
+        width: 25%;
+    }
+    td:nth-child(2) {
+        width: 60%;
+    }
+    td:nth-child(3) {
+        width: 15%;
+    }
+  }
+
+
+  .text-input{
+    margin-left: 5px;
+  }
+
+  .card{
+    border: none;
+    margin-bottom: 10px;
+    .card-body{
+        padding: 0;
+    }
+  }
