@@ -23,6 +23,8 @@ import { ValidationModule } from "../shares/validation/validation.module";
 import { PhongGiaComponent } from './phong-gia/phong-gia.component';
 import { DialogCaiDatGiaPhongComponent } from './phong-gia/dialog-cai-dat-gia-phong/dialog-cai-dat-gia-phong.component';
 import { DialogDongMoPhongComponent } from './phong-gia/dialog-dong-mo-phong/dialog-dong-mo-phong.component';
+import { ListDateBookRoomComponent } from './phong-gia/list-date-book-room/list-date-book-room.component';
+import { DateBookRoomComponent } from './phong-gia/date-book-room/date-book-room.component';
 
 @NgModule({
   imports: [
@@ -48,6 +50,8 @@ import { DialogDongMoPhongComponent } from './phong-gia/dialog-dong-mo-phong/dia
     PhongGiaComponent,
     DialogCaiDatGiaPhongComponent,
     DialogDongMoPhongComponent,
+    ListDateBookRoomComponent,
+    DateBookRoomComponent,
   ]
 })
 export class NoiDungModule {}

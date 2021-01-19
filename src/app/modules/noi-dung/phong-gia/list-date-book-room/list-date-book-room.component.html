@@ -1,0 +1,70 @@
+<ng-container >
+    <div class="row">
+        <div class="col-md-6 label-icon">
+            <label>
+                <span class="material-icons green">
+                    brightness_1
+                </span>
+                <span class="text">ở bán</span>
+            </label>
+            <label>
+                <span class="material-icons red">
+                    brightness_1
+                </span>
+                <span class="text">Đóng</span></label>
+            <label>
+                <span class="material-icons yellow">
+                    brightness_1
+                </span>
+                <span class="text">Không phòng/giá</span></label>
+        </div>
+        <div class="col-md-6">
+            <div class="row justify-content-end btn-right">
+                <button mat-flat-button color="warn" (click)="openDialogDatPhong($event)">Đóng phòng</button>
+                <button mat-flat-button color="primary" (click)="openDialogDatPhong($event)">Mở phòng</button>
+            </div>
+           
+        </div>
+    </div>
+</ng-container>
+<ng-container>
+    <div>
+        <div>
+            <h4>Garden bungalow (GB)</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-1lg">
+                <table class="table table-bordered my-th-table">
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Trạng thái phòng</td>
+                    </tr>
+                    <tr>
+                        <td>Phòng để bàn 
+                            <button mat-flat-button color="primary" (click)="openDialog($event)">Chỉnh sửa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Giá cài đặt
+                            <button mat-flat-button color="primary" (click)="openDialog($event)">Chỉnh sửa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Opening Month (giá cài đặt 10%)</td>
+                    </tr>
+                    <tr>
+                        <td>Promotion Test 1 (Giá cài đặt - 0%)</td>
+                    </tr>
+                    <tr>
+                        <td>Base Promotion (Giá cài đặt - 15%)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-9 col-2lg">
+                <app-date-book-room></app-date-book-room>
+            </div>
+        </div>
+    </div>
+</ng-container>

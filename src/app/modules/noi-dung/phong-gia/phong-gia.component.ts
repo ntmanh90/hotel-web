@@ -36,23 +36,7 @@ export class PhongGiaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public openDialog(event) {
 
-    const dialogRef = this.dialog.open(DialogCaiDatGiaPhongComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  public openDialogDatPhong(event) {
-
-    const dialogRef = this.dialog.open(DialogDongMoPhongComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
 
 
 }
