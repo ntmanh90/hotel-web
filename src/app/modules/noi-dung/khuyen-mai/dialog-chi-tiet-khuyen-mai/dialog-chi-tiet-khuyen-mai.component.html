@@ -44,7 +44,7 @@
         >
           <option [value]="'0'">Nhập số ngày lưu trú tổi thiểu</option>
           <option *ngFor="let item of listDataNumberOfDate" [value]="item">
-            {{item} Ngày
+            {{ item }} Ngày
           </option>
         </select>
 
@@ -335,6 +335,7 @@
           <input
             class="form-check-input"
             type="checkbox"
+            [checked]="_detailKhuyenMai.tatCaNgayTrongTuan"
             [value]="true"
             formControlName="tatCaNgayTrongTuan"
           />
@@ -347,6 +348,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.thuHai"
             formControlName="thuHai"
           />
           <label class="form-check-label" for="flexCheckDefault">
@@ -358,6 +360,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.thuBa"
             formControlName="thuBa"
           />
           <label class="form-check-label" for="flexCheckDefault">
@@ -368,6 +371,7 @@
           <input
             class="form-check-input"
             type="checkbox"
+            [checked]="_detailKhuyenMai.thuTu"
             [value]="true"
             formControlName="thuTu"
           />
@@ -380,6 +384,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.thuNam"
             formControlName="thuNam"
           />
           <label class="form-check-label" for="flexCheckDefault">
@@ -391,6 +396,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.thuSau"
             formControlName="thuSau"
           />
           <label class="form-check-label" for="flexCheckDefault">
@@ -402,6 +408,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.thuBay"
             formControlName="thuBay"
           />
           <label class="form-check-label" for="flexCheckDefault">
@@ -413,6 +420,7 @@
             class="form-check-input"
             type="checkbox"
             [value]="true"
+            [checked]="_detailKhuyenMai.chuNhat"
             formControlName="chuNhat"
           />
           <label class="form-check-label" for="flexCheckDefault">

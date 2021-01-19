@@ -72,6 +72,24 @@ export class KhuyenMaiService extends BaseService {
       )
       .pipe(catchError(this.handleErrorS));
   }
+  public put_Sua_KhuyenMai(
+    khuyenMai: CreateEditKhuyenMaiModel
+  ): Observable<CreateEditKhuyenMaiModel> {
+    return this.http
+      .put(`${this.API_URL}/sua`, khuyenMai, this.httpOptions)
+      .pipe(
+        tap((x: CreateEditKhuyenMaiModel) =>
+          this.log(
+            `Sửa ${this._tieuDe} thành công id = ${khuyenMai.tenKhuyenMaiDatPhong}`
+          )
+        ),
+        catchError(
+          this.handleError<CreateEditKhuyenMaiModel>(
+            `Sửa ${this._tieuDe} Error!`
+          )
+        )
+      );
+  }
   /**
    * Handle Http operation that failed.
    * Let the app continue.

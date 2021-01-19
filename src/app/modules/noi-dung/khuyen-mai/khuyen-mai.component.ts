@@ -160,7 +160,7 @@ export class KhuyenMaiComponent implements OnInit {
     this.listSelect = listSelect;
   }
   public deleteData(row) {
-    this.deleteOne(row.iD_DichVu);
+    this.deleteOne(row.iD_KhuyenMaiDatPhong);
   }
   private deleteOne(id: number) {
     var sb = this.khuyenMaiService
