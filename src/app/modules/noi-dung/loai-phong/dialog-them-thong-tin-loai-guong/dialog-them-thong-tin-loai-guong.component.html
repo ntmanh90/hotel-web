@@ -1,0 +1,55 @@
+<form [formGroup]="formData" class="form form-label-right needs-validation">
+  <div class="row">
+    <div class="col md-12 ml-5 mb-5 mr-5 mt-5">
+      <div class="mb-3">
+        <label for="iD_LoaiGiuong" class="form-label">Chọn gường: </label>
+        <select
+          class="form-select form-control"
+          id="iD_LoaiGiuong"
+          [class.is-invalid]="validation.isControlInvalid('iD_LoaiGiuong')"
+          [class.is-valid]="validation.isControlValid('iD_LoaiGiuong')"
+          placeholder="Chọn gường"
+          [(ngModel)]="modelLoaiGuong"
+          formControlName="iD_LoaiGiuong"
+        >
+          <option
+            *ngFor="let loaiGuong of listLoaiGiuong"
+            [ngValue]="loaiGuong.iD_LoaiGiuong"
+          >
+            {{ loaiGuong.tieuDe }}
+          </option>
+        </select>
+        <span
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'iD_LoaiGiuong')"
+        >
+          Chọn loại gường
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="soluong" class="form-label">Nhập số lượng : </label>
+        <input
+          type="number"
+          class="form-control"
+          id="soluong"
+          formControlName="soluong"
+          [(ngModel)]="modelSoluong"
+          placeholder="Nhập số lượng"
+          [class.is-invalid]="validation.isControlInvalid('soluong')"
+          [class.is-valid]="validation.isControlValid('soluong')"
+        />
+        <span
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'soluong')"
+        >
+          Nhập số lượng lớn hơn 0 và bé hơn 100
+        </span>
+      </div>
+    </div>
+    <div class="col-md-12 text-center mb-5">
+      <button class="btn btn-primary" (click)="saveDataAndCloseDialog($event)">
+        Lưu thông tin
+      </button>
+    </div>
+  </div>
+</form>

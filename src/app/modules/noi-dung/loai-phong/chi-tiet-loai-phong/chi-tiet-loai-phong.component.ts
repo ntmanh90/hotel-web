@@ -1,235 +1,274 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NgbActiveModal, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { of, Subscription } from 'rxjs';
-import { catchError, first } from 'rxjs/operators';
-import { bgCSS } from 'src/app/modules/shares/_models/bgCss.model';
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { of, Subscription } from "rxjs";
+import { bgCSS } from "src/app/modules/shares/_models/bgCss.model";
 
-
-import { LoaiPhong } from '../../_models/loai-phong.model';
-import { LoaiPhongService } from '../../_services/loai-phong.service';
-import { CommonService } from '../../_services/common.service';
-import { HuongNhin } from '../../_models/huong-nhin.model';
-import { LoaiGiuong } from '../../_models/loai-giuong.model';
-import { SoNguoiToiDa } from '../../_models/so-nguoi-toi-da.model';
-import { TienIch } from '../../_models/tien-ich.model';
-
-const emptyLoaiPhong: LoaiPhong = {
-  anhDaiDien: '',
-  createBy: '',
-  createDate: undefined,
-  iD_LoaiPhong: undefined,
-  kichThuoc: 0,
-  maLoaiPhong: '',
-  modifyBy: '',
-  modifyDate: undefined,
-  tenLoaiPhong: '',
-  id_HuongNhin: undefined,
-  id_SoNguoiToiDa: 0,
-  trangThai: true,
-  nN_ObjectRequests: [],
-  loaiPhong_Gallery_Requests: [],
-  loaiPhong_LoaiGiuong_Request: [],
-  loaiPhong_TienIch_Request: []
-
-};
-
+import {
+  LoaiPhong,
+  LoaiPhong_Gallery_Requests,
+  LoaiPhong_LoaiGiuong_Requests,
+  LoaiPhong_TienIch_Requests,
+  nN_LoaiPhongRequests,
+} from "../../_models/loai-phong.model";
+import { LoaiPhongService } from "../../_services/loai-phong.service";
+import { CommonService } from "../../_services/common.service";
+import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
+import { HuongNhin } from "../../_models/huong-nhin.model";
+import { MatTableDataSource } from "@angular/material/table";
+import { DialogThemThongTinLoaiGuongComponent } from "../dialog-them-thong-tin-loai-guong/dialog-them-thong-tin-loai-guong.component";
+import { DialogThemTienIchComponent } from "../dialog-them-tien-ich/dialog-them-tien-ich.component";
 @Component({
-  selector: 'app-chi-tiet-loai-phong',
-  templateUrl: './chi-tiet-loai-phong.component.html',
-  styleUrls: ['./chi-tiet-loai-phong.component.scss']
+  selector: "app-chi-tiet-loai-phong",
+  templateUrl: "./chi-tiet-loai-phong.component.html",
+  styleUrls: ["./chi-tiet-loai-phong.component.scss"],
 })
-
-
 export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
-
-  @Input() id: number;
-  tieuDe = 'loại phòng'
-  isLoading$;
-  loaiPhong: LoaiPhong;
-  formData: FormGroup;
-  tenTrangThai = 'Hoạt động';
-  private subscriptions: Subscription[] = [];
   bgcss = new bgCSS();
-  loaiGiuongs = [];
-  soNguoiToiDas = [];
-  tienIchs = [];
-  huongNhins : HuongNhin[];
-
+  formData: FormGroup;
+  private subscriptions: Subscription[] = [];
+  public titleDialog = "";
+  public _detailLoaiPhong: LoaiPhong;
+  public validation: ValidationComponent;
+  public listDataHuongNhin: HuongNhin[] = [];
+  public listLoaiGuong: nN_LoaiPhongRequests[] = [];
+  public listTienIch: LoaiPhong_TienIch_Requests[] = [];
+  public listSoNguoiToiDa: any[] = [];
+  public dataSourceLanguage: any = new MatTableDataSource();
+  private listLoaiNgonNguRequest: LoaiPhong_LoaiGiuong_Requests[] = [];
+  public loaiPhong_Gallery_Requests: LoaiPhong_Gallery_Requests[] = [
+    { url_Gallery: "fsfkdhs" },
+  ];
+  public ListColumnDef = [
+    { id: 0, field: "index", title: "Số thứ tự" },
+    { id: 1, field: "tenNgonNgu", title: "Ngôn ngữ" },
+    {
+      id: 2,
+      field: "tenLoaiPhongTheoNgonNgu",
+      title: "Tên loại phòng theo ngôn ngữ",
+      type: 1,
+    },
+  ];
+  public displayedColumns = ["index", "tenNgonNgu", "tenLoaiPhongTheoNgonNgu"];
   constructor(
     private loaiPhongService: LoaiPhongService,
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private commonservice: CommonService,
     private _snackBar: MatSnackBar,
-  ) { }
-
-  loadForm() {
+    private subModalService: NgbModal
+  ) {
+    for (let index = 1; index < 11; index++) {
+      this.listSoNguoiToiDa.push({
+        id: index,
+        name: index + "",
+      });
+    }
+  }
+  public set data(value: LoaiPhong) {
+    this._detailLoaiPhong = value;
+    if (value.iD_LoaiPhong === 0) {
+      //create
+      this.titleDialog = "Thêm mới dịch vụ";
+      this.loadFormData();
+      this.loadDataNeedForLoaiPhong();
+    } else {
+      //update
+      this.titleDialog = "Chỉnh sửa loại phòng" + value.tenLoaiPhong + "";
+      //load Detail Data
+      this.loadDetailData(this._detailLoaiPhong.iD_LoaiPhong);
+    }
+  }
+  private loadDetailData(id: number) {
+    this.loadDataNeedForLoaiPhong();
+    this.loadFormData();
+    const subLoadDetail = this.loaiPhongService
+      .get_ChiTiet_LoaiPhong(id)
+      .subscribe((res) => {
+        console.log(res);
+        this._detailLoaiPhong = res;
+      });
+    this.subscriptions.push(subLoadDetail);
+  }
+  private loadFormData() {
     this.formData = this.fb.group({
-      tenLoaiPhong: [this.loaiPhong.tenLoaiPhong, Validators.compose([Validators.required])],
-      anhDaiDien: [this.loaiPhong.anhDaiDien, Validators.compose([Validators.required])],
-      kichThuoc: [this.loaiPhong.kichThuoc, Validators.compose([Validators.required])],
-      id_HuongNhin: [this.loaiPhong.id_HuongNhin, Validators.compose([Validators.required])],
-      id_SoNguoiToiDa: [this.loaiPhong.id_SoNguoiToiDa, Validators.compose([Validators.required])],
-      trangThai: [this.loaiPhong.trangThai],
+      tenLoaiPhong: [
+        this._detailLoaiPhong.tenLoaiPhong,
+        Validators.compose([Validators.required]),
+      ],
+      anhDaiDien: [
+        this._detailLoaiPhong.anhDaiDien,
+        Validators.compose([Validators.required]),
+      ],
+      kichThuoc: [
+        this._detailLoaiPhong.kichThuoc,
+        Validators.compose([Validators.required]),
+      ],
+      iD_HuongNhin: [
+        this._detailLoaiPhong.iD_HuongNhin,
+        Validators.compose([Validators.required]),
+      ],
+      treEm: [
+        this._detailLoaiPhong.treEm,
+        Validators.compose([Validators.required, Validators.min(0)]),
+      ],
+      nguoiLon: [
+        this._detailLoaiPhong.nguoiLon,
+        Validators.compose([Validators.required, Validators.min(0)]),
+      ],
+      index: [this._detailLoaiPhong.index],
+      maLoaiPhong: [this._detailLoaiPhong.maLoaiPhong],
+      trangThai: [this._detailLoaiPhong.trangThai],
     });
-
+    this.validation = new ValidationComponent(this.formData);
   }
 
-  loadData() {
-    const sb = this.loaiPhongService.get_ChiTiet_LoaiPhong(this.id).pipe(
-      first(),
-      catchError((errorMessage) => {
-        this.modal.dismiss(errorMessage);
-        return of(emptyLoaiPhong);
-      })
-    ).subscribe((data: LoaiPhong) => {
-      this.loaiPhong = data;
-      console.log(this.loaiPhong);
-
-      const sbHN = this.commonservice.get_All_HuongNhin().subscribe((data: HuongNhin[]) => {
-        this.huongNhins = data;
-        console.log(this.huongNhins);
+  private loadDataNeedForLoaiPhong() {
+    const sbHN = this.commonservice
+      .get_All_HuongNhin()
+      .subscribe((data: HuongNhin[]) => {
+        this.listDataHuongNhin = data;
       });
-      this.subscriptions.push(sbHN);
-  
-      const sbLG = this.commonservice.get_All_LoaiGiuong().subscribe((data: LoaiGiuong[]) => {
-        this.loaiGiuongs = data;
+    this.subscriptions.push(sbHN);
+    const sbNN = this.commonservice
+      .get_DanhSachNgonNgu()
+      .subscribe((data: any[]) => {
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          this.listLoaiNgonNguRequest.push({
+            index: index + 1,
+            iD_NgonNgu: element.iD_NgonNgu,
+            tenNgonNgu: element.tieuDe,
+            tenLoaiPhongTheoNgonNgu: "",
+          });
+        }
+        this.dataSourceLanguage.data = this.listLoaiNgonNguRequest;
       });
-      this.subscriptions.push(sbLG);
-  
-      const sbSNTD = this.commonservice.get_All_SoNguoiToiDa().subscribe((data: SoNguoiToiDa[]) => {
-        this.soNguoiToiDas = data;
-      });
-      this.subscriptions.push(sbSNTD);
-  
-      const sbTI = this.commonservice.get_All_TienIch().subscribe((data: TienIch[]) => {
-        this.tienIchs = data;
-      });
-      this.subscriptions.push(sbTI);
-
-      this.loadForm();
-    });
-    this.subscriptions.push(sb);
-
+    this.subscriptions.push(sbNN);
   }
-
+  public openDialogAddNewTypeRoom(event) {
+    const modalRef = this.subModalService.open(
+      DialogThemThongTinLoaiGuongComponent,
+      { size: "sm" }
+    );
+    modalRef.closed.subscribe((res) => {
+      this.addThongTinLoaiGuong(res);
+    });
+  }
+  public OpenDialogThemTienIch(event) {
+    const modalRef = this.subModalService.open(DialogThemTienIchComponent, {
+      size: "lg",
+    });
+    modalRef.closed.subscribe((res) => {
+      this.addTienIchInArray(res);
+    });
+  }
+  private addThongTinLoaiGuong(res: nN_LoaiPhongRequests) {
+    let checkAdd = true;
+    for (let index = 0; index < this.listLoaiGuong.length; index++) {
+      let element = this.listLoaiGuong[index];
+      if (element.iD_LoaiGiuong === res.iD_LoaiGiuong) {
+        element.soLuong += res.soLuong;
+        checkAdd = false;
+        break;
+      }
+    }
+    if (checkAdd) {
+      this.listLoaiGuong.push(res);
+    }
+  }
+  private addTienIchInArray(res) {
+    this.listTienIch = res;
+  }
+  public UpdateData(res: { value: any; row: any; field: string }) {
+    for (let index = 0; index < this.listLoaiNgonNguRequest.length; index++) {
+      let element: any = this.listLoaiNgonNguRequest[index];
+      if (element.iD_NgonNgu === res.row.iD_NgonNgu) {
+        element[res.field] = res.value;
+        break;
+      }
+    }
+  }
   //gán dữ liệu từ formData vào Object
   private prepareCustomer() {
     const formValue = this.formData.value;
-    this.loaiPhong.tenLoaiPhong = formValue.tenLoaiPhong;
-    this.loaiPhong.anhDaiDien = formValue.anhDaiDien;
-    this.loaiPhong.kichThuoc = formValue.kichThuoc;
-    this.loaiPhong.id_HuongNhin = formValue.id_HuongNhin;
-    this.loaiPhong.id_SoNguoiToiDa = formValue.id_SoNguoiToiDa;
-    this.loaiPhong.trangThai = formValue.trangThai;
+    this._detailLoaiPhong.tenLoaiPhong = formValue.tenLoaiPhong;
+    this._detailLoaiPhong.anhDaiDien = formValue.anhDaiDien;
+    this._detailLoaiPhong.kichThuoc = formValue.kichThuoc;
+    this._detailLoaiPhong.iD_HuongNhin = Number(formValue.iD_HuongNhin);
+    this._detailLoaiPhong.nguoiLon = Number(formValue.nguoiLon);
+    this._detailLoaiPhong.treEm = Number(formValue.treEm);
+    this._detailLoaiPhong.maLoaiPhong = formValue.maLoaiPhong;
+    this._detailLoaiPhong.trangThai = formValue.trangThai;
+    this._detailLoaiPhong.loaiPhong_LoaiGiuong_Requests = this.listLoaiNgonNguRequest;
+    this._detailLoaiPhong.loaiPhong_Gallery_Requests = this.loaiPhong_Gallery_Requests;
+    this._detailLoaiPhong.loaiPhong_TienIch_Requests = this.listTienIch;
+    this._detailLoaiPhong.nN_LoaiPhongRequests = this.listLoaiGuong;
   }
-  resetObject() {
-    emptyLoaiPhong.anhDaiDien = '',
-      emptyLoaiPhong.createBy = '',
-      emptyLoaiPhong.createDate = undefined,
-      emptyLoaiPhong.iD_LoaiPhong = undefined,
-      emptyLoaiPhong.kichThuoc = 0,
-      emptyLoaiPhong.maLoaiPhong = '',
-      emptyLoaiPhong.modifyBy = '',
-      emptyLoaiPhong.modifyDate = undefined,
-      emptyLoaiPhong.tenLoaiPhong = '',
-      emptyLoaiPhong.id_HuongNhin = undefined,
-      emptyLoaiPhong.id_SoNguoiToiDa = 0,
-      emptyLoaiPhong.trangThai = true,
-      emptyLoaiPhong.nN_ObjectRequests = [],
-      emptyLoaiPhong.loaiPhong_Gallery_Requests = [],
-      emptyLoaiPhong.loaiPhong_LoaiGiuong_Request = [],
-      emptyLoaiPhong.loaiPhong_TienIch_Request = []
-  }
-
-  save() {
+  public closeDialogSaveData(event) {
     this.prepareCustomer();
-    if (this.loaiPhong.iD_LoaiPhong) {
-      this.edit();
+    if (this._detailLoaiPhong.iD_LoaiPhong !== 0) {
+      this.editLoaiPhong();
     } else {
-      this.create();
+      this.createLoaiPhong();
     }
   }
 
-  edit() {
-    const sbUpdate = this.loaiPhongService.put_Sua_LoaiPhong(this.loaiPhong).subscribe((res: LoaiPhong) => {
-      this.loaiPhong = res;
-      if (this.loaiPhong.iD_LoaiPhong > 0) {
-        this.modal.dismiss(`Cập nhật ${this.tieuDe}: ${this.loaiPhong.tenLoaiPhong}`);
-        this.resetObject();
-        return of(this.loaiPhong);
-      }
-    }
-      , error => {
-        this.openSnackBar(error, this.bgcss.Error)
-      });
+  private editLoaiPhong() {
+    const sbUpdate = this.loaiPhongService
+      .put_Sua_LoaiPhong(this._detailLoaiPhong)
+      .subscribe(
+        (res: LoaiPhong) => {
+          this._detailLoaiPhong = res;
+          if (this._detailLoaiPhong.iD_LoaiPhong > 0) {
+            this.modal.dismiss(
+              `Cập nhật loại phòng: ${this._detailLoaiPhong.tenLoaiPhong}`
+            );
+            return of(this._detailLoaiPhong);
+          }
+        },
+        (error) => {
+          this.openSnackBar(error, this.bgcss.Error);
+        }
+      );
     this.subscriptions.push(sbUpdate);
   }
-
-  create() {
-    const sbCreate = this.loaiPhongService.post_Them_LoaiPhong(this.loaiPhong)
-      .subscribe((res: LoaiPhong) => {
-        this.loaiPhong = res;
-        if (this.loaiPhong) {
-          this.modal.dismiss(`Thêm mới ${this.tieuDe}: ${this.loaiPhong.tenLoaiPhong}`);
-          this.resetObject();
-          return of(this.loaiPhong);
+  public closeDialogNotSaveData(event) {
+    this.modal.close(event);
+  }
+  private createLoaiPhong() {
+    const sbCreate = this.loaiPhongService
+      .post_Them_LoaiPhong(this._detailLoaiPhong)
+      .subscribe(
+        (res: LoaiPhong) => {
+          this._detailLoaiPhong = res;
+          if (this._detailLoaiPhong) {
+            this.modal.dismiss(
+              `Thêm mới Loại phòng: ${this._detailLoaiPhong.tenLoaiPhong}`
+            );
+            return of(this._detailLoaiPhong);
+          }
+        },
+        (error) => {
+          this.openSnackBar(error, this.bgcss.Error);
         }
-      }, error => {
-        this.openSnackBar(error, this.bgcss.Error);
-      });
-
+      );
     this.subscriptions.push(sbCreate);
   }
 
-  ngOnInit() {
-    this.isLoading$ = this.loaiPhongService.isLoading$;
-    this.loadData();
-  }
+  ngOnInit() {}
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sb => sb.unsubscribe());
-  }
-
-  getTenTrangThai(): void {
-    if (this.formData.value.trangThai)
-      this.tenTrangThai = "Hoạt động";
-    else
-      this.tenTrangThai = "Khóa";
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 
   openSnackBar(action, bgCss) {
-    this._snackBar.open(action, 'x', {
+    this._snackBar.open(action, "x", {
       duration: 2500,
       panelClass: [bgCss],
-      horizontalPosition: 'right',
-      verticalPosition: 'bottom',
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
     });
   }
-
-  // helpers for View
-  isControlValid(controlName: string): boolean {
-    const control = this.formData.controls[controlName];
-    return control.valid && (control.dirty || control.touched);
-  }
-
-  isControlInvalid(controlName: string): boolean {
-    const control = this.formData.controls[controlName];
-    return control.invalid && (control.dirty || control.touched);
-  }
-
-  controlHasError(validation, controlName): boolean {
-    const control = this.formData.controls[controlName];
-    return control.hasError(validation) && (control.dirty || control.touched);
-  }
-
-  isControlTouched(controlName): boolean {
-    const control = this.formData.controls[controlName];
-    debugger
-    return control.dirty || control.touched;
-  }
-
 }

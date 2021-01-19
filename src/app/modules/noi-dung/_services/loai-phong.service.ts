@@ -20,11 +20,11 @@ import { LoaiPhong } from '../_models/loai-phong.model';
 })
 export class LoaiPhongService extends BaseService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
-   _tieuDe = "loại phòng"
-  cur_service = 'LoaiPhongService';
-  API_URL = `${environment.apiUrl}/loaiphong`;
+  private _tieuDe = "loại phòng"
+  private cur_service = 'LoaiPhongService';
+  private API_URL = `${environment.apiUrl}/loaiphong`;
 
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
