@@ -6,6 +6,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
+import { bgCSS } from "../../shares/_models/bgCss.model";
 import { CreateUpdateHoaDonModel } from "../_models/create-update-hoa-don.model";
 import { HoaDonService } from "../_services/hoa-don.service";
 import { DialogCreateUpdateHoaDonComponent } from "./dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
@@ -68,6 +70,7 @@ export class HoaDonComponent implements OnInit {
   public isHiddenButtonDeleteAll: boolean = true;
   private listSelect = [];
   private listData = [];
+  private bgcss = new bgCSS();
   constructor(
     private modalService: NgbModal,
     private _snackBar: MatSnackBar,
@@ -85,8 +88,8 @@ export class HoaDonComponent implements OnInit {
     if (!isNaN(event)) {
       data = {
         iD_HoaDon: event,
-        kyHieuNgonNgu: undefined,
-        iD_HinhThucThanhToan: undefined,
+        kyHieuNgonNgu: "-1",
+        iD_HinhThucThanhToan: -1,
         gioiTinh: undefined,
         hoTen: undefined,
         email: undefined,
@@ -119,12 +122,69 @@ export class HoaDonComponent implements OnInit {
   public addDataSelect(listSelect) {
     this.listSelect = listSelect;
   }
-  public deleteData(event) {}
+  public deleteData(row) {
+    this.deleteOne(row.iD_HoaDon);
+  }
+  private deleteOne(id: number) {
+    var sb = this.hoaDonService.get_ChiTiet_HoaDon(id).subscribe((res: any) => {
+      if (res) {
+        const modalRef = this.modalService.open(XacNhanXoaComponent, {
+          size: "500",
+        });
+        modalRef.componentInstance.tieuDe = ` ${res.iD_HoaDon} `;
+        modalRef.result.then(
+          (data) => {
+            // on close
+          },
+          (reason) => {
+            // on dismiss
+            if (reason == "1") {
+              this.callDeleteRow(id, res.iD_HoaDon);
+            }
+          }
+        );
+      } else {
+        this.openSnackBar(`Dịch vụ không tồn tại!`, this.bgcss.Warning);
+      }
+    });
+    this.subscriptions.push(sb);
+  }
+  private callDeleteRow(id, iD_HoaDon, isDeleteMore = false) {
+    var sb = this.hoaDonService.get_xoa(id).subscribe((x: any) => {
+      if (x.kq) {
+        this.openSnackBar(`Xóa ${iD_HoaDon} thành công!`, this.bgcss.Success);
+        this.loadAllDataHoaDon();
+      }
+    });
+    if (!isDeleteMore) {
+      this.loadAllDataHoaDon();
+      this.isHiddenButtonDeleteAll = true;
+    }
+
+    this.subscriptions.push(sb);
+  }
+  public deleteAllData(event) {
+    for (let index = 0; index < this.listSelect.length; index++) {
+      const element = this.listSelect[index];
+      if(index+1 === this.listSelect.length){
+        this.callDeleteRow(element.iD_HoaDon, element.iD_HoaDon);
+      }else{
+        this.callDeleteRow(element.iD_HoaDon, element.iD_HoaDon, true);
+      }
+    }
+  }
+  private openSnackBar(action, bgCss) {
+    this._snackBar.open(action, "x", {
+      duration: 2500,
+      panelClass: [bgCss],
+      horizontalPosition: "right",
+      verticalPosition: "bottom",
+    });
+  }
   public moveToDetailHoaDon(element) {
     this.route.navigateByUrl("/noi-dung/hoadon/" + element.iD_HoaDon);
   }
   public onChangeSearch(event) {
-    console.log(event);
     this.dataSourceHoaDon.data = this.listData.filter((res) => {
       let check = false;
       if (
@@ -150,7 +210,6 @@ export class HoaDonComponent implements OnInit {
       if (event.feedBack !== undefined) {
         check = res.daPhanHoi === event.feedBack;
       }
-      console.log(check);
       return check;
     });
   }

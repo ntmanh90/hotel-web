@@ -40,6 +40,16 @@ export class HoaDonService extends BaseService {
         })
       );
   };
+  public get_DanhSachHinhThucThanhToan = (): Observable<any[]> => {
+    this.log(`${this.cur_service}: danh sách hình thức thanh toán ${this._tieuDe}`);
+    return this.http
+      .get<any[]>(`${this.API_URL}/hinh-thuc-thanh-toan`, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  };
   public get_ChiTiet_HoaDon(id: number): Observable<any> {
     return this.http
       .get(`${this.API_URL}/chi-tiet?id=${id}`, this.httpOptions)
@@ -71,6 +81,20 @@ export class HoaDonService extends BaseService {
         this.httpOptions
       )
       .pipe(catchError(this.handleErrorS));
+  }
+  public put_Sua_HoaDon(HoaDon: CreateUpdateHoaDonModel): Observable<CreateUpdateHoaDonModel> {
+    return this.http
+      .put(`${this.API_URL}/sua`, HoaDon, this.httpOptions)
+      .pipe(
+        tap((x: CreateUpdateHoaDonModel) =>
+          this.log(
+            `Sửa ${this._tieuDe} thành công id = ${HoaDon.iD_HoaDon}`
+          )
+        ),
+        catchError(
+          this.handleError<CreateUpdateHoaDonModel>(`Sửa ${this._tieuDe} Error!`)
+        )
+      );
   }
   /**
    * Handle Http operation that failed.
