@@ -1,0 +1,19 @@
+.server-list .table {
+    table-layout: fixed;
+
+    td {
+        overflow: hidden;
+    }
+
+    td:nth-child(1) {
+        width: 25%;
+    }
+
+    td:nth-child(2) {
+        width: 60%;
+    }
+
+    td:nth-child(3) {
+        width: 15%;
+    }
+}

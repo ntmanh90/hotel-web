@@ -22,6 +22,9 @@ import { ValidationModule } from "../shares/validation/validation.module";
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
 import { DatDichVuComponent } from "./dat-dich-vu/dat-dich-vu.component";
+import { PriceServiceComponent } from './dat-dich-vu/price-service/price-service.component';
+import { ListServiceComponent } from './dat-dich-vu/list-service/list-service.component';
+import { CollapseServiceComponent } from './dat-dich-vu/collapse-service/collapse-service.component';
 
 @NgModule({
   imports: [
@@ -47,7 +50,10 @@ import { DatDichVuComponent } from "./dat-dich-vu/dat-dich-vu.component";
     ChiTietDichVuComponent,
     KhuyenMaiComponent,
     DialogChiTietKhuyenMaiComponent,
-    DatDichVuComponent
+    DatDichVuComponent,
+    PriceServiceComponent,
+    ListServiceComponent,
+    CollapseServiceComponent
   ],
 })
 export class NoiDungModule {}
