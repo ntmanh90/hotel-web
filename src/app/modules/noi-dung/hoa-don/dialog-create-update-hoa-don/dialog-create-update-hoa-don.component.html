@@ -1,0 +1,209 @@
+<app-template-dialog
+  [titleDialog]="titleDialog"
+  (_closeDialogNotSaveData)="closeDialogNotSaveData($event)"
+  (_closeDialogSaveData)="closeDialogSaveData($event)"
+>
+  <form action="#" class="form form-label-right" [formGroup]="formData">
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Chọn hình thức thanh toán<span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <select
+          class="form-control"
+          name="iD_HinhThucThanhToan"
+          [class.is-invalid]="
+            validation.isControlInvalid('iD_HinhThucThanhToan')
+          "
+          [class.is-valid]="validation.isControlValid('iD_HinhThucThanhToan')"
+          formControlName="iD_HinhThucThanhToan"
+          [(ngModel)]="_detailHoaDon.iD_HinhThucThanhToan"
+        >
+          <option [value]="-1">Chọn hình thức thanh toán</option>
+          <option
+            *ngFor="let element of listHinhThucThanhToan"
+            [value]="element.key"
+          >
+            {{ element.value }}
+          </option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'iD_HinhThucThanhToan')"
+        >
+          Hình thức thanh toán
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Chọn ngôn ngữ <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <select
+          class="form-control"
+          name="kyHieuNgonNgu"
+          [class.is-invalid]="validation.isControlInvalid('kyHieuNgonNgu')"
+          [class.is-valid]="validation.isControlValid('kyHieuNgonNgu')"
+          formControlName="kyHieuNgonNgu"
+          [(ngModel)]="_detailHoaDon.kyHieuNgonNgu"
+        >
+          <option [value]="-1">Chọn ký hiệu ngôn ngữ</option>
+          <option *ngFor="let element of listNgonNgu" [value]="element.kyHieu">
+            {{ element.tieuDe }}
+          </option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'kyHieuNgonNgu')"
+        >
+          Chọn ngôn ngữ
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Giới tính <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="gioiTinh"
+          [class.is-invalid]="validation.isControlInvalid('gioiTinh')"
+          [class.is-valid]="validation.isControlValid('gioiTinh')"
+          name="gioiTinh"
+          placeholder="Nhập giới tính"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'gioiTinh')"
+        >
+          Chọn Giới tính
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Họ và tên <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="hoTen"
+          [class.is-invalid]="validation.isControlInvalid('hoTen')"
+          [class.is-valid]="validation.isControlValid('hoTen')"
+          name="hoTen"
+          placeholder="Nhập họa và tên"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'hoTen')"
+        >
+          Họ và tên
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Email <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [class.is-invalid]="validation.isControlInvalid('email')"
+          [class.is-valid]="validation.isControlValid('email')"
+          name="email"
+          placeholder="Nhập email"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'email')"
+        >
+          Nhập Email
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Deposit <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="soTienThanhToan"
+          [class.is-invalid]="validation.isControlInvalid('soTienThanhToan')"
+          [class.is-valid]="validation.isControlValid('soTienThanhToan')"
+          name="soTienThanhToan"
+          placeholder="Nhập deposit"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'soTienThanhToan')"
+        >
+          Nhập Deposit
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Thời gian đến <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <mat-form-field appearance="fill" class="form-control-edit">
+          <mat-label>Chọn ngày đến </mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="thoiGianDen"
+            name="thoiGianDen"
+            [class.is-invalid]="validation.isControlInvalid('thoiGianDen')"
+            [class.is-valid]="validation.isControlValid('thoiGianDen')"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #picker
+            startView="year"
+            [startAt]="startDate"
+          ></mat-datepicker>
+        </mat-form-field>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'thoiGianDen')"
+        >
+          Chọn thời gian đến
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Link hóa đơn
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="link"
+          name="link"
+          [(ngModel)]="_detailHoaDon.link"
+          placeholder="Nhập tên link hóa đơn"
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">
+        Mô tả <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-10">
+        <ckeditor [(data)]="editorData"> </ckeditor>
+      </div>
+    </div>
+  </form>
+</app-template-dialog>

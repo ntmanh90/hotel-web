@@ -1,0 +1,25 @@
+<app-template-index
+  [titleCard]="'Quản lý Khuyến Mãi'"
+  [isHiddenButtonDeleteAll]="isHiddenButtonDeleteAll"
+  (_openDialogChiTiet)="openDialogChiTietKhuyenMai(0)"
+  (_onChangeInputTimKiem)="applyFilter($event)"
+  (_deleteAllData)="deleteAllData($event)"
+>
+<button class="btn btn-primary" (click)="upload()">Upload button</button>
+<app-base-table
+    [dataSource]="dataSourceKhuyenMai"
+    [DisplayedColumns]="displayedColumns"
+    [ListColumnDef]="ListColumnDef"
+    (_showDetailData)="openDialogChiTietKhuyenMai($event)"
+    (_isSelectData)="isSelectData($event)"
+    (_selectData)="addDataSelect($event)"
+    (_deleteData)="deleteData($event)"
+  ></app-base-table>
+  <mat-paginator
+    [length]="100"
+    [pageSize]="15"
+    [pageSizeOptions]="[15, 20, 30]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</app-template-index>

@@ -6,16 +6,16 @@ import { environment } from "src/environments/environment";
 
 import { BaseService } from "../../shares/_services/base.service";
 import { catchError, map, tap } from "rxjs/operators";
-import { CreateEditDichVu } from "../_models/create-edit-dich-vu.model";
+import { CreateUpdateHoaDonModel } from "../_models/create-update-hoa-don.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class BaseDataService extends BaseService {
+export class HoaDonService extends BaseService {
   private _isLoading$ = new BehaviorSubject<boolean>(false);
-  private _tieuDe = "";
-  private cur_service = "";
-  private slat = "";
+  private _tieuDe = "HoaDon";
+  private cur_service = "HoaDonService";
+  private slat = "HoaDon";
   private API_URL = `${environment.apiUrl}/${this.slat}`;
 
   protected httpOptions = {
@@ -26,7 +26,7 @@ export class BaseDataService extends BaseService {
 
   constructor(
     protected http: HttpClient,
-    protected logMessageService: LogMessageService,
+    protected logMessageService: LogMessageService
   ) {
     super();
   }
@@ -39,8 +39,18 @@ export class BaseDataService extends BaseService {
           return data;
         })
       );
-  }
-  public get_ChiTiet_DichVu(id: number): Observable<any> {
+  };
+  public get_DanhSachHinhThucThanhToan = (): Observable<any[]> => {
+    this.log(`${this.cur_service}: danh sách hình thức thanh toán ${this._tieuDe}`);
+    return this.http
+      .get<any[]>(`${this.API_URL}/hinh-thuc-thanh-toan`, this.httpOptions)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  };
+  public get_ChiTiet_HoaDon(id: number): Observable<any> {
     return this.http
       .get(`${this.API_URL}/chi-tiet?id=${id}`, this.httpOptions)
       .pipe(
@@ -58,6 +68,31 @@ export class BaseDataService extends BaseService {
         }),
         catchError(
           this.handleError<any>(`Xóa ${this._tieuDe} thất bại id = ${id}`)
+        )
+      );
+  }
+  public post_Them_HoaDonLoaiPhong(
+    HoaDon: CreateUpdateHoaDonModel
+  ): Observable<CreateUpdateHoaDonModel> {
+    return this.http
+      .post<CreateUpdateHoaDonModel>(
+        `${this.API_URL}/them`,
+        HoaDon,
+        this.httpOptions
+      )
+      .pipe(catchError(this.handleErrorS));
+  }
+  public put_Sua_HoaDon(HoaDon: CreateUpdateHoaDonModel): Observable<CreateUpdateHoaDonModel> {
+    return this.http
+      .put(`${this.API_URL}/sua`, HoaDon, this.httpOptions)
+      .pipe(
+        tap((x: CreateUpdateHoaDonModel) =>
+          this.log(
+            `Sửa ${this._tieuDe} thành công id = ${HoaDon.iD_HoaDon}`
+          )
+        ),
+        catchError(
+          this.handleError<CreateUpdateHoaDonModel>(`Sửa ${this._tieuDe} Error!`)
         )
       );
   }

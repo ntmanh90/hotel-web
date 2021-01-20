@@ -25,6 +25,13 @@ import { DialogCaiDatGiaPhongComponent } from './phong-gia/dialog-cai-dat-gia-ph
 import { DialogDongMoPhongComponent } from './phong-gia/dialog-dong-mo-phong/dialog-dong-mo-phong.component';
 import { ListDateBookRoomComponent } from './phong-gia/list-date-book-room/list-date-book-room.component';
 import { DateBookRoomComponent } from './phong-gia/date-book-room/date-book-room.component';
+import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
+import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
+import { HoaDonComponent } from "./hoa-don/hoa-don.component";
+import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
+import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
+import { CKEditorModule } from "ckeditor4-angular";
+import { UploadFileModule } from "../shares/upload-file/upload-file.module";
 
 @NgModule({
   imports: [
@@ -40,6 +47,8 @@ import { DateBookRoomComponent } from './phong-gia/date-book-room/date-book-room
     TableModule,
     TemplateModule,
     ValidationModule,
+    CKEditorModule,
+    UploadFileModule
   ],
   declarations: [
     NoiDungComponent,
@@ -52,6 +61,11 @@ import { DateBookRoomComponent } from './phong-gia/date-book-room/date-book-room
     DialogDongMoPhongComponent,
     ListDateBookRoomComponent,
     DateBookRoomComponent,
-  ]
+    KhuyenMaiComponent,
+    DialogChiTietKhuyenMaiComponent,
+    HoaDonComponent,
+    DialogCreateUpdateHoaDonComponent,
+    DetailHoaDonComponent
+  ],
 })
 export class NoiDungModule {}

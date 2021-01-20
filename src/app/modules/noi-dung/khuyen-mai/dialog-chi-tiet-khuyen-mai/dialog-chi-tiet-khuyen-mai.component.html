@@ -1,0 +1,448 @@
+<app-template-dialog
+  [titleDialog]="titleDialog"
+  (_closeDialogNotSaveData)="closeDialogNotSaveData($event)"
+  (_closeDialogSaveData)="closeDialogSaveData($event)"
+>
+  <form action="#" class="form form-label-right" [formGroup]="formData">
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Tên khuyến mại <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="tenKhuyenMaiDatPhong"
+          [class.is-invalid]="
+            validation.isControlInvalid('tenKhuyenMaiDatPhong')
+          "
+          [class.is-valid]="validation.isControlValid('tenKhuyenMaiDatPhong')"
+          name="tenKhuyenMaiDatPhong"
+          placeholder="Nhập tên khuyến mại"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'tenKhuyenMaiDatPhong')"
+        >
+          Nhập tên khuyến mãi
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Số ngày lưu trú tối thiểu <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <select
+          class="form-control form-control-lg form-control-solid"
+          name="soNgayLuuTruToiThieu"
+          formControlName="soNgayLuuTruToiThieu"
+          [class.is-invalid]="
+            validation.isControlInvalid('soNgayLuuTruToiThieu')
+          "
+          [class.is-valid]="validation.isControlValid('soNgayLuuTruToiThieu')"
+        >
+          <option [value]="'0'">Nhập số ngày lưu trú tổi thiểu</option>
+          <option *ngFor="let item of listDataNumberOfDate" [value]="item">
+            {{ item }} Ngày
+          </option>
+        </select>
+
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'soNgayLuuTruToiThieu')"
+        >
+          Nhập số ngày lưu trú tổi thiểu
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Số ngày đặt trước tối thiểu <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <select
+          class="form-control form-control-lg form-control-solid"
+          name="soNgayDatTruoc"
+          formControlName="soNgayDatTruoc"
+          [class.is-invalid]="validation.isControlInvalid('soNgayDatTruoc')"
+          [class.is-valid]="validation.isControlValid('soNgayDatTruoc')"
+        >
+          <option [value]="'0'">Nhập số ngày đặt trước tối thiểu</option>
+          <option *ngFor="let item of this.listDataNumberOfDate" [value]="item">
+            {{ item }} Ngày
+          </option>
+        </select>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'soNgayDatTruoc')"
+        >
+          Nhập số ngày đặt trước tối thiểu
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Giá cộng thêm <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="giaCongThem"
+          [class.is-invalid]="validation.isControlInvalid('giaCongThem')"
+          [class.is-valid]="validation.isControlValid('giaCongThem')"
+          name="giaCongThem"
+          placeholder="Nhập giá tiền cộng thêm nếu có"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'giaCongThem')"
+        >
+          Nhập giá tiền cộng thêm nếu có
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Giảm giá bao nhiêu % <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <input
+          type="number"
+          min="0"
+          max="100"
+          class="form-control"
+          formControlName="phanTramGiamGia"
+          [class.is-invalid]="validation.isControlInvalid('phanTramGiamGia')"
+          [class.is-valid]="validation.isControlValid('phanTramGiamGia')"
+          name="phanTramGiamGia"
+          placeholder="Nhập % giảm giá"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'phanTramGiamGia')"
+        >
+          % giảm giá
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        % đặt cọc <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <input
+          type="number"
+          min="0"
+          max="100"
+          class="form-control"
+          formControlName="phanTramDatCoc"
+          [class.is-invalid]="validation.isControlInvalid('phanTramDatCoc')"
+          [class.is-valid]="validation.isControlValid('phanTramDatCoc')"
+          name="phanTramDatCoc"
+          placeholder="Nhập % đặt cọc"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'phanTramDatCoc')"
+        >
+          Nhập % đặt cọc
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <div class="col-md-4">
+        <div class="form-check form-check-inline ml-5">
+          <label class="form-check-label" for="inlineRadio1"
+            >Bao gồm ăn sáng</label
+          >
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="baoGomAnSang"
+            formControlName="baoGomAnSang"
+            [value]="true"
+          />
+          <label class="form-check-label">Có</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="baoGomAnSang"
+            formControlName="baoGomAnSang"
+            [value]="false"
+          />
+          <label class="form-check-label">Không</label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <div class="col-md-4">
+        <div class="form-check form-check-inline ml-5">
+          <label class="form-check-label" for="inlineRadio1"
+            >Được phép hủy</label
+          >
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="duocPhepHuy"
+            formControlName="duocPhepHuy"
+            [value]="true"
+          />
+          <label class="form-check-label">Có</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="duocPhepHuy"
+            formControlName="duocPhepHuy"
+            [value]="false"
+          />
+          <label class="form-check-label">Không</label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <div class="col-md-4">
+        <div class="form-check form-check-inline ml-5">
+          <label class="form-check-label" for="inlineRadio1"
+            >Được phép thay đổi</label
+          >
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="duocPhepThayDoi"
+            formControlName="duocPhepThayDoi"
+            [value]="true"
+          />
+          <label class="form-check-label">Có</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="duocPhepThayDoi"
+            formControlName="duocPhepThayDoi"
+            [value]="false"
+          />
+          <label class="form-check-label">Không</label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Thứ tự hiển thị <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="index"
+          [class.is-invalid]="validation.isControlInvalid('index')"
+          [class.is-valid]="validation.isControlValid('index')"
+          name="index"
+          placeholder="Nhập thứ tự hiển thị"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'index')"
+        >
+          Nhập thứ tự hiển thị
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Thời gian áp dụng <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-form-field" appearance="fill">
+              <mat-date-range-input
+                [formGroup]="formData"
+                [rangePicker]="formDataPicker"
+                [comparisonStart]="formData.value.ngayBatDau"
+                [comparisonEnd]="formData.value.ngayKetThuc"
+              >
+                <input
+                  matStartDate
+                  placeholder="Start date"
+                  formControlName="ngayBatDau"
+                />
+                <input
+                  matEndDate
+                  placeholder="End date"
+                  formControlName="ngayKetThuc"
+                />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="formDataPicker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #formDataPicker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'tenKhuyenMaiDatPhong')"
+        >
+          Nhập tên dịch vụ
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Danh sách phòng áp dụng <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <div class="form-check" *ngFor="let phong of listLoaiPhongKhuyenMai">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            (click)="onClickData($event.target.value, phong)"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            {{ phong.tenLoaiPhong }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="staticEmail" class="col-sm-4 col-form-label">
+        Thời gian áp dụng <span class="text-danger">(*)</span></label
+      >
+      <div class="col-sm-8">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="_detailKhuyenMai.tatCaNgayTrongTuan"
+            [value]="true"
+            formControlName="tatCaNgayTrongTuan"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Tất Cả
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.thuHai"
+            formControlName="thuHai"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ hai
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.thuBa"
+            formControlName="thuBa"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ Ba
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="_detailKhuyenMai.thuTu"
+            [value]="true"
+            formControlName="thuTu"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ tư
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.thuNam"
+            formControlName="thuNam"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ năm
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.thuSau"
+            formControlName="thuSau"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ sáu
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.thuBay"
+            formControlName="thuBay"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Thứ bảy
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="true"
+            [checked]="_detailKhuyenMai.chuNhat"
+            formControlName="chuNhat"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Chủ nhật
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="trangThai" class="col-sm-2 col-form-label">Trạng thái</label>
+      <div class="col-sm-10">
+        <mat-slide-toggle formControlName="trangThai" name="trangThai">
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <h5>Nội dung hiển thị theo ngôn ngữ</h5>
+    <app-table-language
+      [dataSource]="dataSourceLanguage"
+      [DisplayedColumns]="displayedColumns"
+      [ListColumnDef]="ListColumnDef"
+      (_changeData)="UpdateData($event)"
+    >
+    </app-table-language>
+  </form>
+</app-template-dialog>

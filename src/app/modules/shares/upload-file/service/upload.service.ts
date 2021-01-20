@@ -13,8 +13,8 @@ import { LogMessageService } from "../../_services/logMessage.service";
 export class UploadImageService extends BaseService {
   protected _isLoading$ = new BehaviorSubject<boolean>(false);
   protected _tieuDe = "dịch vụ";
-  protected cur_service = "DichVuService";
-  protected slat = "Upload"
+  protected cur_service = "UploadService";
+  protected slat = "Upload";
   protected API_URL = `${environment.apiUrl}/${this.slat}`;
 
   httpOptions = {
@@ -28,6 +28,23 @@ export class UploadImageService extends BaseService {
     private logMessageService: LogMessageService
   ) {
     super();
+  }
+  postFile(fileToUpload: File): Observable<object> {
+    const uploadPath = this.API_URL + "/upload-file";
+    const formData: FormData = new FormData();
+    let fileName = fileToUpload && fileToUpload.name ? fileToUpload.name : "";
+    formData.append("FileUploads", fileToUpload, fileName);
+    return this.http.post(uploadPath, formData, this.httpOptions).pipe(
+      tap(
+        // Log the result or error
+        (response: Response) => {
+          return response;
+        },
+        (error) => {
+          return this.log(error);
+        }
+      )
+    );
   }
   get_DanhSach(): Observable<any[]> {
     this.log(`${this.cur_service}: danh sách ${this._tieuDe}`);
