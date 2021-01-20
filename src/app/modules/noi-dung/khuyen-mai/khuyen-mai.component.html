@@ -5,6 +5,7 @@
   (_onChangeInputTimKiem)="applyFilter($event)"
   (_deleteAllData)="deleteAllData($event)"
 >
+<button class="btn btn-primary" (click)="upload()">Upload button</button>
 <app-base-table
     [dataSource]="dataSourceKhuyenMai"
     [DisplayedColumns]="displayedColumns"

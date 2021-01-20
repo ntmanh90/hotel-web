@@ -24,6 +24,7 @@ import { HoaDonComponent } from "./hoa-don/hoa-don.component";
 import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
 import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
 import { CKEditorModule } from "ckeditor4-angular";
+import { UploadFileModule } from "../shares/upload-file/upload-file.module";
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { CKEditorModule } from "ckeditor4-angular";
     TableModule,
     TemplateModule,
     ValidationModule,
-    CKEditorModule
+    CKEditorModule,
+    UploadFileModule
   ],
   declarations: [
     NoiDungComponent,
