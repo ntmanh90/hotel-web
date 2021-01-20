@@ -1,9 +1,12 @@
 <ng-container>
     <div>
         <p>
-            <a type="button" class="btn-chitiet" (click)="collapse1.toggle()"
-                [attr.aria-expanded]="isCollapsed" aria-controls="collapse1">
-                Chi tiết
+            <a type="button" class="btn-chitiet" (click)="collapse1.toggle()" [attr.aria-expanded]="isCollapsed"
+                aria-controls="collapse1">
+                Chi tiết 
+                <span class="material-icons">
+                    arrow_forward_ios
+                </span>
             </a>
         </p>
         <div #collapse1="ngbCollapse" [ngbCollapse]="!isCollapsed">
