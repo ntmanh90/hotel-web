@@ -32,6 +32,27 @@
         {{ element[col.field] ? "Hoạt Động" : "Khóa" }}
       </td>
     </ng-container>
+    <ng-container *ngIf="col.type === 4"
+      ><td mat-cell *matCellDef="let element">
+        <a (click)="clickLinkField(element)" class="badge badge-primary hover-cursor">
+          {{ element[col.field] }}
+        </a>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="col.type === 3"
+      ><td mat-cell *matCellDef="let element">
+        <span [ngClass]="element[col.field] ? 'badge badge-primary' : 'badge badge-warning'">
+          {{ element[col.field] ? "Đã phản hồi" : "Chưa phản hồi" }}
+        </span>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="col.type === 5"
+      ><td mat-cell *matCellDef="let element">
+        <span [ngClass]="element[col.field] ? 'badge badge-primary' : 'badge badge-warning'">
+          {{ element[col.field] ? "Đã thanh toán" : "Chưa thanh toán" }}
+        </span>
+      </td>
+    </ng-container>
   </ng-container>
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>

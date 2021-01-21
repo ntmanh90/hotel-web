@@ -24,6 +24,11 @@ import { ElementTienIchCheckListComponent } from "./loai-phong/element-tien-ich-
 import { ElementHinhAnhListComponent } from "./loai-phong/element-hinh-anh-list/element-hinh-anh-list.component";
 import { DialogThemThongTinLoaiGuongComponent } from "./loai-phong/dialog-them-thong-tin-loai-guong/dialog-them-thong-tin-loai-guong.component";
 import { DialogThemTienIchComponent } from "./loai-phong/dialog-them-tien-ich/dialog-them-tien-ich.component";
+import { HoaDonComponent } from "./hoa-don/hoa-don.component";
+import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
+import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
+import { CKEditorModule } from "ckeditor4-angular";
+import { UploadFileModule } from "../shares/upload-file/upload-file.module";
 
 @NgModule({
   imports: [
@@ -39,6 +44,8 @@ import { DialogThemTienIchComponent } from "./loai-phong/dialog-them-tien-ich/di
     TableModule,
     TemplateModule,
     ValidationModule,
+    CKEditorModule,
+    UploadFileModule,
   ],
   declarations: [
     NoiDungComponent,
@@ -52,7 +59,10 @@ import { DialogThemTienIchComponent } from "./loai-phong/dialog-them-tien-ich/di
     ElementLoaiGuongTableComponent,
     ElementTienIchCheckListComponent,
     DialogThemThongTinLoaiGuongComponent,
-    DialogThemTienIchComponent
+    DialogThemTienIchComponent,
+    HoaDonComponent,
+    DialogCreateUpdateHoaDonComponent,
+    DetailHoaDonComponent,
   ],
 })
 export class NoiDungModule {}

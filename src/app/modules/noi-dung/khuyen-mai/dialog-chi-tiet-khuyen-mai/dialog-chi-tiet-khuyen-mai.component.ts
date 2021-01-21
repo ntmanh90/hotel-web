@@ -65,8 +65,7 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   public set data(value: CreateEditKhuyenMaiModel) {
     this._detailKhuyenMai = value;
     if (value.iD_KhuyenMaiDatPhong === 0) {
@@ -103,11 +102,19 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
       ],
       phanTramGiamGia: [
         this._detailKhuyenMai.phanTramGiamGia,
-        Validators.compose([Validators.required, Validators.min(0), Validators.max(100)]),
+        Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(100),
+        ]),
       ],
       phanTramDatCoc: [
         this._detailKhuyenMai.phanTramDatCoc,
-        Validators.compose([Validators.required, Validators.min(0), Validators.max(100)]),
+        Validators.compose([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(100),
+        ]),
       ],
       baoGomAnSang: [this._detailKhuyenMai.baoGomAnSang],
       duocPhepHuy: [this._detailKhuyenMai.duocPhepHuy],
@@ -136,14 +143,16 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     });
     this.validation = new ValidationComponent(this.formData);
   }
-  private loadDetailData(id: number){
+  private loadDetailData(id: number) {
     this.loadFormData();
-    const subDetailData = this.khuyenMaiSevice.get_ChiTiet_KhuyenMai(id).subscribe(res => {
-      console.log(res);
-      this._detailKhuyenMai = res;
-      this.loadAllDataLoaiPhong();
-      this.loadAllDataNgonNgu();
-    });
+    const subDetailData = this.khuyenMaiSevice
+      .get_ChiTiet_KhuyenMai(id)
+      .subscribe((res) => {
+        console.log(res);
+        this._detailKhuyenMai = res;
+        this.loadAllDataLoaiPhong();
+        this.loadAllDataNgonNgu();
+      });
     this.subscriptions.push(subDetailData);
   }
   public closeDialogNotSaveData(event) {
@@ -196,18 +205,16 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
         this.dataSourceLanguage.data = this.listNgonNguHienThi;
         if (this._detailKhuyenMai.iD_KhuyenMaiDatPhong !== 0) {
           //update data in list ngon ngu
-          for (
-            let index = 0;
-            index < this.listNgonNguHienThi.length;
-            index++
-          ) {
+          for (let index = 0; index < this.listNgonNguHienThi.length; index++) {
             let element = this.listNgonNguHienThi[index];
             for (
               let indexJ = 0;
               indexJ < this._detailKhuyenMai.nN_KhuyenMaiDatPhongVMs.length;
               indexJ++
             ) {
-              const elementJ = this._detailKhuyenMai.nN_KhuyenMaiDatPhongVMs[indexJ];
+              const elementJ = this._detailKhuyenMai.nN_KhuyenMaiDatPhongVMs[
+                indexJ
+              ];
               if (element.iD_NgonNgu === elementJ.iD_NgonNgu) {
                 element.dieuKhoan_DieuKien = elementJ.dieuKhoan_DieuKien;
                 element.tenTheoNgonNgu = elementJ.tenTheoNgonNgu;
@@ -237,8 +244,53 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
             this.openSnackBar(error, this.bgcss.Error);
           }
         );
-        this.subscriptions.push(subCreateKhuyenMai);
+      this.subscriptions.push(subCreateKhuyenMai);
+    } else {
+      this.changeDataUpdate();
+      const subCreateKhuyenMai = this.khuyenMaiSevice
+        .put_Sua_KhuyenMai(this._detailKhuyenMai)
+        .subscribe(
+          (res: CreateEditKhuyenMaiModel) => {
+            if (res) {
+              this.modal.close(
+                `Sửa ${res.tenKhuyenMaiDatPhong}: ${res.tenKhuyenMaiDatPhong}`
+              );
+              return of(res);
+            }
+          },
+          (error) => {
+            this.openSnackBar(error, this.bgcss.Error);
+          }
+        );
+      this.subscriptions.push(subCreateKhuyenMai);
     }
+  }
+  private changeDataUpdate() {
+    this._detailKhuyenMai.thuBa = this._detailKhuyenMai.thuBa
+      ? this._detailKhuyenMai.thuBa
+      : false;
+    this._detailKhuyenMai.thuHai = this._detailKhuyenMai.thuHai
+      ? this._detailKhuyenMai.thuHai
+      : false;
+    this._detailKhuyenMai.thuTu = this._detailKhuyenMai.thuTu
+      ? this._detailKhuyenMai.thuTu
+      : false;
+    this._detailKhuyenMai.thuNam = this._detailKhuyenMai.thuNam
+      ? this._detailKhuyenMai.thuNam
+      : false;
+    this._detailKhuyenMai.thuSau = this._detailKhuyenMai.thuSau
+      ? this._detailKhuyenMai.thuSau
+      : false;
+    this._detailKhuyenMai.thuBay = this._detailKhuyenMai.thuBay
+      ? this._detailKhuyenMai.thuBay
+      : false;
+    this._detailKhuyenMai.chuNhat = this._detailKhuyenMai.chuNhat
+      ? this._detailKhuyenMai.chuNhat
+      : false;
+    this._detailKhuyenMai.tatCaNgayTrongTuan = this._detailKhuyenMai
+      .tatCaNgayTrongTuan
+      ? this._detailKhuyenMai.tatCaNgayTrongTuan
+      : false;
   }
   openSnackBar(action, bgCss) {
     this._snackBar.open(action, "x", {

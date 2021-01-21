@@ -1,5 +1,5 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 export interface ColumnDef {
   id?: number;
@@ -11,6 +11,7 @@ export interface ColumnDef {
   selector: "app-base-table",
   templateUrl: "./base-table.component.html",
   styleUrls: ["./base-table.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BaseTableComponent implements OnInit {
   @Input() public dataSource = new MatTableDataSource();
@@ -21,6 +22,7 @@ export class BaseTableComponent implements OnInit {
   @Output() _deleteData: EventEmitter<any> = new EventEmitter();
   @Output() _isSelectData: EventEmitter<any> = new EventEmitter();
   @Output() _selectData: EventEmitter<any> = new EventEmitter();
+  @Output() _clickLinkField: EventEmitter<any> = new EventEmitter();
   constructor() {}
   ngOnInit() {}
   /** The label for the checkbox on the passed row */
@@ -58,5 +60,8 @@ export class BaseTableComponent implements OnInit {
   }
   public deleteData(row){
     this._deleteData.emit(row);
+  }
+  public clickLinkField(element){
+      this._clickLinkField.emit(element);
   }
 }

@@ -5,6 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
+import { AvatarUploadFileComponent } from "../../shares/upload-file/avatar-upload/avatar-upload.component";
 import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
 import { bgCSS } from "../../shares/_models/bgCss.model";
 import { KhuyenMaiService } from "../_services/khuyen-mai.service";
@@ -160,7 +161,7 @@ export class KhuyenMaiComponent implements OnInit {
     this.listSelect = listSelect;
   }
   public deleteData(row) {
-    this.deleteOne(row.iD_DichVu);
+    this.deleteOne(row.iD_KhuyenMaiDatPhong);
   }
   private deleteOne(id: number) {
     var sb = this.khuyenMaiService
@@ -212,6 +213,9 @@ export class KhuyenMaiComponent implements OnInit {
     }
 
     this.subscriptions.push(sb);
+  }
+  public upload() {
+    this.modalService.open(AvatarUploadFileComponent);
   }
   public deleteAllData(event) {
     for (let index = 0; index < this.listSelect.length; index++) {
