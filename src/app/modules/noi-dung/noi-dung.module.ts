@@ -10,7 +10,6 @@ import {
   NgbModalModule,
 
 } from "@ng-bootstrap/ng-bootstrap";
-
 import { NoiDungComponent } from "./noi-dung.component";
 import { NoidungRoutingModule } from "./noi-dung.routing.module";
 import { LoaiPhongComponent } from "./loai-phong/loai-phong.component";
@@ -27,12 +26,16 @@ import { ListDateBookRoomComponent } from './phong-gia/list-date-book-room/list-
 import { DateBookRoomComponent } from './phong-gia/date-book-room/date-book-room.component';
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
+import { ElementLoaiGuongTableComponent } from "./loai-phong/element-loai-guong-table/element-loai-guong-table.component";
+import { ElementTienIchCheckListComponent } from "./loai-phong/element-tien-ich-check-list/element-tien-ich-check-list.component";
+import { ElementHinhAnhListComponent } from "./loai-phong/element-hinh-anh-list/element-hinh-anh-list.component";
+import { DialogThemThongTinLoaiGuongComponent } from "./loai-phong/dialog-them-thong-tin-loai-guong/dialog-them-thong-tin-loai-guong.component";
+import { DialogThemTienIchComponent } from "./loai-phong/dialog-them-tien-ich/dialog-them-tien-ich.component";
 import { HoaDonComponent } from "./hoa-don/hoa-don.component";
 import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-update-hoa-don/dialog-create-update-hoa-don.component";
 import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
 import { CKEditorModule } from "ckeditor4-angular";
 import { UploadFileModule } from "../shares/upload-file/upload-file.module";
-import { DateDataPipe } from "../shares/pipe/date/date-pipe.pipe";
 import { PipeModule } from "../shares/pipe/pipe.module";
 
 @NgModule({
@@ -66,9 +69,14 @@ import { PipeModule } from "../shares/pipe/pipe.module";
     DateBookRoomComponent,
     KhuyenMaiComponent,
     DialogChiTietKhuyenMaiComponent,
+    ElementHinhAnhListComponent,
+    ElementLoaiGuongTableComponent,
+    ElementTienIchCheckListComponent,
+    DialogThemThongTinLoaiGuongComponent,
+    DialogThemTienIchComponent,
     HoaDonComponent,
     DialogCreateUpdateHoaDonComponent,
-    DetailHoaDonComponent
+    DetailHoaDonComponent,
   ],
 })
 export class NoiDungModule {}

@@ -1,0 +1,31 @@
+<div class="form-group row">
+  <h5>
+    Thông tin loại giường
+    <button
+      class="btn btn-bg-primary btn-elevate mr-2"
+      (click)="openDialogAddNewTypeRoom($event)"
+    >
+      Thêm
+    </button>
+  </h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Loại giường</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listLoaiGuong; let stt = index">
+        <td scope="row">{{ stt + 1 }}</td>
+        <td>{{ item.tieuDe }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="onClickRemove(item, stt)">
+            Xóa
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
