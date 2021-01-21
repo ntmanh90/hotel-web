@@ -156,6 +156,11 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
       this.addThongTinLoaiGuong(res);
     });
   }
+  public clickRemoveButton(event) {
+    if (event) {
+      this.listLoaiGuong.splice(event.index, 1);
+    }
+  }
   public OpenDialogThemTienIch(event) {
     const modalRef = this.subModalService.open(DialogThemTienIchComponent, {
       size: "lg",
