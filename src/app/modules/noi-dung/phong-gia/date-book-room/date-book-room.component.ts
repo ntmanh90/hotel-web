@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PhongGiaViewTable } from '../../_models/phong-gia.model';
 
 @Component({
   selector: 'app-date-book-room',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DateBookRoomComponent implements OnInit {
   isChecked = true;
+  @Input()
+  public listPhongGia: PhongGiaViewTable[];
   constructor() { }
 
   ngOnInit(): void {

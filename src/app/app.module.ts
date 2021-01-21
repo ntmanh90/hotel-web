@@ -25,6 +25,7 @@ import { AuthService } from './modules/auth';
 import { TemplateModule } from './modules/shares/template/template.module';
 import { UploadFileModule } from './modules/shares/upload-file/upload-file.module';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { PipeModule } from './modules/shares/pipe/pipe.module';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -61,7 +62,8 @@ export function getHighlightLanguages() {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    CKEditorModule
+    CKEditorModule,
+    PipeModule
   ],
   providers: [
     AuthGuard,

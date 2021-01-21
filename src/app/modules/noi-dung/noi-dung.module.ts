@@ -32,6 +32,8 @@ import { DialogCreateUpdateHoaDonComponent } from "./hoa-don/dialog-create-updat
 import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.component";
 import { CKEditorModule } from "ckeditor4-angular";
 import { UploadFileModule } from "../shares/upload-file/upload-file.module";
+import { DateDataPipe } from "../shares/pipe/date/date-pipe.pipe";
+import { PipeModule } from "../shares/pipe/pipe.module";
 
 @NgModule({
   imports: [
@@ -48,7 +50,8 @@ import { UploadFileModule } from "../shares/upload-file/upload-file.module";
     TemplateModule,
     ValidationModule,
     CKEditorModule,
-    UploadFileModule
+    UploadFileModule,
+    PipeModule
   ],
   declarations: [
     NoiDungComponent,
