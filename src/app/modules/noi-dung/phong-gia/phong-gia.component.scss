@@ -1,0 +1,28 @@
+.bgr-container{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+}
+.col-1lg{
+    width: 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+.col-2lg{
+    width: 80%;
+    flex: 0 0 80%;
+    max-width: 80%;
+}
+
+.btn-search {
+    margin-left: 0;
+    mat-form-field {
+    margin-right: 15px;
+    }
+    button {
+        margin-bottom: 1.34375em;
+        width: 150px;
+    }
+}
+
+

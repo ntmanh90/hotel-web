@@ -1,0 +1,44 @@
+<div class="bgr-container">
+  <form [formGroup]="options">
+    <div class="row">
+      <div class="col-md-6 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">
+          Từ ngày:
+        </label>
+        <div class="col-sm-8">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="picker" formControlName="TuNgay" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">
+          Khoảng ngày:
+        </label>
+        <div class="col-sm-8">
+          <select
+            class="form-control form-control-lg form-control-solid"
+            name="KhoangNgay"
+            formControlName="KhoangNgay"
+          >
+            <option
+              *ngFor="let element of elementComboboxSelectRangeDate"
+              [value]="element.id"
+            >
+              {{ element.viewValue }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <app-list-date-book-room
+    [listPhongGia]="listPhongGia"
+    [listPhongGiaModel]="listPhongGiaModel"
+  ></app-list-date-book-room>
+</div>

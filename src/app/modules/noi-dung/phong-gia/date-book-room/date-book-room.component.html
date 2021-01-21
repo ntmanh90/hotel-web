@@ -1,0 +1,36 @@
+<div class="table-scroll">
+  <table class="table table-bordered my-tbody">
+    <tr>
+      <td *ngFor="let element of listPhongGia">
+        <label>{{ element.thu }}</label>
+        <p>
+          {{ element.date | dateData }}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia">
+        <mat-slide-toggle [(ngModel)]="element.data.trangThai"></mat-slide-toggle>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia">
+        <label class="label-price">{{element.data.soLuong}}</label>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia">
+        <label class="label-price">{{element.data.giaBan}}</label>
+      </td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia"><label>{{element.data.giaKhuyenMaiDatPhongVMs[0].price}}</label></td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia"><label>{{element.data.giaKhuyenMaiDatPhongVMs[1].price}}</label></td>
+    </tr>
+    <tr>
+      <td *ngFor="let element of listPhongGia"><label>{{element.data.giaKhuyenMaiDatPhongVMs[2].price}}</label></td>
+    </tr>
+  </table>
+</div>

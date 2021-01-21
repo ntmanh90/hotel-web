@@ -1,0 +1,43 @@
+.table-scroll {
+    overflow-x: auto;
+    width: 100%;
+
+    .my-tbody {
+        table-layout: fixed;
+
+        td {
+            width: 80px;
+            border: 1px solid #dddddd;
+            text-align: center; 
+            vertical-align: middle;
+            .label-price{
+                background: #eee;
+                padding: 8px 25px;
+                margin: 0;
+            }
+        }
+
+        tr:nth-child(3), tr:nth-child(4){
+            height: 56px;
+        }
+        tr:nth-child(5), tr:nth-child(6), tr:nth-child(7){
+            height: 58.4px;
+        }
+    }
+}
+
+.table-scroll::-webkit-scrollbar {
+    width: 1em;
+    height: 10px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background-color: #3699ff;
+    outline: 1px solid #3699ff;
+    border-radius: 20px;
+}
