@@ -1,64 +1,141 @@
 <ng-container>
+  <div>
     <div>
-        <div>
-            <h4>Đặt số phòng để bán</h4>
-        </div>
-        <div>
-            <form [formGroup]="options">
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker1">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-            </div>
-
-            <div>
-                <mat-card>
-                    <mat-card-content>
-                        <label>Bạn muốn áp dụng thay đổi cho ngày trong tuần</label>
-
-                        <section class="example-section">
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Tất cả cá ngày</mat-checkbox>
-                        </section>
-
-                        <section class="example-section">
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 2</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 3</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 4</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 5</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 6</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">Thứ 7</mat-checkbox>
-                            <mat-checkbox class="example-margin" [(ngModel)]="checked">CN</mat-checkbox>
-                        </section>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-            <div>
-                <h6>Số phòng bán</h6>
-                <mat-form-field class="example-form-field">
-                    <mat-label>Số phòng bán</mat-label>
-                    <input matInput type="number" [(ngModel)]="value">
-                    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
-            </div>
-            <div class="row justify-content-end mgr-r" style="margin: 0;">
-                <button mat-raised-button color="primary">Xác nhận</button>
-                <button mat-raised-button color="warn" (click)="onClose()">Hủy</button>
-            </div>
-
-            </form>
- 
-        </div>
-
+      <h4>{{titleDialog}}</h4>
     </div>
+    <div>
+      <form [formGroup]="options">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Từ ngày: </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="ngayBatDau"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Đến ngày: </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              formControlName="ngayKetThuc"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-card>
+            <mat-card-content>
+              <label>Bạn muốn áp dụng thay đổi cho ngày trong tuần</label>
+
+              <section class="example-section">
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="0"
+                  >Tất cả cá ngày</mat-checkbox
+                >
+              </section>
+
+              <section class="example-section">
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="1"
+                  >Thứ 2</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="2"
+                  >Thứ 3</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="3"
+                  >Thứ 4</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="4"
+                  >Thứ 5</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="5"
+                  >Thứ 6</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="6"
+                  >Thứ 7</mat-checkbox
+                >
+                <mat-checkbox
+                  class="example-margin"
+                  formControlName="selectDate"
+                  [value]="7"
+                  >Chủ Nhật</mat-checkbox
+                >
+              </section>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="type === 1">
+          <h6>Số phòng bán</h6>
+          <mat-form-field class="example-form-field">
+            <mat-label>Số phòng bán</mat-label>
+            <input matInput type="number" formControlName="soLuong" />
+            <button
+              mat-button
+              *ngIf="value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="value = ''"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div *ngIf="type === 2">
+          <h6>Giá bán</h6>
+          <mat-form-field class="example-form-field">
+            <mat-label>Giá bán</mat-label>
+            <input matInput type="number" formControlName="giaBan" />
+            <button
+              mat-button
+              *ngIf="value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="value = ''"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="row justify-content-end mgr-r" style="margin: 0">
+          <button mat-raised-button color="primary" (click)="updateDataInService($event)">Xác nhận</button>
+          <button mat-raised-button color="warn" (click)="onClose()">
+            Hủy
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ng-container>

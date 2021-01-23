@@ -18,17 +18,10 @@
       <div class="row justify-content-end btn-right">
         <button
           mat-flat-button
-          color="warn"
-          (click)="openDialogDatPhong($event)"
-        >
-          Đóng phòng
-        </button>
-        <button
-          mat-flat-button
           color="primary"
           (click)="openDialogDatPhong($event)"
         >
-          Mở phòng
+          Đóng/Mở phòng
         </button>
       </div>
     </div>
@@ -54,7 +47,7 @@
               <button
                 mat-flat-button
                 color="primary"
-                (click)="openDialog($event)"
+                (click)="openDialog($event,1, item)"
               >
                 Chỉnh sửa
               </button>
@@ -66,7 +59,7 @@
               <button
                 mat-flat-button
                 color="primary"
-                (click)="openDialog($event)"
+                (click)="openDialog($event,2, item)"
               >
                 Chỉnh sửa
               </button>
@@ -84,7 +77,10 @@
         </table>
       </div>
       <div class="col-md-9 col-2lg">
-        <app-date-book-room [listPhongGia]="item.PhongGiaViewTable"></app-date-book-room>
+        <app-date-book-room
+          [listPhongGia]="item.PhongGiaViewTable"
+          (updateData)="updateDataInService($event)"
+        ></app-date-book-room>
       </div>
     </div>
   </div>
