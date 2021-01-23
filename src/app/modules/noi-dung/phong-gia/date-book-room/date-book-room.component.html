@@ -10,17 +10,17 @@
     </tr>
     <tr>
       <td *ngFor="let element of listPhongGia">
-        <mat-slide-toggle [(ngModel)]="element.data.trangThai"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="element.data.trangThai" (change)="onChangeData(element, 0)"></mat-slide-toggle>
       </td>
     </tr>
     <tr>
       <td *ngFor="let element of listPhongGia">
-        <label class="label-price">{{element.data.soLuong}}</label>
+        <input class="form-control" type="number" [(ngModel)]="element.data.soLuong" (change)="onChangeData(element, 1)"/>
       </td>
     </tr>
     <tr>
       <td *ngFor="let element of listPhongGia">
-        <label class="label-price">{{element.data.giaBan}}</label>
+        <input class="form-control" type="number" [(ngModel)]="element.data.giaBan" (change)="onChangeData(element, 2)"/>
       </td>
     </tr>
     <tr>

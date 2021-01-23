@@ -29,4 +29,10 @@ export class ValidationComponent implements OnInit {
     let isInvalid = control.hasError(validation);
     return (control.dirty || control.touched) && isInvalid;
   }
+  validationDate(controlNameDateFrom, controlNameDateTo) {
+    const formValue = this.formData.value;
+    const dateFrom = new Date(formValue[controlNameDateFrom]);
+    const dateTo = new Date(formValue[controlNameDateTo]);
+    return dateFrom <= dateTo;
+  }
 }

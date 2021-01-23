@@ -47,10 +47,12 @@ export class LoaiPhongComponent implements OnInit, OnDestroy {
     {
       field: "trangThai",
       title: "Trạng thái",
+      type: 2
     },
     {
       field: "createDate",
       title: "Ngày tạo",
+      type: 6
     },
     {
       field: "createBy",
@@ -59,6 +61,7 @@ export class LoaiPhongComponent implements OnInit, OnDestroy {
     {
       field: "modifyDate",
       title: "Ngày chỉnh sửa",
+      type: 6
     },
     {
       field: "modifyBy",

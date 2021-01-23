@@ -36,3 +36,19 @@ export interface CaiDatBanPhongVMs {
 export interface GiaKhuyenMaiDatPhongVMs {
   price: number;
 }
+export interface CaiDatGiaBanSoLuongTrangThai{
+  iD_LoaiPhong: number;
+  giaBan?: number;
+  soLuong?: number;
+  iD_CaiDatBanPhong?: number;
+  trangThai?: boolean;
+  ngayBatDau?: string;
+  ngayKetThuc?: string;
+  ngayCaiDat?: string;
+  type:number;
+}
+export const ENUM_TYPE_UPDATE = {
+  TRANGTHAI: 0,
+  SOLUONG:1,
+  GIABAN: 2
+} 

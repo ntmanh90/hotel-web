@@ -32,11 +32,11 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
   public _detailLoaiPhong: LoaiPhong;
   public validation: ValidationComponent;
   public listDataHuongNhin: HuongNhin[] = [];
-  public listLoaiGuong: nN_LoaiPhongRequests[] = [];
+  public listLoaiGuong: LoaiPhong_LoaiGiuong_Requests[] = [];
   public listTienIch: LoaiPhong_TienIch_Requests[] = [];
   public listSoNguoiToiDa: any[] = [];
   public dataSourceLanguage: any = new MatTableDataSource();
-  private listLoaiNgonNguRequest: LoaiPhong_LoaiGiuong_Requests[] = [];
+  private listLoaiNgonNguRequest: nN_LoaiPhongRequests[] = [];
   public loaiPhong_Gallery_Requests: LoaiPhong_Gallery_Requests[] = [
     { url_Gallery: "fsfkdhs" },
   ];
@@ -88,8 +88,55 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         console.log(res);
         this._detailLoaiPhong = res;
+        this.loadDataUpdateInArray();
       });
     this.subscriptions.push(subLoadDetail);
+  }
+  private loadDataUpdateInArray() {
+    if (this._detailLoaiPhong.loaiPhong_LoaiGiuongVMs) {
+      this.listLoaiGuong = [];
+      for (
+        let index = 0;
+        index < this._detailLoaiPhong.loaiPhong_LoaiGiuongVMs.length;
+        index++
+      ) {
+        const element = this._detailLoaiPhong.loaiPhong_LoaiGiuongVMs[index];
+        this.listLoaiGuong.push({
+          iD_LoaiGiuong: element.iD_LoaiGiuong,
+          tieuDe: element.tenLoaiGiuong,
+        });
+      }
+    }
+    if (this._detailLoaiPhong.loaiPhong_TienIchVMs) {
+      this.listTienIch = [];
+      for (
+        let index = 0;
+        index < this._detailLoaiPhong.loaiPhong_TienIchVMs.length;
+        index++
+      ) {
+        const element = this._detailLoaiPhong.loaiPhong_TienIchVMs[index];
+        this.listTienIch.push({
+          iD_TienIch: element.iD_TienIch,
+          tieuDe: element.tenTienIch,
+        });
+      }
+    }
+    if (this._detailLoaiPhong.nN_LoaiPhongVMs) {
+      this.listLoaiNgonNguRequest = [];
+      for (
+        let index = 0;
+        index < this._detailLoaiPhong.nN_LoaiPhongVMs.length;
+        index++
+      ) {
+        const element = this._detailLoaiPhong.nN_LoaiPhongVMs[index];
+        this.listLoaiNgonNguRequest.push({
+          iD_NgonNgu: element.iD_NgonNgu,
+          tenLoaiPhongTheoNgonNgu: element.tenLoaiPhongTheoNgonNgu,
+          tenNgonNgu: element.tenNgonNgu,
+        });
+      }
+      this.dataSourceLanguage.data = this.listLoaiNgonNguRequest;
+    }
   }
   private loadFormData() {
     this.formData = this.fb.group({
@@ -169,7 +216,7 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
       this.addTienIchInArray(res);
     });
   }
-  private addThongTinLoaiGuong(res: nN_LoaiPhongRequests) {
+  private addThongTinLoaiGuong(res: LoaiPhong_LoaiGiuong_Requests) {
     let checkAdd = true;
     for (let index = 0; index < this.listLoaiGuong.length; index++) {
       let element = this.listLoaiGuong[index];
@@ -206,10 +253,10 @@ export class ChiTietLoaiPhongComponent implements OnInit, OnDestroy {
     this._detailLoaiPhong.treEm = Number(formValue.treEm);
     this._detailLoaiPhong.maLoaiPhong = formValue.maLoaiPhong;
     this._detailLoaiPhong.trangThai = formValue.trangThai;
-    this._detailLoaiPhong.loaiPhong_LoaiGiuong_Requests = this.listLoaiNgonNguRequest;
+    this._detailLoaiPhong.loaiPhong_LoaiGiuong_Requests = this.listLoaiGuong;
     this._detailLoaiPhong.loaiPhong_Gallery_Requests = this.loaiPhong_Gallery_Requests;
     this._detailLoaiPhong.loaiPhong_TienIch_Requests = this.listTienIch;
-    this._detailLoaiPhong.nN_LoaiPhongRequests = this.listLoaiGuong;
+    this._detailLoaiPhong.nN_LoaiPhongRequests = this.listLoaiNgonNguRequest;
   }
   public closeDialogSaveData(event) {
     this.prepareCustomer();

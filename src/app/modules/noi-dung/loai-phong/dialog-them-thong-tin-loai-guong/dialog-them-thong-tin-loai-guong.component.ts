@@ -9,7 +9,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { LoaiGiuongService } from "src/app/modules/danh-muc/_service/loai-giuong.service";
 import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
-import { nN_LoaiPhongRequests } from "../../_models/loai-phong.model";
+import { LoaiPhong_LoaiGiuong_Requests, nN_LoaiPhongRequests } from "../../_models/loai-phong.model";
 
 @Component({
   selector: "app-dialog-them-thong-tin-loai-guong",
@@ -20,7 +20,7 @@ export class DialogThemThongTinLoaiGuongComponent
   implements OnInit, AfterViewInit {
   private subscriptions: Subscription[] = [];
   public isNew: boolean = true;
-  public listLoaiGiuong: nN_LoaiPhongRequests[] = [];
+  public listLoaiGiuong: LoaiPhong_LoaiGiuong_Requests[] = [];
   public modelSoluong: number = 0;
   public modelLoaiGuong: number = -1;
   public formData: FormGroup;
@@ -68,7 +68,7 @@ export class DialogThemThongTinLoaiGuongComponent
           this.listLoaiGiuong.push({
             iD_LoaiGiuong: element.iD_LoaiGiuong,
             tieuDe: element.tieuDe,
-          } as nN_LoaiPhongRequests);
+          } as LoaiPhong_LoaiGiuong_Requests);
         });
       }
     });
@@ -83,7 +83,7 @@ export class DialogThemThongTinLoaiGuongComponent
         iD_LoaiGiuong: this.modelLoaiGuong,
         tieuDe: this.getTenLoaiGuong(),
         soLuong: this.modelSoluong,
-      } as nN_LoaiPhongRequests);
+      } as LoaiPhong_LoaiGiuong_Requests);
     }
   }
   private getTenLoaiGuong(): string {
