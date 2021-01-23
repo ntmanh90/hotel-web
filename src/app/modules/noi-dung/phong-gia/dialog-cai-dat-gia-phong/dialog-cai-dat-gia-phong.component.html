@@ -1,7 +1,7 @@
 <ng-container>
   <div>
     <div>
-      <h4>{{titleDialog}}</h4>
+      <h4>{{ titleDialog }}</h4>
     </div>
     <div>
       <form [formGroup]="options">
@@ -100,16 +100,6 @@
           <mat-form-field class="example-form-field">
             <mat-label>Số phòng bán</mat-label>
             <input matInput type="number" formControlName="soLuong" />
-            <button
-              mat-button
-              *ngIf="value"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="value = ''"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
           </mat-form-field>
         </div>
         <div *ngIf="type === 2">
@@ -117,23 +107,17 @@
           <mat-form-field class="example-form-field">
             <mat-label>Giá bán</mat-label>
             <input matInput type="number" formControlName="giaBan" />
-            <button
-              mat-button
-              *ngIf="value"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="value = ''"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
           </mat-form-field>
         </div>
         <div class="row justify-content-end mgr-r" style="margin: 0">
-          <button mat-raised-button color="primary" (click)="updateDataInService($event)">Xác nhận</button>
-          <button mat-raised-button color="warn" (click)="onClose()">
-            Hủy
+          <button
+            class="btn btn-primary"
+            [disabled]="!isValidForm"
+            (click)="updateDataInService($event)"
+          >
+            Xác nhận
           </button>
+          <button (click)="onClose()" class="btn btn-danger">Hủy</button>
         </div>
       </form>
     </div>

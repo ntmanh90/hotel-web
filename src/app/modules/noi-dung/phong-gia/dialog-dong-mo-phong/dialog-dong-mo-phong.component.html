@@ -48,27 +48,33 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div>
-        <table class="table table-bordered phong-table">
-          <tr class="table-primary">
-            <td colspan="2">Chỗ ở</td>
-          </tr>
-          <tr *ngFor="let element of this.listLoaiPhong">
-            <td>{{element.tenLoaiPhong}}</td>
-            <td>
-              <mat-checkbox
-                class="example-margin"
-                (click)="onCheckLoaiPhong($event, element)"
-                [value]="element.iD_LoaiPhong"
-              ></mat-checkbox>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="row justify-content-end mgr-r" style="margin: 0">
-        <button mat-raised-button color="primary" (click)="saveData($event)">Xác nhận</button>
-        <button mat-raised-button color="warn" (click)="onClose()">Hủy</button>
-      </div>
     </form>
+    <div>
+      <table class="table table-bordered phong-table">
+        <tr class="table-primary">
+          <td colspan="2">Chỗ ở</td>
+        </tr>
+        <tr *ngFor="let element of this.listLoaiPhong">
+          <td>{{ element.tenLoaiPhong }}</td>
+          <td>
+            <mat-checkbox
+              class="example-margin"
+              [(ngModel)]="element.check"
+              [value]="true"
+            ></mat-checkbox>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-end mgr-r" style="margin: 0">
+      <button
+        (click)="saveData($event)"
+        class="btn btn-primary"
+        [disabled]="!isValidForm"
+      >
+        Xác nhận
+      </button>
+      <button class="btn btn-danger" (click)="onClose()">Hủy</button>
+    </div>
   </div>
 </div>

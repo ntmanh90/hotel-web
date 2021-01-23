@@ -87,10 +87,12 @@ export class KhuyenMaiComponent implements OnInit {
     {
       field: "ngayBatDau",
       title: "Ngày bắt đầu",
+      type: 6
     },
     {
       field: "ngayKetThuc",
       title: "Ngày kết thúc",
+      type: 6
     },
     {
       field: "trangThai",

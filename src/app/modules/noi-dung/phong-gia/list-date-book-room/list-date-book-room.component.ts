@@ -33,6 +33,8 @@ export class ListDateBookRoomComponent implements OnInit {
 
   @Output()
   public updateDataMoreDay: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public updateDataStatusMoreDay: EventEmitter<any> = new EventEmitter();
   constructor(public dialog: MatDialog, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
@@ -59,7 +61,7 @@ export class ListDateBookRoomComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result);
-        this.updateDataMoreDay.emit(result);
+        this.updateDataStatusMoreDay.emit(result);
       }
     });
   }

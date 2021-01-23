@@ -11,5 +11,6 @@ export interface LoaiPhongVM {
     kichThuoc: string;
     
     trangThai: boolean;
+    check?: boolean;
 
 }

@@ -50,8 +50,11 @@ export class DialogCaiDatGiaPhongComponent implements OnInit {
     this.validation = new ValidationComponent(this.options);
   }
   ngOnInit(): void {}
+  public get isValidForm(){
+    return this.options.valid && this.validation.validationDate('ngayBatDau', 'ngayKetThuc');
+  }
   public updateDataInService(event) {
-    if (this.options.valid) {
+    if (this.options.valid && this.validation.validationDate('ngayBatDau', 'ngayKetThuc')) {
       const formValue = this.options.value;
       let updateResult: CaiDatGiaBanSoLuongTrangThai;
       switch (this.type) {

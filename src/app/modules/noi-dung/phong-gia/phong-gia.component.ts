@@ -142,6 +142,12 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
       });
       this.subscriptions.push(subUpdate);
   }
+  public updateDataStatusMoreDay(event : []){
+    for (let index = 0; index < event.length; index++) {
+      const element = event[index];
+      this.updateDataInServiceMoreDay(element);
+    }
+  }
   private getListData() {
     const searchSubcription = this.phongGiaService
       .get_DanhSach(this._searchPhongGia)

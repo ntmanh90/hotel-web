@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
+import { ValidationComponent } from "src/app/modules/shares/validation/validation.component";
 import { LoaiPhongVM } from "../../_models/loai-phong-vm.model";
 import { CaiDatGiaBanSoLuongTrangThai } from "../../_models/phong-gia.model";
 import { PhongGiaService } from "../../_services/phong-gia.service";
@@ -19,7 +20,7 @@ export class DialogDongMoPhongComponent implements OnInit, OnDestroy {
   public options: FormGroup;
   private subscriptions: Subscription[] = [];
   public listLoaiPhong: LoaiPhongVM[] = [];
-  private listIdLoaiPhong: number[] = [];
+  public validation: ValidationComponent;
   constructor(
     private dialog: MatDialogRef<DialogDongMoPhongComponent>,
     private fb: FormBuilder,
@@ -33,7 +34,7 @@ export class DialogDongMoPhongComponent implements OnInit, OnDestroy {
         Validators.compose([Validators.required]),
       ],
     });
-    this.listIdLoaiPhong = [];
+    this.validation = new ValidationComponent(this.options);
     this.getAllDataPhong();
   }
   private getAllDataPhong() {
@@ -41,30 +42,33 @@ export class DialogDongMoPhongComponent implements OnInit, OnDestroy {
       .get_DanhSachLoaiPhong()
       .subscribe((res) => {
         this.listLoaiPhong = res;
+        this.listLoaiPhong.forEach((loaiPhong) => {
+          loaiPhong.check = false;
+        });
       });
     this.subscriptions.push(subGetAllPhong);
   }
-  public onCheckLoaiPhong(event, element) {
-    const index = this.listIdLoaiPhong.indexOf(element.iD_LoaiPhong);
-    if(index === -1){
-      this.listIdLoaiPhong.push(element.iD_LoaiPhong);
-    }else{
-      this.listIdLoaiPhong.splice(index, 1);
-    }
-    console.log(this.listIdLoaiPhong);
-  }
   ngOnInit(): void {}
+  public get isValidForm(){
+    return this.options.valid && this.validation.validationDate('ngayBatDau', 'ngayKetThuc');
+  }
   public saveData(event) {
     const formValue = this.options.value;
-    if (this.options.valid) {
-      let updateData = {
-        iD_LoaiPhong: formValue.iD_LoaiPhong,
-        type: 0,
-        ngayBatDau: formValue.ngayBatDau,
-        ngayKetThuc: formValue.ngayKetThuc,
-        trangThai: formValue.trangThai,
-      } as CaiDatGiaBanSoLuongTrangThai;
-      this.dialog.close(updateData);
+    if (this.options.valid && this.validation.validationDate('ngayBatDau', 'ngayKetThuc')) {
+      const arrReturn = [];
+      for (let index = 0; index < this.listLoaiPhong.length; index++) {
+        const element = this.listLoaiPhong[index];
+        if (element.check) {
+          arrReturn.push({
+            iD_LoaiPhong: element.iD_LoaiPhong,
+            type: 0,
+            ngayBatDau: formValue.ngayBatDau,
+            ngayKetThuc: formValue.ngayKetThuc,
+            trangThai: formValue.trangThai,
+          } as CaiDatGiaBanSoLuongTrangThai);
+        }
+      }
+      this.dialog.close(arrReturn);
     }
   }
   public onClose() {

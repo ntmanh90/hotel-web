@@ -41,6 +41,7 @@ export class HoaDonComponent implements OnInit {
       id: 3,
       field: "thoiGianDen",
       title: "Thời gian đến",
+      type: 6
     },
     {
       id: 4,
