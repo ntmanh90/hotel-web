@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DatDichVuComponent } from './dat-dich-vu/dat-dich-vu.component';
+import { DatPhongComponent } from './dat-phong/dat-phong.component';
 import { DichVuComponent } from './dich-vu/dich-vu.component';
 import { KhuyenMaiComponent } from './khuyen-mai/khuyen-mai.component';
 import { LoaiPhongComponent } from './loai-phong/loai-phong.component';
@@ -20,8 +20,8 @@ const routes: Routes = [
     component: KhuyenMaiComponent,
   },
   {
-    path: 'datdichvu',
-    component: DatDichVuComponent,
+    path: 'datphong',
+    component: DatPhongComponent,
   },
 ];
 

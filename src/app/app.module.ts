@@ -24,6 +24,8 @@ import { AuthInterceptor } from './modules/shares/interceptors/auth.interceptor'
 import { AuthService } from './modules/auth';
 import { TemplateModule } from './modules/shares/template/template.module';
 import { UploadFileModule } from './modules/shares/upload-file/upload-file.module';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -60,6 +62,7 @@ export function getHighlightLanguages() {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [
     AuthGuard,

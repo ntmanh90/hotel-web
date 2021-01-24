@@ -1,0 +1,21 @@
+<div class="row">
+    <!-- <div class="pr-3 pb-3">
+      <bs-datepicker-inline [bsValue]="bsInlineValue"></bs-datepicker-inline>
+    </div> -->
+    <div class="pr-3 pb-3">
+      <bs-daterangepicker-inline [bsValue]="bsInlineRangeValue"></bs-daterangepicker-inline>
+    </div>
+
+    <div class="col-md-3">
+        <input type="text"
+        placeholder="Datepicker"
+        class="form-control"
+        [bsValue]="checkIn"
+        bsDatepicker>
+        <input type="text"
+        placeholder="Datepicker"
+        class="form-control"
+        [bsValue]="CheckOut"
+        bsDatepicker>
+    </div>
+  </div>

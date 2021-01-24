@@ -21,10 +21,16 @@ import { TemplateModule } from "../shares/template/template.module";
 import { ValidationModule } from "../shares/validation/validation.module";
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { DialogChiTietKhuyenMaiComponent } from "./khuyen-mai/dialog-chi-tiet-khuyen-mai/dialog-chi-tiet-khuyen-mai.component";
-import { DatDichVuComponent } from "./dat-dich-vu/dat-dich-vu.component";
-import { PriceServiceComponent } from './dat-dich-vu/price-service/price-service.component';
-import { ListServiceComponent } from './dat-dich-vu/list-service/list-service.component';
-import { CollapseServiceComponent } from './dat-dich-vu/collapse-service/collapse-service.component';
+import { DatDichVuComponent } from "./dat-phong/dat-dich-vu/dat-dich-vu.component";
+import { PriceServiceComponent } from './dat-phong/dat-dich-vu/price-service/price-service.component';
+import { ListServiceComponent } from './dat-phong/dat-dich-vu/list-service/list-service.component';
+import { CollapseServiceComponent } from './dat-phong/dat-dich-vu/collapse-service/collapse-service.component';
+import { SearchRoomComponent } from './dat-phong/search-room/search-room.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DatPhongComponent } from './dat-phong/dat-phong.component';
+import { SelectRoomComponent } from './noi-dung/select-room/select-room.component';
+import { InformationRoomComponent } from './dat-phong/information-room/information-room.component';
+import { ConfirmBookRoomComponent } from './dat-phong/confirm-book-room/confirm-book-room.component'
 
 @NgModule({
   imports: [
@@ -41,6 +47,7 @@ import { CollapseServiceComponent } from './dat-dich-vu/collapse-service/collaps
     TableModule,
     TemplateModule,
     ValidationModule,
+    BsDatepickerModule,
   ],
   declarations: [
     NoiDungComponent,
@@ -53,7 +60,12 @@ import { CollapseServiceComponent } from './dat-dich-vu/collapse-service/collaps
     DatDichVuComponent,
     PriceServiceComponent,
     ListServiceComponent,
-    CollapseServiceComponent
+    CollapseServiceComponent,
+    SearchRoomComponent,
+    DatPhongComponent,
+    SelectRoomComponent,
+    InformationRoomComponent,
+    ConfirmBookRoomComponent
   ],
 })
 export class NoiDungModule {}
