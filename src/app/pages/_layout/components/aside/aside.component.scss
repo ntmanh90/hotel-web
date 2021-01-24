@@ -12,3 +12,14 @@
     white-space: nowrap;
   }
 }
+
+.material-icons{
+  font-size: 20px !important;
+  line-height: 25px;
+  margin-right: 5px;
+  color: #a2a3b7;
+}
+
+.menu-link:hover .material-icons{
+  color: #ffffff;
+}
