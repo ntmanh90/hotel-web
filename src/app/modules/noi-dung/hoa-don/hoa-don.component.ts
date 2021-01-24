@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from "rxjs";
 import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
 import { bgCSS } from "../../shares/_models/bgCss.model";
@@ -17,7 +18,7 @@ import { DialogCreateUpdateHoaDonComponent } from "./dialog-create-update-hoa-do
   templateUrl: "./hoa-don.component.html",
   styleUrls: ["./hoa-don.component.scss"],
 })
-export class HoaDonComponent implements OnInit {
+export class HoaDonComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   public dataSourceHoaDon: any = new MatTableDataSource();
   public ListColumnDef = [
@@ -76,7 +77,8 @@ export class HoaDonComponent implements OnInit {
     private modalService: NgbModal,
     private _snackBar: MatSnackBar,
     private hoaDonService: HoaDonService,
-    private route: Router
+    private route: Router,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnInit() {
     this.loadAllDataHoaDon();
@@ -213,5 +215,8 @@ export class HoaDonComponent implements OnInit {
       }
       return check;
     });
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 }

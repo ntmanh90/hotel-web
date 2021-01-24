@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from "rxjs";
 import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
 import { bgCSS } from "../../shares/_models/bgCss.model";
@@ -63,19 +64,22 @@ export class DichVuComponent implements OnInit, OnDestroy {
   constructor(
     private dichVuService: DichVuService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnInit(): void {
     this.loadAllDataDichVu();
   }
   // Get Products list
   private loadAllDataDichVu = () => {
+    this.spinner.show();
     const sb = this.dichVuService.get_DanhSach().subscribe((data: {}) => {
       this.dataSourceDichVu = new MatTableDataSource();
       this.dataSourceDichVu.data = data;
       this.dataSourceDichVu.paginator = this.paginator;
       this.dataSourceDichVu.sort = this.sort;
       this.selectPrice();
+      this.spinner.hide();
     });
     this.subscriptions.push(sb);
   };

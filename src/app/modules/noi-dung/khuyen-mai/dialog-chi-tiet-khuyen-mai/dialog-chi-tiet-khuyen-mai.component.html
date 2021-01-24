@@ -1,5 +1,6 @@
 <app-template-dialog
   [titleDialog]="titleDialog"
+  [isDisabledSaveButton]="!isValidForm"
   (_closeDialogNotSaveData)="closeDialogNotSaveData($event)"
   (_closeDialogSaveData)="closeDialogSaveData($event)"
 >
@@ -54,6 +55,12 @@
         >
           Nhập số ngày lưu trú tổi thiểu
         </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('min', 'soNgayLuuTruToiThieu')"
+        >
+          Nhập số ngày lưu trú tổi thiểu phải lơn hơn 1
+        </div>
       </div>
     </div>
     <div class="mb-3 row">
@@ -78,6 +85,12 @@
           *ngIf="validation.controlHasError('required', 'soNgayDatTruoc')"
         >
           Nhập số ngày đặt trước tối thiểu
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('min', 'soNgayDatTruoc')"
+        >
+          Nhập số ngày đặt trước tối thiểu lớn hơn 1
         </div>
       </div>
     </div>
@@ -123,7 +136,19 @@
           class="invalid-feedback"
           *ngIf="validation.controlHasError('required', 'phanTramGiamGia')"
         >
-          % giảm giá
+         Nhập % giảm giá
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('min', 'phanTramGiamGia')"
+        >
+         Nhập % giảm giá lớn hơn hoặc bằng 0
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('max', 'phanTramGiamGia')"
+        >
+         Nhập % giảm giá bé hơn hoặc bằng 100
         </div>
       </div>
     </div>
@@ -148,6 +173,18 @@
           *ngIf="validation.controlHasError('required', 'phanTramDatCoc')"
         >
           Nhập % đặt cọc
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('min', 'phanTramDatCoc')"
+        >
+          Nhập % đặt cọc phải lớn hơn hoặc bằng 0
+        </div>
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('max', 'phanTramDatCoc')"
+        >
+          Nhập % đặt cọc phải bé hơn hoặc bằng 100
         </div>
       </div>
     </div>

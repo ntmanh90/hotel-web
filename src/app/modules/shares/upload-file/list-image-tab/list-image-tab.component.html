@@ -1,1 +1,11 @@
-ldskfhldskhfdl
+
+<div class="row">
+    <div class="col-sm-4" *ngFor="let image of listImage" (dblclick)="onSelectImage(image)">
+        <img
+        [src]="image.filePath"
+        class="img-thumbnail"
+        [alt]="image.filePath"
+      />
+      <input disabled="true" [value]="image.filePath" class="form-control">
+    </div>
+</div>

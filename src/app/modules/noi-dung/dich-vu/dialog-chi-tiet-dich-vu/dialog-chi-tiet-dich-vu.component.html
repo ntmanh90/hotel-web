@@ -39,9 +39,11 @@
               type="text"
               class="form-control"
               formControlName="anhDaiDien"
+              disabled
               [class.is-invalid]="validation.isControlInvalid('anhDaiDien')"
               [class.is-valid]="validation.isControlValid('anhDaiDien')"
               name="anhDaiDien"
+              [(ngModel)]="_detailDichVu.anhDaiDien"
               placeholder="Chọn hình ảnh"
             />
             <div

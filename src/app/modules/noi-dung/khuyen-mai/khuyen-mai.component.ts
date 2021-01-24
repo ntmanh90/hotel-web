@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from "rxjs";
 import { AvatarUploadFileComponent } from "../../shares/upload-file/avatar-upload/avatar-upload.component";
 import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.component";
@@ -16,7 +17,7 @@ import { DialogChiTietKhuyenMaiComponent } from "./dialog-chi-tiet-khuyen-mai/di
   templateUrl: "./khuyen-mai.component.html",
   styleUrls: ["./khuyen-mai.component.scss"],
 })
-export class KhuyenMaiComponent implements OnInit {
+export class KhuyenMaiComponent implements OnInit, OnDestroy {
   public isHiddenButtonDeleteAll: boolean = true;
   public displayedColumns = [
     "select",
@@ -41,7 +42,8 @@ export class KhuyenMaiComponent implements OnInit {
   constructor(
     private khuyenMaiService: KhuyenMaiService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService
   ) {}
   public ListColumnDef = [
     {
@@ -107,11 +109,13 @@ export class KhuyenMaiComponent implements OnInit {
     this.loadAllDataKhuyenMai();
   }
   private loadAllDataKhuyenMai = () => {
+    this.spinner.show();
     const sb = this.khuyenMaiService.get_DanhSach().subscribe((res) => {
       this.dataSourceKhuyenMai = new MatTableDataSource();
       this.dataSourceKhuyenMai.data = res;
       this.dataSourceKhuyenMai.paginator = this.paginator;
       this.dataSourceKhuyenMai.sort = this.sort;
+      this.spinner.show();
     });
     this.subscriptions.push(sb);
   };
@@ -216,9 +220,7 @@ export class KhuyenMaiComponent implements OnInit {
 
     this.subscriptions.push(sb);
   }
-  public upload() {
-    this.modalService.open(AvatarUploadFileComponent);
-  }
+ 
   public deleteAllData(event) {
     for (let index = 0; index < this.listSelect.length; index++) {
       const element = this.listSelect[index];
@@ -235,5 +237,8 @@ export class KhuyenMaiComponent implements OnInit {
         );
       }
     }
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 }

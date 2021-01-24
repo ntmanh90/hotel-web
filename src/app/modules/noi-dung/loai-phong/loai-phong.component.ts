@@ -13,6 +13,7 @@ import { XacNhanXoaComponent } from "../../shares/xac-nhan-xoa/xac-nhan-xoa.comp
 import { LoaiPhong } from "../_models/loai-phong.model";
 import { LoaiPhongService } from "../_services/loai-phong.service";
 import { ChiTietLoaiPhongComponent } from "./chi-tiet-loai-phong/chi-tiet-loai-phong.component";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-loai-phong",
@@ -93,7 +94,8 @@ export class LoaiPhongComponent implements OnInit, OnDestroy {
   constructor(
     private loaiPhongService: LoaiPhongService,
     private modalService: NgbModal,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnInit() {
     this.loadAllDataLoaiPhong();
@@ -105,13 +107,16 @@ export class LoaiPhongComponent implements OnInit, OnDestroy {
   }
 
   loadAllDataLoaiPhong() {
+    this.spinner.show();
     var sb = this.loaiPhongService.get_DanhSach().subscribe(
       (data: {}) => {
         this.dataSourceLoaiPhong.data = data;
         this.dataSourceLoaiPhong.paginator = this.paginator;
         this.dataSourceLoaiPhong.sort = this.sort;
+        this.spinner.hide();
       },
       (error) => {
+        this.spinner.hide();
         console.log(`Error load ${this.tieuDe} !!!' + ${error}`);
       }
     );

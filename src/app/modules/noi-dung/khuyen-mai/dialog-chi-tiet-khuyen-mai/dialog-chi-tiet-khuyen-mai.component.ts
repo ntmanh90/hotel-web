@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
@@ -20,7 +20,7 @@ import { KhuyenMaiService } from "../../_services/khuyen-mai.service";
   styleUrls: ["./dialog-chi-tiet-khuyen-mai.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
-export class DialogChiTietKhuyenMaiComponent implements OnInit {
+export class DialogChiTietKhuyenMaiComponent implements OnInit, OnDestroy {
   public titleDialog = "Thêm mới khuyến mãi đặt phòng";
   public formData;
   public validation: ValidationComponent;
@@ -64,7 +64,9 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
       this.listDataNumberOfDate.push(index);
     }
   }
-
+  public get isValidForm(){
+    return this.formData.valid && this.validation.validationDate('ngayBatDau', 'ngayKetThuc');
+  }
   ngOnInit() {}
   public set data(value: CreateEditKhuyenMaiModel) {
     this._detailKhuyenMai = value;
@@ -158,20 +160,6 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
   public closeDialogNotSaveData(event) {
     this.modal.close(event);
   }
-  private endDateAfterOrEqualValidator(formGroup): any {
-    var startDateTimestamp, endDateTimestamp;
-    for (var controlName in formGroup.controls) {
-      if (controlName.indexOf("ngayBatDau") !== -1) {
-        startDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-      }
-      if (controlName.indexOf("ngayKetThuc") !== -1) {
-        endDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-      }
-    }
-    return endDateTimestamp < startDateTimestamp
-      ? { endDateLessThanStartDate: true }
-      : null;
-  }
   private loadAllDataLoaiPhong() {
     const subLoadAllLoaiPhong = this.commonService
       .get_DanhSachLoaiPhong()
@@ -187,6 +175,9 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
         }
       });
     this.subscriptions.push(subLoadAllLoaiPhong);
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
   private loadAllDataNgonNgu() {
     const subLoadAllDataNgonNgu = this.commonService
@@ -227,6 +218,9 @@ export class DialogChiTietKhuyenMaiComponent implements OnInit {
     this.subscriptions.push(subLoadAllDataNgonNgu);
   }
   public closeDialogSaveData(event) {
+    if(!this.isValidForm){
+      return ;
+    }
     this.prepareCustomer();
     if (this._detailKhuyenMai.iD_KhuyenMaiDatPhong === 0) {
       const subCreateKhuyenMai = this.khuyenMaiSevice

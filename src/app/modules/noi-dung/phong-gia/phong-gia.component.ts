@@ -200,6 +200,7 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
       }
     }
     return {
+      iD_LoaiPhong: models.iD_LoaiPhong,
       giaBan: 0,
       giaKhuyenMaiDatPhongVMs: [{ price: 0 }, { price: 0 }, { price: 0 }],
       soLuong: 0,

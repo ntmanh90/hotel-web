@@ -251,8 +251,12 @@ export class ChiTietDichVuComponent implements OnInit {
     this._detailDichVu.giaTinhTheo = value;
   }
   public openDialogImage(event) {
-    this.modalService.open(AvatarUploadFileComponent, {
+    const modals = this.modalService.open(AvatarUploadFileComponent, {
       size: "lg",
     });
+    modals.closed.subscribe(res => {
+      this.formData.value.anhDaiDien = res.filePath;
+      this._detailDichVu.anhDaiDien = res.filePath;
+    })
   }
 }
