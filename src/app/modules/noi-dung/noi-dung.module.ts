@@ -37,6 +37,12 @@ import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.c
 import { CKEditorModule } from "ckeditor4-angular";
 import { UploadFileModule } from "../shares/upload-file/upload-file.module";
 import { PipeModule } from "../shares/pipe/pipe.module";
+import { PhanQuyenComponent } from "./phan-quyen/phan-quyen.component";
+import { ElementNhomQuyenComponent } from "./phan-quyen/element-nhom-quyen/element-nhom-quyen.component";
+import { ElementNhomTaiKhoanComponent } from "./phan-quyen/element-nhom-tai-khoan/element-nhom-tai-khoan.component";
+import { DialogChiTietNhomQuyenComponent } from "./phan-quyen/dialog-chi-tiet-nhom-quyen/dialog-chi-tiet-nhom-quyen.component";
+import { ElementThemTaiKhoanVaoNhomPhanQuyenComponent } from "./phan-quyen/element-them-tai-khoan-vao-nhom/element-them-tai-khoan-vao-nhom.component";
+import { ElementPhanQuyenChucNangComponent } from "./phan-quyen/element-phan-quyen-chuc-nang/element-phan-quyen-chuc-nang.component";
 
 @NgModule({
   imports: [
@@ -77,6 +83,12 @@ import { PipeModule } from "../shares/pipe/pipe.module";
     HoaDonComponent,
     DialogCreateUpdateHoaDonComponent,
     DetailHoaDonComponent,
+    PhanQuyenComponent,
+    ElementNhomQuyenComponent,
+    ElementNhomTaiKhoanComponent,
+    DialogChiTietNhomQuyenComponent,
+    ElementThemTaiKhoanVaoNhomPhanQuyenComponent,
+    ElementPhanQuyenChucNangComponent
   ],
 })
 export class NoiDungModule {}

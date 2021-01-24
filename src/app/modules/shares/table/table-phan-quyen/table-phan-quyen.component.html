@@ -1,0 +1,88 @@
+<table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected(0)"
+        [indeterminate]="selection.hasValue() && !isAllSelected(0)"
+        [aria-label]="checkboxLabel(0)"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row, 0)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: DisplayedColumns"></tr>
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="add">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle(1) : null"
+        [checked]="selectionThem.hasValue() && isAllSelected(1)"
+        [indeterminate]="selectionThem.hasValue() && !isAllSelected(1)"
+        [aria-label]="checkboxLabel(1)"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selectionThem.toggle(row) : null"
+        [checked]="selectionThem.isSelected(row)"
+        [aria-label]="checkboxLabel(row, 1)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="update">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle(2) : null"
+        [checked]="selectionSua.hasValue() && isAllSelected(2)"
+        [indeterminate]="selectionSua.hasValue() && !isAllSelected(2)"
+        [aria-label]="checkboxLabel(2)"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selectionSua.toggle(row) : null"
+        [checked]="selectionSua.isSelected(row)"
+        [aria-label]="checkboxLabel(row, 2)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selectionXoa.hasValue() && isAllSelected(3)"
+        [indeterminate]="selectionXoa.hasValue() && !isAllSelected(3)"
+        [aria-label]="checkboxLabel(3)"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selectionXoa.toggle(row) : null"
+        [checked]="selectionXoa.isSelected(row)"
+        [aria-label]="checkboxLabel(row, 3)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+</table>

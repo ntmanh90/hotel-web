@@ -5,6 +5,7 @@ import { DetailHoaDonComponent } from "./hoa-don/detail-hoa-don/detail-hoa-don.c
 import { HoaDonComponent } from "./hoa-don/hoa-don.component";
 import { KhuyenMaiComponent } from "./khuyen-mai/khuyen-mai.component";
 import { LoaiPhongComponent } from "./loai-phong/loai-phong.component";
+import { PhanQuyenComponent } from "./phan-quyen/phan-quyen.component";
 import { PhongGiaComponent } from "./phong-gia/phong-gia.component";
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "hoadon/:id",
     component: DetailHoaDonComponent,
+  },
+  {
+    path: "phanquyen",
+    component: PhanQuyenComponent,
   },
 ];
 

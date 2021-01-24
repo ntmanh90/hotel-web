@@ -1,0 +1,33 @@
+<app-template-dialog
+  [titleDialog]="titleDialog"
+  [isDisabledSaveButton]="!isValidForm"
+  (_closeDialogNotSaveData)="closeDialogNotSaveData($event)"
+  (_closeDialogSaveData)="closeDialogSaveData($event)"
+>
+  <form action="#" class="form form-label-right" [formGroup]="formData">
+    <div class="row">
+      <div class="col-sm-4">
+        <label class="col-form-label"
+          >Tên nhóm tài khoản <span class="text-danger">(*)</span>
+        </label>
+      </div>
+      <div class="col-sm-8">
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="
+            validation.isControlInvalid('tenNhomQuyen')
+          "
+          [class.is-valid]="validation.isControlValid('tenNhomQuyen')"
+          formControlName="tenNhomQuyen"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="validation.controlHasError('required', 'tenNhomQuyen')"
+        >
+          Nhập tên khuyến mãi
+        </div>
+      </div>
+    </div>
+  </form>
+</app-template-dialog>
