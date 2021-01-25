@@ -28,7 +28,6 @@ import { CollapseServiceComponent } from './dat-phong/dat-dich-vu/collapse-servi
 import { SearchRoomComponent } from './dat-phong/search-room/search-room.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DatPhongComponent } from './dat-phong/dat-phong.component';
-import { SelectRoomComponent } from './noi-dung/select-room/select-room.component';
 import { InformationRoomComponent } from './dat-phong/information-room/information-room.component';
 import { ConfirmBookRoomComponent } from './dat-phong/confirm-book-room/confirm-book-room.component'
 
@@ -63,7 +62,6 @@ import { ConfirmBookRoomComponent } from './dat-phong/confirm-book-room/confirm-
     CollapseServiceComponent,
     SearchRoomComponent,
     DatPhongComponent,
-    SelectRoomComponent,
     InformationRoomComponent,
     ConfirmBookRoomComponent
   ],
