@@ -26,6 +26,7 @@ import { CommonService } from "../_services/common.service";
 import { PhongGiaService } from "../_services/phong-gia.service";
 import { DialogCaiDatGiaPhongComponent } from "./dialog-cai-dat-gia-phong/dialog-cai-dat-gia-phong.component";
 import { DialogDongMoPhongComponent } from "./dialog-dong-mo-phong/dialog-dong-mo-phong.component";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-phong-gia",
@@ -38,9 +39,9 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     { id: 0, viewValue: "1 tuần" },
     { id: 1, viewValue: "1 tháng" },
     { id: 2, viewValue: "2 tháng" },
-    { id: 3, viewValue: "3 tháng" },
+    // { id: 3, viewValue: "3 tháng" },
   ];
-  public _searchPhongGia: SearchPhongGiaModel ;
+  public _searchPhongGia: SearchPhongGiaModel;
   public listPhongGia: PhongGiaViewTable[] = [];
   public listPhongGiaModel: ListPhongGiaModel[];
   public options: FormGroup;
@@ -51,9 +52,10 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private phongGiaService: PhongGiaService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private spinner: NgxSpinnerService
   ) {
-   this._searchPhongGia = {
+    this._searchPhongGia = {
       KhoangNgay: 60,
       idSearch: 1,
       TuNgay: this.getDate(new Date().toString()),
@@ -157,6 +159,7 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     }
   }
   private getListData() {
+    this.spinner.show();
     const searchSubcription = this.phongGiaService
       .get_DanhSach(this._searchPhongGia)
       .subscribe((res) => {
@@ -166,6 +169,7 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
         this.listPhongGiaModel = res;
         this.updateDataToListModel();
         this.cd.markForCheck();
+        this.spinner.hide();
       });
     this.subscriptions.push(searchSubcription);
   }
@@ -188,7 +192,9 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
   }
   public onChangeData(event) {
     const formValue = this.options.value;
-    this._searchPhongGia.TuNgay = this.getDate(new Date(formValue.TuNgay).toString());
+    this._searchPhongGia.TuNgay = this.getDate(
+      new Date(formValue.TuNgay).toString()
+    );
     this._searchPhongGia.idSearch = formValue.KhoangNgay;
     this.getDay(this._searchPhongGia.TuNgay, this._searchPhongGia.idSearch);
     this.getListData();
@@ -240,27 +246,21 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
       case 1:
       default:
         //month
-        monthData = date.getMonth();
+        monthData = 30;
         break;
       case 2:
         // 2 month
-        monthData = date.getMonth() + 2;
-        break;
-      case 3:
-        // 3 month
-        monthData = date.getMonth() + 3;
+        monthData = 60;
         break;
     }
-    let i = 1;
-    while (date.getMonth() <= monthData) {
-      i++;
+    for (let index = 0; index < monthData; index++) {
       this.listPhongGia.push({
         date: new Date(date),
         thu: this.getStringDay(new Date(date).getDay()),
       });
       date.setDate(date.getDate() + 1);
     }
-    this._searchPhongGia.KhoangNgay = i;
+    this._searchPhongGia.KhoangNgay = monthData;
     return;
   }
   ngOnInit(): void {}

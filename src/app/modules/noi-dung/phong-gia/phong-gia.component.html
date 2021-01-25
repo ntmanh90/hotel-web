@@ -7,7 +7,13 @@
         </label>
         <div class="col-md">
           <mat-form-field appearance="fill">
-            <input class="input-date" matInput [matDatepicker]="picker" formControlName="TuNgay" (dateChange)="onChangeData($event)" />
+            <input
+              class="input-date"
+              matInput
+              [matDatepicker]="picker"
+              formControlName="TuNgay"
+              (dateChange)="onChangeData($event)"
+            />
             <mat-datepicker-toggle
               matSuffix
               [for]="picker"
@@ -23,7 +29,7 @@
             class="form-control form-control-lg form-control-solid"
             name="KhoangNgay"
             formControlName="KhoangNgay"
-            (click)="onChangeData($event)"
+            (change)="onChangeData($event)"
           >
             <option
               *ngFor="let element of elementComboboxSelectRangeDate"
@@ -33,7 +39,7 @@
             </option>
           </select>
         </div>
-     </div>
+      </div>
     </div>
   </form>
   <app-list-date-book-room
@@ -44,3 +50,4 @@
     (updateDataStatusMoreDay)="updateDataStatusMoreDay($event)"
   ></app-list-date-book-room>
 </div>
+
