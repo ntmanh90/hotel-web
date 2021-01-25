@@ -40,11 +40,7 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     { id: 2, viewValue: "2 tháng" },
     { id: 3, viewValue: "3 tháng" },
   ];
-  public _searchPhongGia: SearchPhongGiaModel = {
-    KhoangNgay: 60,
-    idSearch: 1,
-    TuNgay: new Date().toLocaleString(),
-  };
+  public _searchPhongGia: SearchPhongGiaModel ;
   public listPhongGia: PhongGiaViewTable[] = [];
   public listPhongGiaModel: ListPhongGiaModel[];
   public options: FormGroup;
@@ -57,6 +53,11 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     private phongGiaService: PhongGiaService,
     private cd: ChangeDetectorRef
   ) {
+   this._searchPhongGia = {
+      KhoangNgay: 60,
+      idSearch: 1,
+      TuNgay: this.getDate(new Date().toString()),
+    };
     this.options = fb.group({
       TuNgay: [new Date(this._searchPhongGia.TuNgay)],
       KhoangNgay: [this._searchPhongGia.idSearch],
@@ -83,6 +84,13 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
     this.getDay(formValue.TuNgay, formValue.KhoangNgay);
     this.getListData();
     this.subscriptions.push(searchSubcription);
+  }
+  private getDate(date) {
+    const today = new Date(date);
+    const year = today.getFullYear();
+    const mes = today.getMonth() + 1;
+    const dia = today.getDate();
+    return year + "-" + mes + "-" + dia;
   }
   private updateObjecIntoService(object): Observable<object> {
     if (object) {
@@ -140,9 +148,9 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
           this.getListData();
         }
       });
-      this.subscriptions.push(subUpdate);
+    this.subscriptions.push(subUpdate);
   }
-  public updateDataStatusMoreDay(event : []){
+  public updateDataStatusMoreDay(event: []) {
     for (let index = 0; index < event.length; index++) {
       const element = event[index];
       this.updateDataInServiceMoreDay(element);
@@ -158,7 +166,6 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
         this.listPhongGiaModel = res;
         this.updateDataToListModel();
         this.cd.markForCheck();
-        console.log(this.listPhongGiaModel);
       });
     this.subscriptions.push(searchSubcription);
   }
@@ -181,7 +188,7 @@ export class PhongGiaComponent implements OnInit, OnDestroy {
   }
   public onChangeData(event) {
     const formValue = this.options.value;
-    this._searchPhongGia.TuNgay = new Date(formValue.TuNgay).toLocaleString();
+    this._searchPhongGia.TuNgay = this.getDate(new Date(formValue.TuNgay).toString());
     this._searchPhongGia.idSearch = formValue.KhoangNgay;
     this.getDay(this._searchPhongGia.TuNgay, this._searchPhongGia.idSearch);
     this.getListData();
