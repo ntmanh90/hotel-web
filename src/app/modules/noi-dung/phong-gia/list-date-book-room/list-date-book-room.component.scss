@@ -32,13 +32,16 @@
 
     tr{
         width: 220.8px;
+        height: 58.5px;
         td{
             border: 1px solid #dddddd;
         }
     }
     tr:nth-child(1){
-        height: 71.4px;
-       
+        height: 77.9px;     
+    }
+    tr:nth-child(2){
+        height: 44.6px;   
     }
 
 }
